@@ -1,7 +1,8 @@
+import Header from '@/components/common/Header'
 import { AuthContextProvider } from '@/context/AuthContext'
 import './globals.css'
 import type { Metadata } from 'next'
-import Header from '@/components/common/Header'
+import { ToastContainer } from 'react-toastify'
 
 export const metadata: Metadata = {
 	title: 'Bet SGP',
@@ -21,6 +22,7 @@ export default function RootLayout({
 					<Header />
 					{children}
 				</AuthContextProvider>
+				<ToastContainer autoClose={3000} theme='dark' position='bottom-right' />
 			</body>
 		</html>
 	)
