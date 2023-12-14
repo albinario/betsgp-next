@@ -21,5 +21,6 @@ model User {
   name      String
   email     String   @unique
   image     String
+  age       String
   createdAt DateTime @default(now())
 }
