@@ -8,6 +8,5 @@ export type SignUp = {
 	email: string
 	firstName: string
 	lastName: string
-	keep: boolean
 	password: string
 }
