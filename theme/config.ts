@@ -1,4 +1,5 @@
 export const theme = {
 	logoAlt: 'SGP logo',
-	logoSrc: '/logo-2022.png'
+	logoSrc: '/logo-2022.png',
+	logoWidth: 80
 }
