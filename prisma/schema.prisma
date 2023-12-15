@@ -7,11 +7,136 @@ datasource db {
   url = env("POSTGRES_PRISMA_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
- 
-model User {
-  id        Int      @id @default(autoincrement())
+
+model activityLog {
+  id      Int       @id @default(autoincrement()) @unique
+  date    DateTime  @default(now()) @db.Timestamptz
+  action  String
+  userId  Int?      @map("userId")
+  user    users?    @relation(fields: [userId], references: [id])
+  gpId    Int?      @map("gpId")
+  gp      gps?      @relation(fields: [gpId], references: [id])
+}
+
+model cities {
+  id        Int     @id @default(autoincrement()) @unique
   name      String
-  email     String   @unique
-  image     String
-  createdAt DateTime @default(now())
+  nationId  Int
+  nation    nations @relation(fields: [nationId], references: [id])
+  gps       gps[]
+}
+
+model gps {
+  id            Int       @id @default(autoincrement()) @unique
+  gp            Int
+  cityId        Int
+  city          cities    @relation(fields: [cityId], references: [id])
+  startDate     DateTime? @db.Date
+  wildCard      Int?
+  finished      Boolean?
+  usersResults  usersResults[]
+  usersPicks    usersPicks[]
+  ridersResults ridersResults[]
+  activity      activityLog[]
+}
+
+model nations {
+  id      Int     @id @default(autoincrement()) @unique
+  name    String  @default("") @db.VarChar(20)
+  code    String  @default("") @db.Char(2)
+  cities  cities[]
+  riders  riders[]
+}
+
+model riders {
+  id            Int     @id @default(autoincrement()) @unique
+  name          String
+  number        Int
+  nationId      Int
+  nation        nations @relation(fields: [nationId], references: [id])
+  active        Boolean?
+  substitute    Boolean?
+  riderResults  ridersResults[]
+  picks         picks[]
+}
+
+model ridersResults {
+  id      Int     @id @default(autoincrement()) @unique
+  riderId Int
+  rider   riders  @relation(fields: [riderId], references: [id])
+  gpId    Int
+  gp      gps     @relation(fields: [gpId], references: [id])
+  points  Int     @default(0)
+  races   Int     @default(0)
+  podium  Int?
+}
+
+model users {
+  id            Int     @id @default(autoincrement()) @unique
+  uid           String  @unique
+  firstName     String  @default("") @db.VarChar(20)
+  lastName      String  @default("") @db.VarChar(20)
+  email         String  @default("") @db.VarChar(100) @unique
+  admin         Boolean?
+  reminder      Boolean @default(true)
+  userResults   usersResults[]
+  userStandings usersStandings[]
+  userStars     usersStars[]
+  userPicks     usersPicks[]
+  activity      activityLog[]
+}
+
+model usersPicks {
+  id          Int       @id @default(autoincrement()) @unique
+  userId      Int
+  user        users     @relation(fields: [userId], references: [id], map: "user")
+  gpId        Int
+  gp          gps       @relation(fields: [gpId], references: [id])
+  dateCreated DateTime  @default(now()) @db.Timestamp(0)
+  dateUpdated DateTime  @updatedAt
+  picks       picks[]
+}
+
+model picks {
+  id          Int         @id @default(autoincrement()) @unique
+  userPicksId Int
+  user        usersPicks  @relation(fields: [userPicksId], references: [id])
+  riderId     Int
+  rider       riders      @relation(fields: [riderId], references: [id])
+}
+
+model usersResults {
+  id        Int   @id @default(autoincrement()) @unique
+  userId    Int
+  user      users @relation(fields: [userId], references: [id])
+  gpId      Int
+  gp        gps   @relation(fields: [gpId], references: [id])
+  points    Int   @default(0)
+  m1        Int   @default(0)
+  m2        Int   @default(0)
+  m3        Int   @default(0)
+  races     Int   @default(0)
+  position  Int?
+}
+
+model usersStandings {
+  id            Int   @id @default(autoincrement()) @unique
+  userId        Int
+  user          users @relation(fields: [userId], references: [id])
+  year          Int
+  points        Int   @default(0)
+  m1            Int   @default(0)
+  m2            Int   @default(0)
+  m3            Int   @default(0)
+  races         Int   @default(0)
+  position      Int?
+  prevPosition  Int?
+}
+
+model usersStars {
+  id      Int   @id @default(autoincrement()) @unique
+  userId  Int
+  user    users @relation(fields: [userId], references: [id])
+  year    Int
+  type    Int
 }
