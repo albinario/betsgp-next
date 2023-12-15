@@ -39,8 +39,6 @@ export default function Header() {
 						</NavDropdown>
 					</div>
 
-					{user && <span>{user.email}</span>}
-
 					<Navbar.Toggle aria-controls='basic-navbar-nav' />
 					<Navbar.Collapse id='basic-navbar-nav'>
 						<Nav className='d-flex align-items-center ms-auto small text-uppercase'>
