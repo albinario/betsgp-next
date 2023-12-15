@@ -22,7 +22,15 @@ export default function RootLayout({
 					<Header />
 					{children}
 				</AuthContextProvider>
-				<ToastContainer autoClose={3000} theme='dark' position='bottom-right' />
+				<ToastContainer
+					autoClose={3000}
+					draggable
+					newestOnTop
+					pauseOnFocusLoss
+					pauseOnHover
+					position='bottom-right'
+					theme='dark'
+				/>
 			</body>
 		</html>
 	)

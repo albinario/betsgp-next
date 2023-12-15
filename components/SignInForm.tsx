@@ -2,6 +2,7 @@
 import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
 import useAuth from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
@@ -9,6 +10,7 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import type { SignIn } from '@/types/Auth.types'
 
 export default function SignInForm() {
@@ -17,6 +19,7 @@ export default function SignInForm() {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { signInUser } = useAuth()
+	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
@@ -24,20 +27,20 @@ export default function SignInForm() {
 		formState: { errors }
 	} = useForm<SignIn>()
 
-	const onSignIn: SubmitHandler<SignIn> = async (data: SignIn) => {
-		console.log(data)
-
+	const onSignIn: SubmitHandler<SignIn> = (data: SignIn) => {
 		setIsError(false)
 		setErrorMessage(null)
 
 		try {
 			setIsSubmitting(true)
-			await signInUser(data.email, data.password)
+			signInUser(data.email, data.password)
+			toast.success('Welcome back ' + data.email)
+			router.push('/')
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				setErrorMessage(error.message)
 			} else {
-				setErrorMessage('Something went wrong when trying to sign up')
+				setErrorMessage('Something went wrong when trying to sign in')
 			}
 			setIsError(true)
 			setIsSubmitting(false)
