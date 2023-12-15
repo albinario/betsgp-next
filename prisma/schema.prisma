@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL")
+  url = env("POSTGRES_URL")
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
@@ -13,116 +13,125 @@ model activityLog {
   date    DateTime  @default(now()) @db.Timestamptz
   action  String
   userId  Int?      @map("userId")
-  user    users?    @relation(fields: [userId], references: [id])
+  user    user?     @relation(fields: [userId], references: [id])
   gpId    Int?      @map("gpId")
-  gp      gps?      @relation(fields: [gpId], references: [id])
+  gp      gp?       @relation(fields: [gpId], references: [id])
 }
 
-model cities {
+model city {
   id        Int     @id @default(autoincrement()) @unique
   name      String
   nationId  Int
-  nation    nations @relation(fields: [nationId], references: [id])
-  gps       gps[]
+  nation    nation  @relation(fields: [nationId], references: [id])
+  gps       gp[]
+  @@map("cities")
 }
 
-model gps {
+model gp {
   id            Int       @id @default(autoincrement()) @unique
   gp            Int
   cityId        Int
-  city          cities    @relation(fields: [cityId], references: [id])
+  city          city      @relation(fields: [cityId], references: [id])
   startDate     DateTime? @db.Date
   wildCard      Int?
   finished      Boolean?
-  usersResults  usersResults[]
-  usersPicks    usersPicks[]
-  ridersResults ridersResults[]
+  usersResults  userResult[]
+  usersPicks    userPick[]
+  ridersResults riderResult[]
   activity      activityLog[]
+	@@map("gps")
 }
 
-model nations {
+model nation {
   id      Int     @id @default(autoincrement()) @unique
   name    String  @default("") @db.VarChar(20)
   code    String  @default("") @db.Char(2)
-  cities  cities[]
-  riders  riders[]
+  cities  city[]
+  riders  rider[]
+	@@map("nations")
 }
 
-model riders {
+model rider {
   id            Int     @id @default(autoincrement()) @unique
   name          String
   number        Int
   nationId      Int
-  nation        nations @relation(fields: [nationId], references: [id])
+  nation        nation  @relation(fields: [nationId], references: [id])
   active        Boolean?
   substitute    Boolean?
-  riderResults  ridersResults[]
-  picks         picks[]
+  riderResults  riderResult[]
+  picks         pick[]
+	@@map("riders")
 }
 
-model ridersResults {
-  id      Int     @id @default(autoincrement()) @unique
+model riderResult {
+  id      Int   @id @default(autoincrement()) @unique
   riderId Int
-  rider   riders  @relation(fields: [riderId], references: [id])
+  rider   rider @relation(fields: [riderId], references: [id])
   gpId    Int
-  gp      gps     @relation(fields: [gpId], references: [id])
-  points  Int     @default(0)
-  races   Int     @default(0)
+  gp      gp    @relation(fields: [gpId], references: [id])
+  points  Int   @default(0)
+  races   Int   @default(0)
   podium  Int?
+	@@map("riderResults")
 }
 
-model users {
+model user {
   id            Int     @id @default(autoincrement()) @unique
   uid           String  @unique
   firstName     String  @default("") @db.VarChar(20)
   lastName      String  @default("") @db.VarChar(20)
   email         String  @default("") @db.VarChar(100) @unique
-  admin         Boolean?
+  admin         Boolean @default(false)
   reminder      Boolean @default(true)
-  userResults   usersResults[]
-  userStandings usersStandings[]
-  userStars     usersStars[]
-  userPicks     usersPicks[]
+  userResults   userResult[]
+  userStandings userStanding[]
+  userStars     userStar[]
+  userPicks     userPick[]
   activity      activityLog[]
+	@@map("users")
 }
 
-model usersPicks {
+model userPick {
   id          Int       @id @default(autoincrement()) @unique
   userId      Int
-  user        users     @relation(fields: [userId], references: [id], map: "user")
+  user        user      @relation(fields: [userId], references: [id], map: "user")
   gpId        Int
-  gp          gps       @relation(fields: [gpId], references: [id])
+  gp          gp        @relation(fields: [gpId], references: [id])
   dateCreated DateTime  @default(now()) @db.Timestamp(0)
   dateUpdated DateTime  @updatedAt
-  picks       picks[]
+  picks       pick[]
+	@@map("userPicks")
 }
 
-model picks {
-  id          Int         @id @default(autoincrement()) @unique
-  userPicksId Int
-  user        usersPicks  @relation(fields: [userPicksId], references: [id])
+model pick {
+  id          Int       @id @default(autoincrement()) @unique
+  userPickId  Int
+  user        userPick  @relation(fields: [userPickId], references: [id])
   riderId     Int
-  rider       riders      @relation(fields: [riderId], references: [id])
+  rider       rider     @relation(fields: [riderId], references: [id])
+	@@map("picks")
 }
 
-model usersResults {
+model userResult {
   id        Int   @id @default(autoincrement()) @unique
   userId    Int
-  user      users @relation(fields: [userId], references: [id])
+  user      user  @relation(fields: [userId], references: [id])
   gpId      Int
-  gp        gps   @relation(fields: [gpId], references: [id])
+  gp        gp    @relation(fields: [gpId], references: [id])
   points    Int   @default(0)
   m1        Int   @default(0)
   m2        Int   @default(0)
   m3        Int   @default(0)
   races     Int   @default(0)
   position  Int?
+	@@map("userResults")
 }
 
-model usersStandings {
+model userStanding {
   id            Int   @id @default(autoincrement()) @unique
   userId        Int
-  user          users @relation(fields: [userId], references: [id])
+  user          user  @relation(fields: [userId], references: [id])
   year          Int
   points        Int   @default(0)
   m1            Int   @default(0)
@@ -131,12 +140,14 @@ model usersStandings {
   races         Int   @default(0)
   position      Int?
   prevPosition  Int?
+	@@map("userStandings")
 }
 
-model usersStars {
+model userStar {
   id      Int   @id @default(autoincrement()) @unique
   userId  Int
-  user    users @relation(fields: [userId], references: [id])
+  user    user  @relation(fields: [userId], references: [id])
   year    Int
   type    Int
+	@@map("userStars")
 }
