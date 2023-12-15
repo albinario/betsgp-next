@@ -40,18 +40,16 @@ export const AuthContextProvider = ({
 		return unsubscribe
 	}, [])
 
-	const signInUser = (email: string, password: string) => {
-		return signInWithEmailAndPassword(auth, email, password)
-	}
+	const signInUser = (email: string, password: string) =>
+		signInWithEmailAndPassword(auth, email, password)
 
 	const signOutUser = async () => {
 		setUser(null)
 		return await signOut(auth)
 	}
 
-	const signUpUser = (email: string, password: string) => {
-		return createUserWithEmailAndPassword(auth, email, password)
-	}
+	const signUpUser = (email: string, password: string) =>
+		createUserWithEmailAndPassword(auth, email, password)
 
 	return (
 		<AuthContext.Provider value={{ user, signUpUser, signInUser, signOutUser }}>
