@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth'
 import { auth } from '../firebase/config'
 import React, { createContext, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
@@ -34,9 +35,7 @@ export const AuthContextProvider = ({
 				setUser(null)
 			}
 		})
-
 		setLoading(false)
-
 		return unsubscribe
 	}, [])
 
@@ -45,7 +44,9 @@ export const AuthContextProvider = ({
 
 	const signOutUser = async () => {
 		setUser(null)
-		return await signOut(auth)
+		await signOut(auth)
+		toast.success('Signed out')
+		return
 	}
 
 	const signUpUser = (email: string, password: string) =>

@@ -2,20 +2,22 @@
 import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
 import useAuth from '@/hooks/useAuth'
+import { Envelope, User } from '@/icons'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import Alert from 'react-bootstrap/Alert'
 import Button from 'react-bootstrap/Button'
-import Card from 'react-bootstrap/Card'
-import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { SignIn } from '@/types/Auth.types'
+import { InputGroup } from 'react-bootstrap'
 
-export default function SignInForm() {
-	const [errorMessage, setErrorMessage] = useState<string | null>(null)
-	const [isError, setIsError] = useState(false)
+export default function SignInForm({
+	updateSign
+}: {
+	updateSign: (val: boolean) => void
+}) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { signInUser } = useAuth()
@@ -23,50 +25,53 @@ export default function SignInForm() {
 	const {
 		handleSubmit,
 		register,
-		watch,
 		formState: { errors }
 	} = useForm<SignIn>()
 
-	const onSignIn: SubmitHandler<SignIn> = (data: SignIn) => {
-		setIsError(false)
-		setErrorMessage(null)
-
+	const onSignIn: SubmitHandler<SignIn> = async (data: SignIn) => {
 		try {
 			setIsSubmitting(true)
-			signInUser(data.email, data.password)
+			await signInUser(data.email, data.password)
 			toast.success('Welcome back ' + data.email)
 			router.push('/')
 		} catch (error) {
 			if (error instanceof FirebaseError) {
-				setErrorMessage(error.message)
+				toast.error(error.message)
 			} else {
-				setErrorMessage('Something went wrong when trying to sign in')
+				toast.error('Something went wrong when trying to sign in')
 			}
-			setIsError(true)
 			setIsSubmitting(false)
 		}
 	}
 
 	return (
-		<Col>
-			<Card bg='dark' text='light'>
-				<Card.Header>Sign in</Card.Header>
-				<Card.Body>
-					{isError && <Alert variant='danger'>{errorMessage}</Alert>}
-
-					<Form onSubmit={handleSubmit(onSignIn)}>
+		<>
+			<Modal.Header closeButton>
+				<Modal.Title>Sign in</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form onSubmit={handleSubmit(onSignIn)}>
+					<InputGroup className='mb-2'>
+						<InputGroup.Text>
+							<Envelope />
+						</InputGroup.Text>
 						<Form.Control
-							className={classNames('mb-2', {
+							className={classNames({
 								'missing-border': errors.email
 							})}
 							placeholder='Email'
-							type='text'
+							type='email'
 							{...register('email', { required: true })}
 						/>
+					</InputGroup>
 
+					<InputGroup className='mb-2'>
+						<InputGroup.Text>
+							<User />
+						</InputGroup.Text>
 						<Form.Control
 							autoComplete='new-password'
-							className={classNames('mb-2', {
+							className={classNames({
 								'missing-border': errors.password
 							})}
 							placeholder='Password'
@@ -79,32 +84,33 @@ export default function SignInForm() {
 								required: true
 							})}
 						/>
-						{errors.password && (
-							<div className='missing-text'>
-								{errors.password.message ?? 'Invalid value'}
-							</div>
-						)}
+					</InputGroup>
+					{errors.password && (
+						<div className='missing-text'>
+							{errors.password.message ?? 'Invalid value'}
+						</div>
+					)}
 
-						<Form.Group className='d-flex justify-content-between'>
-							<Form.Switch
-								label='Keep me signed in'
-								className='text-muted small'
-								{...register('keep')}
-							/>
-							<div className='d-grid w-50'>
-								<Button
-									disabled={isSubmitting}
-									size='sm'
-									type='submit'
-									variant='success'
-								>
-									{isSubmitting ? 'Signing in...' : 'Sign in'}
-								</Button>
-							</div>
-						</Form.Group>
-					</Form>
-				</Card.Body>
-			</Card>
-		</Col>
+					<Form.Group className='d-grid'>
+						<Button disabled={isSubmitting} type='submit' variant='success'>
+							{isSubmitting ? 'Signing in...' : 'Sign in'}
+						</Button>
+					</Form.Group>
+				</Form>
+			</Modal.Body>
+
+			<Modal.Footer className='d-flex justify-content-between'>
+				<Button
+					onClick={() => updateSign(false)}
+					size='sm'
+					variant='outline-success'
+				>
+					I need an account
+				</Button>
+				<Button className='opacity-75' size='sm' variant='outline-warning'>
+					Reset password
+				</Button>
+			</Modal.Footer>
+		</>
 	)
 }

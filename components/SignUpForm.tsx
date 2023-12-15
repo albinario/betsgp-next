@@ -1,43 +1,135 @@
 'use client'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import type { SignUp } from '@/types/Auth.types'
+import classNames from 'classnames'
+import { FirebaseError } from 'firebase/app'
+import useAuth from '@/hooks/useAuth'
+import { Envelope, User } from '@/icons'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import Modal from 'react-bootstrap/Modal'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import type { SignUp } from '@/types/Auth.types'
+import { InputGroup } from 'react-bootstrap'
 
-export default function SignUpForm() {
+export default function SignUpForm({
+	updateSign
+}: {
+	updateSign: (val: boolean) => void
+}) {
+	const [isSubmitting, setIsSubmitting] = useState(false)
+
+	const { signUpUser } = useAuth()
+	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
-		watch,
 		formState: { errors }
 	} = useForm<SignUp>()
 
 	const onSignUp: SubmitHandler<SignUp> = async (data: SignUp) => {
-		console.log('signed up', data)
+		try {
+			setIsSubmitting(true)
+			await signUpUser(data.email, data.password)
+			toast.success('Welcome, ' + data.firstName + data.lastName)
+			router.push('/')
+		} catch (error) {
+			if (error instanceof FirebaseError) {
+				toast.error(error.message)
+			} else {
+				toast.error('Something went wrong when trying to sign up')
+			}
+			setIsSubmitting(false)
+		}
 	}
 
 	return (
-		<Form onSubmit={handleSubmit(onSignUp)}>
-			<Form.Group controlId='firstName'>
-				<Form.Control
-					placeholder='First name'
-					type='text'
-					{...register('firstName', { required: 'First name missing' })}
-				/>
-				{errors.firstName && (
-					<span>{errors.firstName.message ?? 'Invalid value'}</span>
-				)}
-			</Form.Group>
+		<>
+			<Modal.Header closeButton>
+				<Modal.Title>Sign up</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<Form onSubmit={handleSubmit(onSignUp)}>
+					<Form.Group className='d-flex mb-2'>
+						<Form.Control
+							className={classNames('me-1', {
+								'missing-border': errors.firstName
+							})}
+							placeholder='First name'
+							type='text'
+							{...register('firstName', { required: true })}
+						/>
+						<Form.Control
+							className={classNames('ms-1', {
+								'missing-border': errors.lastName
+							})}
+							placeholder='Last name'
+							type='text'
+							{...register('lastName', { required: true })}
+						/>
+					</Form.Group>
 
-			<Form.Group controlId='lastName'>
-				<Form.Control
-					placeholder='Last name'
-					type='text'
-					{...register('lastName', { required: 'Last name missing' })}
-				/>
-				{errors.lastName && (
-					<span>{errors.lastName.message ?? 'Invalid value'}</span>
-				)}
-			</Form.Group>
-		</Form>
+					<InputGroup className='mb-2'>
+						<InputGroup.Text>
+							<Envelope />
+						</InputGroup.Text>
+						<Form.Control
+							className={classNames({
+								'missing-border': errors.email
+							})}
+							placeholder='Email'
+							type='email'
+							{...register('email', { required: true })}
+						/>
+					</InputGroup>
+
+					<InputGroup className='mb-2'>
+						<InputGroup.Text>
+							<User />
+						</InputGroup.Text>
+						<Form.Control
+							autoComplete='new-password'
+							className={classNames({
+								'missing-border': errors.password
+							})}
+							placeholder='Password'
+							type='password'
+							{...register('password', {
+								minLength: {
+									value: 6,
+									message: 'Enter at least 6 characters'
+								},
+								required: true
+							})}
+						/>
+					</InputGroup>
+					{errors.password && (
+						<div className='missing-text'>
+							{errors.password.message ?? 'Invalid value'}
+						</div>
+					)}
+
+					<Form.Group className='d-grid'>
+						<Button disabled={isSubmitting} type='submit' variant='success'>
+							{isSubmitting ? 'Signing up...' : 'Sign up'}
+						</Button>
+					</Form.Group>
+				</Form>
+			</Modal.Body>
+
+			<Modal.Footer className='d-flex justify-content-between'>
+				<Button
+					onClick={() => updateSign(true)}
+					size='sm'
+					variant='outline-success'
+				>
+					I already have an account
+				</Button>
+				<Button className='opacity-75' size='sm' variant='outline-warning'>
+					Reset password
+				</Button>
+			</Modal.Footer>
+		</>
 	)
 }
