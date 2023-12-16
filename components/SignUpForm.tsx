@@ -1,17 +1,18 @@
 'use client'
 import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
-import useAuth from '@/hooks/useAuth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/firebase/config'
 import { Envelope, User } from '@/icons'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Modal from 'react-bootstrap/Modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { SignUp } from '@/types/Auth.types'
-import { InputGroup } from 'react-bootstrap'
 
 export default function SignUpForm({
 	updateSign
@@ -20,8 +21,7 @@ export default function SignUpForm({
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
-	const { signUpUser } = useAuth()
-	const router = useRouter()
+	// const router = useRouter()
 	const {
 		handleSubmit,
 		register,
@@ -31,15 +31,31 @@ export default function SignUpForm({
 	const onSignUp: SubmitHandler<SignUp> = async (data: SignUp) => {
 		try {
 			setIsSubmitting(true)
-			await signUpUser(data.email, data.password)
-			toast.success('Welcome, ' + data.firstName + data.lastName)
-			router.push('/')
+			const newUser = await createUserWithEmailAndPassword(
+				auth,
+				data.email,
+				data.password
+			)
+
+			await fetch('api/users', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					email: data.email,
+					firstName: data.firstName,
+					lastName: data.lastName,
+					uid: newUser.user.uid
+				})
+			})
+
+			toast.success('Welcome, ' + data.firstName)
+			// router.push('/') // TODO: update nav as soon as user pages are in place
 		} catch (error) {
-			if (error instanceof FirebaseError) {
-				toast.error(error.message)
-			} else {
-				toast.error('Something went wrong when trying to sign up')
-			}
+			if (error instanceof FirebaseError) console.error(error.message)
+			toast.error('Something went wrong when trying to sign up')
+
 			setIsSubmitting(false)
 		}
 	}

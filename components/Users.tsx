@@ -1,13 +1,16 @@
-'use client'
 import AnimationWrapper from './AnimationWrapper'
-import useUsers from '@/hooks/useUsers'
+import prisma from '@/app/lib/prismaClient'
 
-export default function Users() {
-	const users = useUsers()
+export default async function Users() {
+	const users = await prisma.user.findMany()
 
 	return (
 		<AnimationWrapper>
-			<div>{users?.map((user) => user.name)}</div>
+			{users?.map((user) => (
+				<div key={user.uid}>
+					{user.firstName} {user.lastName}, {user.email}, ({user.uid})
+				</div>
+			))}
 		</AnimationWrapper>
 	)
 }
