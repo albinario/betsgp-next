@@ -3,25 +3,25 @@ import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
 import useAuth from '@/hooks/useAuth'
 import { Envelope, User } from '@/icons'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import InputGroup from 'react-bootstrap/InputGroup'
 import Modal from 'react-bootstrap/Modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { SignIn } from '@/types/Auth.types'
-import { InputGroup } from 'react-bootstrap'
 
 export default function SignInForm({
-	updateSign
+	updateHasAccount
 }: {
-	updateSign: (val: boolean) => void
+	updateHasAccount: (val: boolean) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { signInUser } = useAuth()
-	const router = useRouter()
+	// const router = useRouter()
 	const {
 		handleSubmit,
 		register,
@@ -31,9 +31,10 @@ export default function SignInForm({
 	const onSignIn: SubmitHandler<SignIn> = async (data: SignIn) => {
 		try {
 			setIsSubmitting(true)
-			await signInUser(data.email, data.password)
-			toast.success('Welcome back ' + data.email)
-			router.push('/')
+			await signInUser(data)
+
+			toast.success('Welcome back')
+			// router.push('/')
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				toast.error(error.message)
@@ -101,7 +102,7 @@ export default function SignInForm({
 
 			<Modal.Footer className='d-flex justify-content-between'>
 				<Button
-					onClick={() => updateSign(false)}
+					onClick={() => updateHasAccount(false)}
 					size='sm'
 					variant='outline-success'
 				>

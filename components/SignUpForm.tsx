@@ -1,8 +1,7 @@
 'use client'
 import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '@/firebase/config'
+import useAuth from '@/hooks/useAuth'
 import { Envelope, User } from '@/icons'
 // import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -15,12 +14,13 @@ import { toast } from 'react-toastify'
 import type { SignUp } from '@/types/Auth.types'
 
 export default function SignUpForm({
-	updateSign
+	updateHasAccount
 }: {
-	updateSign: (val: boolean) => void
+	updateHasAccount: (val: boolean) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
+	const { signUpUser } = useAuth()
 	// const router = useRouter()
 	const {
 		handleSubmit,
@@ -31,27 +31,9 @@ export default function SignUpForm({
 	const onSignUp: SubmitHandler<SignUp> = async (data: SignUp) => {
 		try {
 			setIsSubmitting(true)
-			const newUser = await createUserWithEmailAndPassword(
-				auth,
-				data.email,
-				data.password
-			)
-
-			await fetch('api/users', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					email: data.email,
-					firstName: data.firstName,
-					lastName: data.lastName,
-					uid: newUser.user.uid
-				})
-			})
+			await signUpUser(data)
 
 			toast.success('Welcome, ' + data.firstName)
-			// router.push('/') // TODO: update nav as soon as user pages are in place
 		} catch (error) {
 			if (error instanceof FirebaseError) console.error(error.message)
 			toast.error('Something went wrong when trying to sign up')
@@ -136,7 +118,7 @@ export default function SignUpForm({
 
 			<Modal.Footer className='d-flex justify-content-between'>
 				<Button
-					onClick={() => updateSign(true)}
+					onClick={() => updateHasAccount(true)}
 					size='sm'
 					variant='outline-success'
 				>

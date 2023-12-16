@@ -4,15 +4,15 @@ import SignUpForm from './SignUpForm'
 import { useState } from 'react'
 
 export default function SignModal() {
-	const [signingIn, setSigningIn] = useState(true)
+	const [hasAccount, setHasAccount] = useState(true)
 
-	const updateSign = (val: boolean) => {
-		setSigningIn(val)
+	const updateHasAccount = (val: boolean) => {
+		setHasAccount(val)
 	}
 
-	return signingIn ? (
-		<SignInForm updateSign={updateSign} />
+	return hasAccount ? (
+		<SignInForm updateHasAccount={updateHasAccount} />
 	) : (
-		<SignUpForm updateSign={updateSign} />
+		<SignUpForm updateHasAccount={updateHasAccount} />
 	)
 }

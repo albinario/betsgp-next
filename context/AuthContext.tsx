@@ -9,14 +9,15 @@ import {
 import { auth } from '../firebase/config'
 import React, { createContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
+import type { SignIn, SignUp } from '@/types/Auth.types'
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 type AuthContextType = {
-	user: User | null
-	signInUser: (email: string, password: string) => void
+	signInUser: (data: SignIn) => void
 	signOutUser: () => void
-	signUpUser: (email: string, password: string) => void
+	signUpUser: (data: SignUp) => void
+	user: User | null
 }
 
 export const AuthContextProvider = ({
@@ -39,8 +40,8 @@ export const AuthContextProvider = ({
 		return unsubscribe
 	}, [])
 
-	const signInUser = (email: string, password: string) =>
-		signInWithEmailAndPassword(auth, email, password)
+	const signInUser = (data: SignIn) =>
+		signInWithEmailAndPassword(auth, data.email, data.password)
 
 	const signOutUser = async () => {
 		setUser(null)
@@ -49,11 +50,29 @@ export const AuthContextProvider = ({
 		return
 	}
 
-	const signUpUser = (email: string, password: string) =>
-		createUserWithEmailAndPassword(auth, email, password)
+	const signUpUser = async (data: SignUp) => {
+		const newUser = await createUserWithEmailAndPassword(
+			auth,
+			data.email,
+			data.password
+		)
+
+		await fetch('api/users', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				email: data.email,
+				firstName: data.firstName,
+				lastName: data.lastName,
+				uid: newUser.user.uid
+			})
+		})
+	}
 
 	return (
-		<AuthContext.Provider value={{ user, signUpUser, signInUser, signOutUser }}>
+		<AuthContext.Provider value={{ signInUser, signOutUser, signUpUser, user }}>
 			{loading ? null : children}
 		</AuthContext.Provider>
 	)
