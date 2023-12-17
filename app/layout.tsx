@@ -3,6 +3,7 @@ import { AuthContextProvider } from '@/context/AuthContext'
 import './globals.css'
 import type { Metadata } from 'next'
 import { ToastContainer } from 'react-toastify'
+import { Container } from 'react-bootstrap'
 
 export const metadata: Metadata = {
 	title: 'Bet SGP',
@@ -19,8 +20,10 @@ export default function RootLayout({
 		<html lang='en' data-bs-theme='dark'>
 			<body>
 				<AuthContextProvider>
-					<Header />
-					{children}
+					<Container>
+						<Header />
+						{children}
+					</Container>
 				</AuthContextProvider>
 				<ToastContainer
 					autoClose={3000}

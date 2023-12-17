@@ -1,5 +1,11 @@
-export const theme = {
-	logoAlt: 'SGP logo',
-	logoSrc: '/logo-2022.png',
-	logoWidth: 80
+export const logo = {
+	alt: 'SGP logo',
+	src: '/logo-2022.png',
+	width: 80
+}
+
+export const colors = {
+	gold: '#ffd700',
+	silver: '#c0c0c0',
+	bronze: '#cd7f32'
 }

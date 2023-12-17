@@ -1,6 +1,14 @@
 export type User = {
+	admin: boolean
 	email: string
 	firstName: string
 	lastName: string
-	uid: string
+	registered: Date
+}
+
+export type UserStar = {
+	userId: number
+	year: number
+	type: number
+	user: User
 }
