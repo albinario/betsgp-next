@@ -2,8 +2,8 @@ import Header from '@/components/common/Header'
 import { AuthContextProvider } from '@/context/AuthContext'
 import './globals.css'
 import type { Metadata } from 'next'
+import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
-import { Container } from 'react-bootstrap'
 
 export const metadata: Metadata = {
 	title: 'Bet SGP',
