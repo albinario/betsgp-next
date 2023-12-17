@@ -46,8 +46,8 @@ export const AuthContextProvider = ({
 	const signOutUser = async () => {
 		setUser(null)
 		await signOut(auth)
-		toast.success('Signed out')
-		return
+
+		return toast.success('Signed out')
 	}
 
 	const signUpUser = async (data: SignUp) => {
