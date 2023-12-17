@@ -3,12 +3,18 @@ import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
 import useAuth from '@/hooks/useAuth'
 import { Envelope, User } from '@/icons'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import FormGroup from 'react-bootstrap/FormGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Modal from 'react-bootstrap/Modal'
+import InputGroupText from 'react-bootstrap/esm/InputGroupText'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalFooter from 'react-bootstrap/ModalFooter'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { SignIn } from '@/types/Auth.types'
@@ -21,7 +27,7 @@ export default function SignInForm({
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { signInUser } = useAuth()
-	// const router = useRouter()
+	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
@@ -34,7 +40,7 @@ export default function SignInForm({
 			await signInUser(data)
 
 			toast.success('Welcome back')
-			// router.push('/')
+			router.push('/')
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				toast.error(error.message)
@@ -47,15 +53,15 @@ export default function SignInForm({
 
 	return (
 		<>
-			<Modal.Header closeButton>
-				<Modal.Title>Sign in</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
+			<ModalHeader closeButton>
+				<ModalTitle>Sign in</ModalTitle>
+			</ModalHeader>
+			<ModalBody>
 				<Form onSubmit={handleSubmit(onSignIn)}>
 					<InputGroup className='mb-2'>
-						<InputGroup.Text>
+						<InputGroupText>
 							<Envelope />
-						</InputGroup.Text>
+						</InputGroupText>
 						<Form.Control
 							className={classNames({
 								'missing-border': errors.email
@@ -67,10 +73,10 @@ export default function SignInForm({
 					</InputGroup>
 
 					<InputGroup className='mb-2'>
-						<InputGroup.Text>
+						<InputGroupText>
 							<User />
-						</InputGroup.Text>
-						<Form.Control
+						</InputGroupText>
+						<FormControl
 							autoComplete='new-password'
 							className={classNames({
 								'missing-border': errors.password
@@ -92,15 +98,15 @@ export default function SignInForm({
 						</div>
 					)}
 
-					<Form.Group className='d-grid'>
+					<FormGroup className='d-grid'>
 						<Button disabled={isSubmitting} type='submit' variant='success'>
 							{isSubmitting ? 'Signing in...' : 'Sign in'}
 						</Button>
-					</Form.Group>
+					</FormGroup>
 				</Form>
-			</Modal.Body>
+			</ModalBody>
 
-			<Modal.Footer className='d-flex justify-content-between'>
+			<ModalFooter className='d-flex justify-content-between'>
 				<Button
 					onClick={() => updateHasAccount(false)}
 					size='sm'
@@ -111,7 +117,7 @@ export default function SignInForm({
 				<Button className='opacity-75' size='sm' variant='outline-warning'>
 					Reset password
 				</Button>
-			</Modal.Footer>
+			</ModalFooter>
 		</>
 	)
 }

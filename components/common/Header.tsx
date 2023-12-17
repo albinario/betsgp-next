@@ -5,10 +5,14 @@ import NextLink from 'next/link'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
+import Modal from 'react-bootstrap/Modal'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import NavbarBrand from 'react-bootstrap/NavbarBrand'
+import NavbarCollapse from 'react-bootstrap/NavbarCollapse'
+import NavbarToggle from 'react-bootstrap/NavbarToggle'
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import Modal from 'react-bootstrap/Modal'
+import NavLink from 'react-bootstrap/NavLink'
 import { logo } from '@/theme/config'
 
 export default function Header() {
@@ -19,9 +23,9 @@ export default function Header() {
 		<>
 			<Navbar expand='md' collapseOnSelect sticky='top'>
 				<div className='d-flex align-items-center'>
-					<Navbar.Brand as={NextLink} href='/'>
+					<NavbarBrand as={NextLink} href='/'>
 						<Image alt={logo.alt} src={logo.src} width={logo.width} />
-					</Navbar.Brand>
+					</NavbarBrand>
 					<NavDropdown title='2023' id='basic-nav-dropdown'>
 						{[2022, 2021, 2020].map((year) => (
 							<NavDropdown.Item href='' key={year}>
@@ -33,31 +37,31 @@ export default function Header() {
 					</NavDropdown>
 				</div>
 
-				<Navbar.Toggle aria-controls='basic-navbar-nav' />
-				<Navbar.Collapse id='basic-navbar-nav'>
+				<NavbarToggle aria-controls='basic-navbar-nav' />
+				<NavbarCollapse id='basic-navbar-nav'>
 					<Nav className='d-flex align-items-center ms-auto small text-uppercase'>
-						<Nav.Link as={NextLink} href='/standings'>
+						<NavLink as={NextLink} href='/standings'>
 							Standings
-						</Nav.Link>
-						<Nav.Link as={NextLink} href='/stats'>
+						</NavLink>
+						<NavLink as={NextLink} href='/stats'>
 							Stats
-						</Nav.Link>
-						<Nav.Link as={NextLink} href='/gps'>
+						</NavLink>
+						<NavLink as={NextLink} href='/gps'>
 							GP's
-						</Nav.Link>
-						<Nav.Link as={NextLink} href='/riders'>
+						</NavLink>
+						<NavLink as={NextLink} href='/riders'>
 							Riders
-						</Nav.Link>
-						<Nav.Link as={NextLink} href='/comments'>
+						</NavLink>
+						<NavLink as={NextLink} href='/comments'>
 							Comments
-						</Nav.Link>
-						<Nav.Link as={NextLink} href='/hall-of-fame'>
+						</NavLink>
+						<NavLink as={NextLink} href='/hall-of-fame'>
 							Hall of fame
-						</Nav.Link>
-						<Nav.Link as={NextLink} href='/rules'>
+						</NavLink>
+						<NavLink as={NextLink} href='/rules'>
 							Rules
-						</Nav.Link>
-						<Nav.Link>
+						</NavLink>
+						<NavLink>
 							{!user ? (
 								<Button
 									onClick={() => setShowModal(true)}
@@ -75,9 +79,9 @@ export default function Header() {
 									Sign out
 								</Button>
 							)}
-						</Nav.Link>
+						</NavLink>
 					</Nav>
-				</Navbar.Collapse>
+				</NavbarCollapse>
 			</Navbar>
 			<Modal centered onHide={() => setShowModal(false)} show={showModal}>
 				<SignModal />

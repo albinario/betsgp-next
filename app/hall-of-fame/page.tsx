@@ -1,6 +1,8 @@
 import { Star } from '@/icons'
 import prisma from '../../lib/prismaClient'
 import Card from 'react-bootstrap/Card'
+import CardBody from 'react-bootstrap/CardBody'
+import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import Link from 'next/link'
@@ -13,11 +15,11 @@ export default async function HallOfFame() {
 		}
 	})
 
-	const years = stars.reduce<number[]>((acc, item) => {
-		if (!acc.includes(item.year)) {
-			acc.push(item.year)
+	const years = stars.reduce<number[]>((uniqueYears, item) => {
+		if (!uniqueYears.includes(item.year)) {
+			uniqueYears.push(item.year)
 		}
-		return acc
+		return uniqueYears
 	}, [])
 
 	return (
@@ -28,15 +30,15 @@ export default async function HallOfFame() {
 					.map((year) => (
 						<Col key={year}>
 							<Card>
-								<Card.Header>{year}</Card.Header>
-								<Card.Body>
+								<CardHeader>{year}</CardHeader>
+								<CardBody>
 									{stars
 										.filter((s) => s.year === year)
 										.map((star) => (
-											<div className='d-flex align-items-center'>
+											<div className='d-flex align-items-center' key={star.id}>
 												<Star type={star.type} width={20} />
 												<Link
-													href={`api/users/${star.userId}`}
+													href={'users/' + star.userId}
 													className='ms-1'
 													passHref
 												>
@@ -44,7 +46,7 @@ export default async function HallOfFame() {
 												</Link>
 											</div>
 										))}
-								</Card.Body>
+								</CardBody>
 							</Card>
 						</Col>
 					))}
