@@ -4,18 +4,18 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url = env("LOCAL_POSTGRES_URL")
+  // directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model activityLog {
-  id      Int       @id @default(autoincrement()) @unique
-  date    DateTime  @default(now()) @db.Timestamptz
-  action  String
-  userId  Int?      @map("userId")
-  user    user?     @relation(fields: [userId], references: [id])
-  gpId    Int?      @map("gpId")
-  gp      gp?       @relation(fields: [gpId], references: [id])
+model activity {
+  id        Int       @id @default(autoincrement()) @unique
+  dateTime  DateTime  @default(now())
+  userId    Int
+  user      user      @relation(fields: [userId], references: [id])
+  gpId      Int
+  gp        gp        @relation(fields: [gpId], references: [id])
+  action    String
 }
 
 model city {
@@ -32,20 +32,19 @@ model gp {
   gp            Int
   cityId        Int
   city          city      @relation(fields: [cityId], references: [id])
-  startDate     DateTime? @db.Date
+  dateTime      DateTime
   wildCard      Int?
-  finished      Boolean?
+  finished      Boolean   @default(false)
   usersResults  userResult[]
   usersPicks    userPick[]
   ridersResults riderResult[]
-  activity      activityLog[]
+  activity      activity[]
 	@@map("gps")
 }
 
 model nation {
   id      Int     @id @default(autoincrement()) @unique
-  name    String  @default("") @db.VarChar(20)
-  code    String  @default("") @db.Char(2)
+  name    String
   cities  city[]
   riders  rider[]
 	@@map("nations")
@@ -57,8 +56,8 @@ model rider {
   number        Int
   nationId      Int
   nation        nation  @relation(fields: [nationId], references: [id])
-  active        Boolean?
-  substitute    Boolean?
+  active        Int     @default(0)
+  sub           Int     @default(0)
   riderResults  riderResult[]
   picks         pick[]
 	@@map("riders")
@@ -72,33 +71,34 @@ model riderResult {
   gp      gp    @relation(fields: [gpId], references: [id])
   points  Int   @default(0)
   races   Int   @default(0)
-  podium  Int?
+  medal   Int?
 	@@map("riderResults")
 }
 
 model user {
-  id            Int     @id @default(autoincrement()) @unique
-  uid           String  @unique
-  firstName     String  @default("") @db.VarChar(20)
-  lastName      String  @default("") @db.VarChar(20)
-  email         String  @default("") @db.VarChar(100) @unique
-  admin         Boolean @default(false)
-  reminder      Boolean @default(true)
+  id            Int       @id @default(autoincrement()) @unique
+  firstName     String
+  lastName      String
+  email         String    @unique
+  admin         Boolean   @default(false)
+  reminder      Boolean   @default(true)
+  registered    DateTime  @default(now())
+  uid           String    @unique
   userResults   userResult[]
   userStandings userStanding[]
   userStars     userStar[]
   userPicks     userPick[]
-  activity      activityLog[]
+  activity      activity[]
 	@@map("users")
 }
 
 model userPick {
   id          Int       @id @default(autoincrement()) @unique
   userId      Int
-  user        user      @relation(fields: [userId], references: [id], map: "user")
+  user        user      @relation(fields: [userId], references: [id])
   gpId        Int
   gp          gp        @relation(fields: [gpId], references: [id])
-  dateCreated DateTime  @default(now()) @db.Timestamp(0)
+  dateCreated DateTime  @default(now())
   dateUpdated DateTime  @updatedAt
   picks       pick[]
 	@@map("userPicks")
