@@ -1,3 +1,9 @@
+export type Form = 'in' | 'reset' | 'up'
+
+export type ResetPassword = {
+	email: string
+}
+
 export type SignIn = {
 	email: string
 	keep: boolean

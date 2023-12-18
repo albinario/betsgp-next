@@ -17,12 +17,12 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import type { SignIn } from '@/types/Auth.types'
+import type { Form as TForm, SignIn } from '@/types/Auth.types'
 
 export default function SignInForm({
-	updateHasAccount
+	setForm
 }: {
-	updateHasAccount: (val: boolean) => void
+	setForm: (form: TForm) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -39,8 +39,7 @@ export default function SignInForm({
 			setIsSubmitting(true)
 			await signInUser(data)
 
-			toast.success('Welcome back')
-			router.push('/')
+			router.push('hall-of-fame') // TODO: update route
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				toast.error(error.message)
@@ -108,13 +107,18 @@ export default function SignInForm({
 
 			<ModalFooter className='d-flex justify-content-between'>
 				<Button
-					onClick={() => updateHasAccount(false)}
+					onClick={() => setForm('up')}
 					size='sm'
 					variant='outline-success'
 				>
 					I need an account
 				</Button>
-				<Button className='opacity-75' size='sm' variant='outline-warning'>
+				<Button
+					className='opacity-75'
+					onClick={() => setForm('reset')}
+					size='sm'
+					variant='outline-warning'
+				>
 					Reset password
 				</Button>
 			</ModalFooter>

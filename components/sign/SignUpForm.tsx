@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { FirebaseError } from 'firebase/app'
 import useAuth from '@/hooks/useAuth'
 import { Envelope, User } from '@/icons'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -11,17 +11,17 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Modal from 'react-bootstrap/Modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import type { SignUp } from '@/types/Auth.types'
+import type { Form as TForm, SignUp } from '@/types/Auth.types'
 
 export default function SignUpForm({
-	updateHasAccount
+	setForm
 }: {
-	updateHasAccount: (val: boolean) => void
+	setForm: (form: TForm) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const { signUpUser } = useAuth()
-	// const router = useRouter()
+	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
@@ -33,7 +33,7 @@ export default function SignUpForm({
 			setIsSubmitting(true)
 			await signUpUser(data)
 
-			toast.success('Welcome, ' + data.firstName)
+			router.push('hall-of-fame') // TODO: update route
 		} catch (error) {
 			if (error instanceof FirebaseError) console.error(error.message)
 			toast.error('Something went wrong when trying to sign up')
@@ -118,13 +118,18 @@ export default function SignUpForm({
 
 			<Modal.Footer className='d-flex justify-content-between'>
 				<Button
-					onClick={() => updateHasAccount(true)}
+					onClick={() => setForm('in')}
 					size='sm'
 					variant='outline-success'
 				>
 					I already have an account
 				</Button>
-				<Button className='opacity-75' size='sm' variant='outline-warning'>
+				<Button
+					className='opacity-75'
+					onClick={() => setForm('reset')}
+					size='sm'
+					variant='outline-warning'
+				>
 					Reset password
 				</Button>
 			</Modal.Footer>

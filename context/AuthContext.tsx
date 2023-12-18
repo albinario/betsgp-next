@@ -2,6 +2,7 @@
 import {
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
+	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
 	User
@@ -9,11 +10,12 @@ import {
 import { auth } from '../firebase/config'
 import React, { createContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import type { SignIn, SignUp } from '@/types/Auth.types'
+import type { ResetPassword, SignIn, SignUp } from '@/types/Auth.types'
 
 export const AuthContext = createContext<AuthContextType | null>(null)
 
 type AuthContextType = {
+	resetPassword: (data: ResetPassword) => void
 	signInUser: (data: SignIn) => void
 	signOutUser: () => void
 	signUpUser: (data: SignUp) => void
@@ -40,13 +42,19 @@ export const AuthContextProvider = ({
 		return unsubscribe
 	}, [])
 
-	const signInUser = (data: SignIn) =>
-		signInWithEmailAndPassword(auth, data.email, data.password)
+	const resetPassword = async (data: ResetPassword) => {
+		await sendPasswordResetEmail(auth, data.email)
+		return toast.success('Instructions sent to ' + data.email)
+	}
+
+	const signInUser = async (data: SignIn) => {
+		await signInWithEmailAndPassword(auth, data.email, data.password)
+		return toast.success('Welcome back')
+	}
 
 	const signOutUser = async () => {
 		setUser(null)
 		await signOut(auth)
-
 		return toast.success('Signed out')
 	}
 
@@ -69,10 +77,14 @@ export const AuthContextProvider = ({
 				uid: newUser.user.uid
 			})
 		})
+
+		return toast.success('Welcome, ' + data.firstName)
 	}
 
 	return (
-		<AuthContext.Provider value={{ signInUser, signOutUser, signUpUser, user }}>
+		<AuthContext.Provider
+			value={{ resetPassword, signInUser, signOutUser, signUpUser, user }}
+		>
 			{loading ? null : children}
 		</AuthContext.Provider>
 	)
