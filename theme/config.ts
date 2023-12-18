@@ -1,6 +1,6 @@
 export const logo = {
 	alt: 'SGP logo',
-	src: '/logo-2022.png',
+	src: '/logos/2022.png',
 	width: 80
 }
 
