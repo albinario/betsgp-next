@@ -5,7 +5,7 @@ import { useState } from 'react'
 import type { Form } from '@/types/Auth.types'
 import ResetPasswordForm from './ResetPasswordForm'
 
-export default function SignModal() {
+export default function SignModal({ hideModal }: { hideModal: () => void }) {
 	const [form, setForm] = useState<Form>('in')
 
 	const _setForm = (form: Form) => {
@@ -13,10 +13,10 @@ export default function SignModal() {
 	}
 
 	return form === 'up' ? (
-		<SignUpForm setForm={_setForm} />
+		<SignUpForm setForm={_setForm} hideModal={hideModal} />
 	) : form === 'reset' ? (
-		<ResetPasswordForm setForm={_setForm} />
+		<ResetPasswordForm setForm={_setForm} hideModal={hideModal} />
 	) : (
-		<SignInForm setForm={_setForm} />
+		<SignInForm setForm={_setForm} hideModal={hideModal} />
 	)
 }

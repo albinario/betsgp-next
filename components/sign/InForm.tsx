@@ -20,8 +20,10 @@ import { toast } from 'react-toastify'
 import type { Form as TForm, SignIn } from '@/types/Auth.types'
 
 export default function SignInForm({
+	hideModal,
 	setForm
 }: {
+	hideModal: () => void
 	setForm: (form: TForm) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -39,7 +41,8 @@ export default function SignInForm({
 			setIsSubmitting(true)
 			await signInUser(data)
 
-			router.push('hall-of-fame') // TODO: update route
+			hideModal()
+			router.push('/') // TODO: update route
 		} catch (error) {
 			if (error instanceof FirebaseError) {
 				toast.error(error.message)

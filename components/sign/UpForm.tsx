@@ -14,8 +14,10 @@ import { toast } from 'react-toastify'
 import type { Form as TForm, SignUp } from '@/types/Auth.types'
 
 export default function SignUpForm({
+	hideModal,
 	setForm
 }: {
+	hideModal: () => void
 	setForm: (form: TForm) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -33,7 +35,8 @@ export default function SignUpForm({
 			setIsSubmitting(true)
 			await signUpUser(data)
 
-			router.push('hall-of-fame') // TODO: update route
+			hideModal()
+			router.push('/') // TODO: update route
 		} catch (error) {
 			if (error instanceof FirebaseError) console.error(error.message)
 			toast.error('Something went wrong when trying to sign up')

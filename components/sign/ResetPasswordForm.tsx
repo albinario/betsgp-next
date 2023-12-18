@@ -19,8 +19,10 @@ import { toast } from 'react-toastify'
 import type { Form as TForm, ResetPassword } from '@/types/Auth.types'
 
 export default function ResetPasswordForm({
+	hideModal,
 	setForm
 }: {
+	hideModal: () => void
 	setForm: (form: TForm) => void
 }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
@@ -40,6 +42,7 @@ export default function ResetPasswordForm({
 			setIsSubmitting(true)
 			await resetPassword(data)
 
+			hideModal()
 			router.push('/')
 		} catch (error) {
 			if (error instanceof FirebaseError) {

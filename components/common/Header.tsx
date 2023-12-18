@@ -16,8 +16,12 @@ import NavLink from 'react-bootstrap/NavLink'
 import { logo } from '@/theme/config'
 
 export default function Header() {
-	const [showModal, setShowModal] = useState(false)
 	const { user, signOutUser } = useAuth()
+	const [showModal, setShowModal] = useState(false)
+
+	const hideModal = () => {
+		setShowModal(false)
+	}
 
 	return (
 		<>
@@ -84,7 +88,7 @@ export default function Header() {
 				</NavbarCollapse>
 			</Navbar>
 			<Modal centered onHide={() => setShowModal(false)} show={showModal}>
-				<SignModal />
+				<SignModal hideModal={hideModal} />
 			</Modal>
 		</>
 	)
