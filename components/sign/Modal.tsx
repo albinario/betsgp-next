@@ -1,6 +1,6 @@
 'use client'
-import SignInForm from './SignInForm'
-import SignUpForm from './SignUpForm'
+import SignInForm from './InForm'
+import SignUpForm from './UpForm'
 import { useState } from 'react'
 import type { Form } from '@/types/Auth.types'
 import ResetPasswordForm from './ResetPasswordForm'

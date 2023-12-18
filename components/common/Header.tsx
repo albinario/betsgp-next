@@ -1,5 +1,5 @@
 'use client'
-import SignModal from '../sign/SignModal'
+import SignModal from '../sign/Modal'
 import useAuth from '@/hooks/useAuth'
 import NextLink from 'next/link'
 import { useState } from 'react'
