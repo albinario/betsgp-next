@@ -45,6 +45,7 @@ model gp {
 model nation {
   id      Int     @id @default(autoincrement()) @unique
   name    String
+  code    String
   cities  city[]
   riders  rider[]
 	@@map("nations")
