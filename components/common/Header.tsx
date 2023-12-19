@@ -25,7 +25,7 @@ export default function Header() {
 
 	return (
 		<>
-			<Navbar expand='md' collapseOnSelect sticky='top'>
+			<Navbar expand='md' collapseOnSelect>
 				<div className='d-flex align-items-center'>
 					<NavbarBrand as={NextLink} href='/'>
 						<Image alt={logo.alt} src={logo.src} width={logo.width} />
