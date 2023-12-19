@@ -1,11 +1,11 @@
 import Flags from 'country-flag-icons/react/3x2'
 
 type Flag = {
-	className: string
+	height: string
 	nationCode: string
 }
 
-export default function Flag({ className, nationCode }: Flag) {
+export default function Flag({ height, nationCode }: Flag) {
 	const FlagComponent = Flags[nationCode.toUpperCase() as keyof typeof Flags]
-	return <FlagComponent className={className} />
+	return <FlagComponent style={{ height }} />
 }
