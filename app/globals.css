@@ -14,3 +14,23 @@ a {
 	color: #dc3545;
 	font-size: smaller;
 }
+
+.flag {
+	height: 1.4em;
+}
+
+.flag-sm {
+	height: 0.7em;
+	margin-bottom: 2.5px;
+}
+
+.overlay-text {
+	background: #ffd700b3;
+	color: #000;
+	padding: 0 0.2em;
+}
+.overlay-text::after {
+	content: '\a';
+	white-space: pre;
+	/* display: block; */
+}
