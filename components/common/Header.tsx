@@ -16,7 +16,7 @@ import NavLink from 'react-bootstrap/NavLink'
 import { logo } from '@/theme/config'
 
 export default function Header() {
-	const { user, signOutUser } = useAuth()
+	const { signOutUser, user, userAuth } = useAuth()
 	const [showModal, setShowModal] = useState(false)
 
 	const hideModal = () => {
@@ -66,7 +66,7 @@ export default function Header() {
 							Rules
 						</NavLink>
 						<NavLink>
-							{!user ? (
+							{!userAuth ? (
 								<Button
 									onClick={() => setShowModal(true)}
 									size='sm'
@@ -84,6 +84,11 @@ export default function Header() {
 								</Button>
 							)}
 						</NavLink>
+						{user?.admin && (
+							<NavLink as={NextLink} href='/admin'>
+								<Button size='sm'>Admin</Button>
+							</NavLink>
+						)}
 					</Nav>
 				</NavbarCollapse>
 			</Navbar>

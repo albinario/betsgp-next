@@ -5,14 +5,13 @@ import {
 	sendPasswordResetEmail,
 	signInWithEmailAndPassword,
 	signOut,
-	User
+	User as UserAuth
 } from 'firebase/auth'
 import { auth } from '../firebase/config'
 import React, { createContext, useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import type { ResetPassword, SignIn, SignUp } from '@/types/Auth.types'
-
-export const AuthContext = createContext<AuthContextType | null>(null)
+import type { User } from '@/types/User.types'
 
 type AuthContextType = {
 	resetPassword: (data: ResetPassword) => void
@@ -20,21 +19,33 @@ type AuthContextType = {
 	signOutUser: () => void
 	signUpUser: (data: SignUp) => void
 	user: User | null
+	userAuth: UserAuth | null
 }
+
+export const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthContextProvider = ({
 	children
 }: {
 	children: React.ReactNode
 }) => {
+	const [userAuth, setUserAuth] = useState<UserAuth | null>(null)
 	const [user, setUser] = useState<User | null>(null)
 	const [loading, setLoading] = useState<Boolean>(true)
+
+	const _setUser = async (uid: string) => {
+		const res = await fetch('api/users/' + uid)
+		const user = await res.json()
+		setUser(user)
+	}
 
 	useEffect(() => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
-				setUser(user)
+				setUserAuth(user)
+				_setUser(user.uid)
 			} else {
+				setUserAuth(null)
 				setUser(null)
 			}
 		})
@@ -53,7 +64,7 @@ export const AuthContextProvider = ({
 	}
 
 	const signOutUser = async () => {
-		setUser(null)
+		setUserAuth(null)
 		await signOut(auth)
 		return toast.success('Signed out')
 	}
@@ -83,7 +94,14 @@ export const AuthContextProvider = ({
 
 	return (
 		<AuthContext.Provider
-			value={{ resetPassword, signInUser, signOutUser, signUpUser, user }}
+			value={{
+				resetPassword,
+				signInUser,
+				signOutUser,
+				signUpUser,
+				user,
+				userAuth
+			}}
 		>
 			{loading ? null : children}
 		</AuthContext.Provider>
