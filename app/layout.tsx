@@ -1,17 +1,17 @@
 import Header from '@/components/common/Header'
-import { AuthContextProvider } from '@/context/AuthContext'
 import './globals.css'
 import type { Metadata } from 'next'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
+import { metadata as meta } from '@/theme'
 
 export const metadata: Metadata = {
-	title: 'Bet SGP',
-	description: 'define Bet SGP',
-	authors: [{ name: 'Albin Lindeborg', url: 'albinlindeborg.surge.sh' }]
+	title: meta.title,
+	description: meta.description,
+	authors: meta.authors
 }
 
-export default function RootLayout({
+export default async function RootLayout({
 	children
 }: {
 	children: React.ReactNode
@@ -19,12 +19,10 @@ export default function RootLayout({
 	return (
 		<html lang='en' data-bs-theme='dark'>
 			<body>
-				<AuthContextProvider>
-					<Container>
-						<Header />
-						{children}
-					</Container>
-				</AuthContextProvider>
+				<Container>
+					<Header />
+					{children}
+				</Container>
 				<ToastContainer
 					autoClose={3000}
 					draggable

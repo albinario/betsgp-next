@@ -1,10 +1,11 @@
-import Users from '@/components/Users'
+import createSupabaseServerClient from '@/lib/supabase/server'
 
-export default function Home() {
-	return (
-		<>
-			{/* @ts-expect-error Server Component */}
-			<Users />
-		</>
-	)
+export default async function Home() {
+	const supabase = await createSupabaseServerClient()
+
+	const {
+		data: { user }
+	} = await supabase.auth.getUser()
+
+	return user ? <span>IN</span> : <span>OUT</span>
 }

@@ -6,7 +6,6 @@ export type ResetPassword = {
 
 export type SignIn = {
 	email: string
-	keep: boolean
 	password: string
 }
 

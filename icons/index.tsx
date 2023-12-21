@@ -1,4 +1,4 @@
-import { colors } from '@/theme/config'
+import { colors } from '@/theme'
 
 export const Copyright = () => (
 	<svg

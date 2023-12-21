@@ -1,10 +1,6 @@
 'use client'
 import classNames from 'classnames'
-import { FirebaseError } from 'firebase/app'
-import useAuth from '@/hooks/useAuth'
 import { Envelope } from '@/icons'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/FormGroup'
@@ -15,44 +11,26 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import type { Form as TForm, ResetPassword } from '@/types/Auth.types'
 
 export default function ResetPasswordForm({
-	hideModal,
+	isSubmitting,
+	onResetPassword,
 	setForm
 }: {
-	hideModal: () => void
+	isSubmitting: boolean
+	onResetPassword: () => void
 	setForm: (form: TForm) => void
 }) {
-	const [isSubmitting, setIsSubmitting] = useState(false)
-
-	const { resetPassword } = useAuth()
-	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
 	} = useForm<ResetPassword>()
 
-	const onResetPassword: SubmitHandler<ResetPassword> = async (
+	const handleResetPassword: SubmitHandler<ResetPassword> = async (
 		data: ResetPassword
-	) => {
-		try {
-			setIsSubmitting(true)
-			await resetPassword(data)
-
-			hideModal()
-			router.push('/')
-		} catch (error) {
-			if (error instanceof FirebaseError) {
-				toast.error(error.message)
-			} else {
-				toast.error('Something went wrong when trying to reset password')
-			}
-			setIsSubmitting(false)
-		}
-	}
+	) => onResetPassword()
 
 	return (
 		<>
@@ -60,7 +38,7 @@ export default function ResetPasswordForm({
 				<ModalTitle>Reset password</ModalTitle>
 			</ModalHeader>
 			<ModalBody>
-				<Form onSubmit={handleSubmit(onResetPassword)}>
+				<Form onSubmit={handleSubmit(handleResetPassword)}>
 					<InputGroup className='mb-2'>
 						<InputGroupText>
 							<Envelope />

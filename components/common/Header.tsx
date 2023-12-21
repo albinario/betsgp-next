@@ -1,8 +1,7 @@
 'use client'
-import SignModal from '../sign/Modal'
-import useAuth from '@/hooks/useAuth'
+import SignModal from './sign/Modal'
 import NextLink from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
@@ -13,15 +12,66 @@ import NavbarCollapse from 'react-bootstrap/NavbarCollapse'
 import NavbarToggle from 'react-bootstrap/NavbarToggle'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import NavLink from 'react-bootstrap/NavLink'
-import { logo } from '@/theme/config'
+import { toast } from 'react-toastify'
+import { signInWithEmailAndPassword, signOutUser } from './sign/serverActions'
+import { createClient } from '@/lib/supabase/client'
+import { logo } from '@/theme'
+import type { SignIn, SignUp } from '@/types/Auth.types'
 
 export default function Header() {
-	const { signOutUser, user, userAuth } = useAuth()
 	const [showModal, setShowModal] = useState(false)
+	const [isSubmitting, setIsSubmitting] = useState(false)
+	const [loadingUser, setLoadingUser] = useState(true)
+	const [userId, setUserId] = useState<string | null>(null)
 
-	const hideModal = () => {
-		setShowModal(false)
+	const supabase = createClient()
+
+	const onResetPassword = async () => {
+		console.log('reset password')
 	}
+
+	const onSignIn = async (data: SignIn) => {
+		try {
+			setIsSubmitting(true)
+
+			const userId = await signInWithEmailAndPassword(data)
+			setUserId(userId)
+
+			setShowModal(false)
+			toast.success('Welcome back')
+		} catch (error) {
+			toast.error('Something went wrong when trying to sign in')
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
+
+	const onSignOut = async () => {
+		try {
+			await signOutUser()
+
+			setUserId(null)
+			toast.success('Signed out')
+		} catch (error) {
+			toast.error('Something went wrong when trying to sign out')
+		}
+	}
+
+	const onSignUp = async (data: SignUp) => {
+		console.log(data)
+	}
+
+	useEffect(() => {
+		async function getUser() {
+			const {
+				data: { user }
+			} = await supabase.auth.getUser()
+
+			if (user) setUserId(user.id)
+			setLoadingUser(false)
+		}
+		getUser()
+	}, [])
 
 	return (
 		<>
@@ -66,34 +116,35 @@ export default function Header() {
 							Rules
 						</NavLink>
 						<NavLink>
-							{!userAuth ? (
+							{!userId ? (
 								<Button
 									onClick={() => setShowModal(true)}
 									size='sm'
 									variant='success'
 								>
-									Sign in
+									{loadingUser ? 'Checking...' : 'Sign in'}
 								</Button>
 							) : (
-								<Button
-									onClick={() => signOutUser()}
-									size='sm'
-									variant='danger'
-								>
-									Sign out
+								<Button onClick={onSignOut} size='sm' variant='danger'>
+									{loadingUser ? 'Checking...' : 'Sign out'}
 								</Button>
 							)}
 						</NavLink>
-						{user?.admin && (
+						{/* {user?.admin && (
 							<NavLink as={NextLink} href='/admin'>
 								<Button size='sm'>Admin</Button>
 							</NavLink>
-						)}
+						)} */}
 					</Nav>
 				</NavbarCollapse>
 			</Navbar>
 			<Modal centered onHide={() => setShowModal(false)} show={showModal}>
-				<SignModal hideModal={hideModal} />
+				<SignModal
+					isSubmitting={isSubmitting}
+					onResetPassword={onResetPassword}
+					onSignIn={onSignIn}
+					onSignUp={onSignUp}
+				/>
 			</Modal>
 		</>
 	)

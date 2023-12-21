@@ -1,10 +1,5 @@
-'use client'
 import classNames from 'classnames'
-import { FirebaseError } from 'firebase/app'
-import useAuth from '@/hooks/useAuth'
 import { Envelope, User } from '@/icons'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
@@ -16,42 +11,25 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import type { Form as TForm, SignIn } from '@/types/Auth.types'
 
 export default function SignInForm({
-	hideModal,
+	isSubmitting,
+	onSignIn,
 	setForm
 }: {
-	hideModal: () => void
+	isSubmitting: boolean
+	onSignIn: (data: SignIn) => void
 	setForm: (form: TForm) => void
 }) {
-	const [isSubmitting, setIsSubmitting] = useState(false)
-
-	const { signInUser } = useAuth()
-	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
 	} = useForm<SignIn>()
 
-	const onSignIn: SubmitHandler<SignIn> = async (data: SignIn) => {
-		try {
-			setIsSubmitting(true)
-			await signInUser(data)
-
-			hideModal()
-			router.push('/') // TODO: update route
-		} catch (error) {
-			if (error instanceof FirebaseError) {
-				toast.error(error.message)
-			} else {
-				toast.error('Something went wrong when trying to sign in')
-			}
-			setIsSubmitting(false)
-		}
-	}
+	const handleSignIn: SubmitHandler<SignIn> = async (data: SignIn) =>
+		onSignIn(data)
 
 	return (
 		<>
@@ -59,7 +37,7 @@ export default function SignInForm({
 				<ModalTitle>Sign in</ModalTitle>
 			</ModalHeader>
 			<ModalBody>
-				<Form onSubmit={handleSubmit(onSignIn)}>
+				<Form onSubmit={handleSubmit(handleSignIn)}>
 					<InputGroup className='mb-2'>
 						<InputGroupText>
 							<Envelope />

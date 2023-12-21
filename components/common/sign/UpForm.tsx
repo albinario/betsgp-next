@@ -1,59 +1,46 @@
 'use client'
 import classNames from 'classnames'
-import { FirebaseError } from 'firebase/app'
-import useAuth from '@/hooks/useAuth'
 import { Envelope, User } from '@/icons'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
+import FormGroup from 'react-bootstrap/FormGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Modal from 'react-bootstrap/Modal'
+import InputGroupText from 'react-bootstrap/esm/InputGroupText'
+import ModalBody from 'react-bootstrap/ModalBody'
+import ModalFooter from 'react-bootstrap/ModalFooter'
+import ModalHeader from 'react-bootstrap/ModalHeader'
+import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
 import type { Form as TForm, SignUp } from '@/types/Auth.types'
 
 export default function SignUpForm({
-	hideModal,
+	isSubmitting,
+	onSignUp,
 	setForm
 }: {
-	hideModal: () => void
+	isSubmitting: boolean
+	onSignUp: (data: SignUp) => void
 	setForm: (form: TForm) => void
 }) {
-	const [isSubmitting, setIsSubmitting] = useState(false)
-
-	const { signUpUser } = useAuth()
-	const router = useRouter()
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
 	} = useForm<SignUp>()
 
-	const onSignUp: SubmitHandler<SignUp> = async (data: SignUp) => {
-		try {
-			setIsSubmitting(true)
-			await signUpUser(data)
-
-			hideModal()
-			router.push('/') // TODO: update route
-		} catch (error) {
-			if (error instanceof FirebaseError) console.error(error.message)
-			toast.error('Something went wrong when trying to sign up')
-
-			setIsSubmitting(false)
-		}
-	}
+	const handleSignUp: SubmitHandler<SignUp> = async (data: SignUp) =>
+		onSignUp(data)
 
 	return (
 		<>
-			<Modal.Header closeButton>
-				<Modal.Title>Sign up</Modal.Title>
-			</Modal.Header>
-			<Modal.Body>
-				<Form onSubmit={handleSubmit(onSignUp)}>
-					<Form.Group className='d-flex mb-2'>
-						<Form.Control
+			<ModalHeader closeButton>
+				<ModalTitle>Sign up</ModalTitle>
+			</ModalHeader>
+			<ModalBody>
+				<Form onSubmit={handleSubmit(handleSignUp)}>
+					<FormGroup className='d-flex mb-2'>
+						<FormControl
 							className={classNames('me-1', {
 								'missing-border': errors.firstName
 							})}
@@ -61,7 +48,7 @@ export default function SignUpForm({
 							type='text'
 							{...register('firstName', { required: true })}
 						/>
-						<Form.Control
+						<FormControl
 							className={classNames('ms-1', {
 								'missing-border': errors.lastName
 							})}
@@ -69,12 +56,12 @@ export default function SignUpForm({
 							type='text'
 							{...register('lastName', { required: true })}
 						/>
-					</Form.Group>
+					</FormGroup>
 
 					<InputGroup className='mb-2'>
-						<InputGroup.Text>
+						<InputGroupText>
 							<Envelope />
-						</InputGroup.Text>
+						</InputGroupText>
 						<Form.Control
 							className={classNames({
 								'missing-border': errors.email
@@ -86,10 +73,10 @@ export default function SignUpForm({
 					</InputGroup>
 
 					<InputGroup className='mb-2'>
-						<InputGroup.Text>
+						<InputGroupText>
 							<User />
-						</InputGroup.Text>
-						<Form.Control
+						</InputGroupText>
+						<FormControl
 							autoComplete='new-password'
 							className={classNames({
 								'missing-border': errors.password
@@ -111,15 +98,15 @@ export default function SignUpForm({
 						</div>
 					)}
 
-					<Form.Group className='d-grid'>
+					<FormGroup className='d-grid'>
 						<Button disabled={isSubmitting} type='submit' variant='success'>
 							{isSubmitting ? 'Signing up...' : 'Sign up'}
 						</Button>
-					</Form.Group>
+					</FormGroup>
 				</Form>
-			</Modal.Body>
+			</ModalBody>
 
-			<Modal.Footer className='d-flex justify-content-between'>
+			<ModalFooter className='d-flex justify-content-between'>
 				<Button
 					onClick={() => setForm('in')}
 					size='sm'
@@ -135,7 +122,7 @@ export default function SignUpForm({
 				>
 					Reset password
 				</Button>
-			</Modal.Footer>
+			</ModalFooter>
 		</>
 	)
 }
