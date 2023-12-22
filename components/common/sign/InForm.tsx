@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { Envelope, User } from '@/icons'
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
@@ -11,25 +12,39 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { signInWithEmailAndPassword } from './serverActions'
 import type { Form as TForm, SignIn } from '@/types/Auth.types'
 
 export default function SignInForm({
-	isSubmitting,
-	onSignIn,
+	hideModal,
 	setForm
 }: {
-	isSubmitting: boolean
-	onSignIn: (data: SignIn) => void
+	hideModal: () => void
 	setForm: (form: TForm) => void
 }) {
+	const [isSubmitting, setIsSubmitting] = useState(false)
+
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
 	} = useForm<SignIn>()
 
-	const handleSignIn: SubmitHandler<SignIn> = async (data: SignIn) =>
-		onSignIn(data)
+	const handleSignIn: SubmitHandler<SignIn> = async (data: SignIn) => {
+		try {
+			setIsSubmitting(true)
+
+			await signInWithEmailAndPassword(data)
+
+			hideModal()
+			toast.success('Welcome back')
+		} catch (error) {
+			toast.error('Something went wrong when trying to sign in')
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
 
 	return (
 		<>

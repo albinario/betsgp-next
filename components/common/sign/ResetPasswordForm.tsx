@@ -1,6 +1,6 @@
-'use client'
 import classNames from 'classnames'
 import { Envelope } from '@/icons'
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormGroup from 'react-bootstrap/FormGroup'
@@ -11,17 +11,19 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { resetPassword } from './serverActions'
 import type { Form as TForm, ResetPassword } from '@/types/Auth.types'
 
 export default function ResetPasswordForm({
-	isSubmitting,
-	onResetPassword,
+	hideModal,
 	setForm
 }: {
-	isSubmitting: boolean
-	onResetPassword: () => void
+	hideModal: () => void
 	setForm: (form: TForm) => void
 }) {
+	const [isSubmitting, setIsSubmitting] = useState(false)
+
 	const {
 		handleSubmit,
 		register,
@@ -30,7 +32,20 @@ export default function ResetPasswordForm({
 
 	const handleResetPassword: SubmitHandler<ResetPassword> = async (
 		data: ResetPassword
-	) => onResetPassword()
+	) => {
+		try {
+			setIsSubmitting(true)
+
+			await resetPassword(data)
+
+			hideModal()
+			toast.success('Instructions sent to ' + data.email)
+		} catch (error) {
+			toast.error('Something went wrong when trying to reset password')
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
 
 	return (
 		<>

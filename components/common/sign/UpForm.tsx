@@ -1,6 +1,6 @@
-'use client'
 import classNames from 'classnames'
 import { Envelope, User } from '@/icons'
+import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
@@ -12,25 +12,39 @@ import ModalFooter from 'react-bootstrap/ModalFooter'
 import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+import { signUpWithEmailAndPassword } from './serverActions'
 import type { Form as TForm, SignUp } from '@/types/Auth.types'
 
 export default function SignUpForm({
-	isSubmitting,
-	onSignUp,
+	hideModal,
 	setForm
 }: {
-	isSubmitting: boolean
-	onSignUp: (data: SignUp) => void
+	hideModal: () => void
 	setForm: (form: TForm) => void
 }) {
+	const [isSubmitting, setIsSubmitting] = useState(false)
+
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
 	} = useForm<SignUp>()
 
-	const handleSignUp: SubmitHandler<SignUp> = async (data: SignUp) =>
-		onSignUp(data)
+	const handleSignUp: SubmitHandler<SignUp> = async (data: SignUp) => {
+		try {
+			setIsSubmitting(true)
+
+			await signUpWithEmailAndPassword(data)
+
+			hideModal()
+			toast.success('Welcome, ' + data.firstName)
+		} catch (error) {
+			toast.error('Something went wrong when trying to sign in')
+		} finally {
+			setIsSubmitting(false)
+		}
+	}
 
 	return (
 		<>
