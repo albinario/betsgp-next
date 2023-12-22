@@ -1,6 +1,0 @@
-{
-  "databaseURL": "https://albinario-s-workspace-2e5tgm.eu-central-1.xata.sh/db/bet-sgp",
-  "codegen": {
-    "output": "xata.ts"
-  }
-}
