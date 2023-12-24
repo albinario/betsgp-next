@@ -19,7 +19,10 @@ import type { Session } from '@supabase/supabase-js'
 import { logo } from '@/theme'
 
 export default function Header() {
-	const parsedCookie: Session = document ? parseCookie(document.cookie) : null
+	const parsedCookie: Session | null =
+		typeof window !== 'undefined' && typeof document !== 'undefined'
+			? parseCookie(document.cookie)
+			: null
 
 	const [showModal, setShowModal] = useState(false)
 
