@@ -68,7 +68,7 @@ export default function Header() {
 							Stats
 						</NavLink>
 						<NavLink as={NextLink} href='/gps'>
-							GP's
+							Grand Prix
 						</NavLink>
 						<NavLink as={NextLink} href='/riders'>
 							Riders
