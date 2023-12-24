@@ -1,5 +1,5 @@
 import { Star } from '@/icons'
-import prisma from '../../lib/prismaClient'
+import prisma from '../../prisma/client'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'

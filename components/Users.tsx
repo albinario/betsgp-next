@@ -1,5 +1,5 @@
 import AnimationWrapper from './AnimationWrapper'
-import prisma from '@/lib/prismaClient'
+import prisma from '@/prisma/client'
 
 export default async function Users() {
 	const users = await prisma.user.findMany()

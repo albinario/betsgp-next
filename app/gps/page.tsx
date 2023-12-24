@@ -10,9 +10,8 @@ import Row from 'react-bootstrap/Row'
 import Link from 'next/link'
 
 export default async function Riders() {
-	const gpsTotal = 10
-
 	const gps = await getGps(2023)
+	const gpsTotal = gps.length
 
 	return (
 		<AnimationWrapper>

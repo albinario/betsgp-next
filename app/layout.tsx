@@ -1,5 +1,6 @@
-import Header from '@/components/common/Header'
 import './globals.css'
+import Footer from '@/components/common/Footer'
+import Header from '@/components/common/Header'
 import type { Metadata } from 'next'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
@@ -22,6 +23,7 @@ export default async function RootLayout({
 				<Container>
 					<Header />
 					{children}
+					<Footer />
 				</Container>
 				<ToastContainer
 					autoClose={3000}

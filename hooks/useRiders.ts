@@ -1,4 +1,4 @@
-import prisma from '@/lib/prismaClient'
+import prisma from '@/prisma/client'
 
 export const getRiders = async () => {
 	return await prisma.rider.findMany({

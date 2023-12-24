@@ -1,5 +1,5 @@
 'use server'
-import createSupabaseServerClient from '@/lib/supabase/server'
+import createSupabaseServerClient from '@/supabase/serverClient'
 import { ResetPassword, SignIn, SignUp } from '@/types/Auth.types'
 
 export async function resetPassword(data: ResetPassword) {

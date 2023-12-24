@@ -1,4 +1,4 @@
-import prisma from '@/lib/prismaClient'
+import prisma from '@/prisma/client'
 
 export const getGps = async (year: number) => {
 	return await prisma.gp.findMany({

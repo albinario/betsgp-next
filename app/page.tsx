@@ -1,11 +1,18 @@
-import createSupabaseServerClient from '@/lib/supabase/server'
+import { getUser } from '@/hooks/useUsers'
+import readUserSession from '@/supabase/actions'
 
 export default async function Home() {
-	const supabase = await createSupabaseServerClient()
+	const session = await readUserSession()
 
-	const {
-		data: { user }
-	} = await supabase.auth.getUser()
+	const user = session.data.session?.user
 
-	return user ? <span>IN</span> : <span>OUT</span>
+	const userDetails = await getUser(user?.id)
+
+	return userDetails ? (
+		<span>
+			{userDetails.firstName} {userDetails.lastName}
+		</span>
+	) : (
+		<span>OUT</span>
+	)
 }
