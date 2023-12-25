@@ -1,4 +1,4 @@
-![](/public/logo-2022.png)
+![](/public/logos/2022.png)
 
 # Bet SGP
 
