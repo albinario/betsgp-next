@@ -1,6 +1,5 @@
 'use client'
 import SignModal from './sign/Modal'
-import { parseCookie } from '@/helpers/parseCookie'
 import NextLink from 'next/link'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
@@ -15,15 +14,10 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import NavLink from 'react-bootstrap/NavLink'
 import { toast } from 'react-toastify'
 import { signOutUser } from './sign/serverActions'
-import type { Session } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 import { logo } from '@/theme'
 
-export default function Header() {
-	const parsedCookie: Session | null =
-		typeof window !== 'undefined' && typeof document !== 'undefined'
-			? parseCookie(document.cookie)
-			: null
-
+export default function Header({ user }: { user: User | undefined }) {
 	const [showModal, setShowModal] = useState(false)
 
 	const hideModal = () => {
@@ -42,7 +36,7 @@ export default function Header() {
 
 	return (
 		<>
-			<Navbar expand='md' collapseOnSelect>
+			<Navbar expand='lg' collapseOnSelect>
 				<div className='d-flex align-items-center'>
 					<NavbarBrand as={NextLink} href='/'>
 						<Image alt={logo.alt} src={logo.src} width={logo.width} />
@@ -83,7 +77,7 @@ export default function Header() {
 							Rules
 						</NavLink>
 						<NavLink className='pe-0'>
-							{!parsedCookie?.access_token ? (
+							{!user ? (
 								<Button
 									onClick={() => setShowModal(true)}
 									size='sm'
@@ -97,7 +91,7 @@ export default function Header() {
 								</Button>
 							)}
 						</NavLink>
-						{parsedCookie?.user.user_metadata.admin && (
+						{user?.user_metadata.admin && (
 							<NavLink className='pe-0' href='/admin'>
 								<Button size='sm'>Admin</Button>
 							</NavLink>

@@ -19,8 +19,6 @@ export async function signUpWithEmailAndPassword(data: SignUp) {
 	})
 
 	if (result.error) throw new Error()
-
-	return result.data.user?.id
 }
 
 export async function signInWithEmailAndPassword(data: SignIn) {
@@ -31,11 +29,7 @@ export async function signInWithEmailAndPassword(data: SignIn) {
 		password: data.password
 	})
 
-	console.log(result.data.user)
-
 	if (result.error) throw new Error()
-
-	return result.data.user.id
 }
 
 export async function signOutUser() {

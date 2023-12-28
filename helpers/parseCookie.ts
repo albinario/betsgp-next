@@ -1,9 +1,9 @@
 export function parseCookie(cookie: string) {
 	try {
 		const jsonPart = cookie.split('=')[1]
-		const decodedCookie = decodeURIComponent(jsonPart)
+		const decodedCookie = jsonPart ? decodeURIComponent(jsonPart) : null
 
-		return JSON.parse(decodedCookie)
+		return decodedCookie ? JSON.parse(decodedCookie) : null
 	} catch (error) {
 		return console.error('Failed to parse cookie:', error)
 	}
