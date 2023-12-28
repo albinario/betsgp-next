@@ -57,8 +57,10 @@ CREATE TABLE "riderResults" (
     "riderId" INTEGER NOT NULL,
     "gpId" INTEGER NOT NULL,
     "points" INTEGER NOT NULL DEFAULT 0,
+    "m1" INTEGER,
+    "m2" INTEGER,
+    "m3" INTEGER,
     "races" INTEGER NOT NULL DEFAULT 0,
-    "medal" INTEGER,
 
     CONSTRAINT "riderResults_pkey" PRIMARY KEY ("id")
 );
@@ -103,9 +105,9 @@ CREATE TABLE "userResults" (
     "userId" INTEGER NOT NULL,
     "gpId" INTEGER NOT NULL,
     "points" INTEGER NOT NULL DEFAULT 0,
-    "m1" INTEGER NOT NULL DEFAULT 0,
-    "m2" INTEGER NOT NULL DEFAULT 0,
-    "m3" INTEGER NOT NULL DEFAULT 0,
+    "m1" INTEGER,
+    "m2" INTEGER,
+    "m3" INTEGER,
     "races" INTEGER NOT NULL DEFAULT 0,
     "position" INTEGER,
 
