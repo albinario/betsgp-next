@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { CardImg } from 'react-bootstrap'
 
-export default function RiderImg({ riderId }: { riderId: number }) {
+export default function CardImgRider({ riderId }: { riderId: number }) {
 	const [imgId, setImgId] = useState(riderId)
 
 	return (

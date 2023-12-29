@@ -2,7 +2,7 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
-import RiderImg from '@/components/RiderImg'
+import CardImgRider from './CardImgRider'
 import { getRidersResults } from '@/hooks/useRiders'
 import Link from 'next/link'
 import Card from 'react-bootstrap/Card'
@@ -22,7 +22,7 @@ export default async function Riders() {
 							<Col key={rider.riderId}>
 								<Link href={'/riders/' + rider.riderId}>
 									<Card>
-										<RiderImg riderId={rider.riderId} />
+										<CardImgRider riderId={rider.riderId} />
 										<div className='position-absolute p-2 w-100'>
 											<div className='d-flex align-items-center justify-content-between'>
 												<span className='overlay-text'>{rider.rider.name}</span>
@@ -34,11 +34,13 @@ export default async function Riders() {
 											<span className='overlay-text small'>
 												{rider.rider.number}
 											</span>
-											<Medals
-												medals={[rider._sum.m1, rider._sum.m2, rider._sum.m3]}
-											/>
 										</div>
-										<CardBody>
+										<CardBody className='pt-2'>
+											<div style={{ minHeight: '22px' }}>
+												<Medals
+													medals={[rider._sum.m1, rider._sum.m2, rider._sum.m3]}
+												/>
+											</div>
 											<CardBodyRow title={'Points'} value={rider._sum.points} />
 											<CardBodyRow title={'Races'} value={rider._sum.races} />
 										</CardBody>
