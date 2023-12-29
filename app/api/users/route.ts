@@ -3,7 +3,7 @@ import prisma from '../../../prisma/client'
 import { getUsers } from '@/hooks/useUsers'
 
 export async function GET(req: NextRequest) {
-	const users = getUsers()
+	const users = await getUsers()
 
 	return NextResponse.json(users)
 }

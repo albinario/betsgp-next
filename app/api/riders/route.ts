@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getRidersResults, getRiders } from '@/hooks/useRiders'
+import { getRidersResults } from '@/hooks/useRiders'
 
 export async function GET(req: NextRequest) {
 	const riders = await getRidersResults(2023)
