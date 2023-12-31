@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { Envelope, User } from '@/icons'
+import { Envelope, Lock } from '@/icons'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
@@ -16,7 +16,7 @@ import { toast } from 'react-toastify'
 import { signUpWithEmailAndPassword } from './serverActions'
 import type { Form as TForm, SignUp } from '@/types/Auth.types'
 
-export default function SignUpForm({
+export default function SignUp({
 	hideModal,
 	setForm
 }: {
@@ -52,8 +52,8 @@ export default function SignUpForm({
 				<ModalTitle>Sign up</ModalTitle>
 			</ModalHeader>
 			<ModalBody>
-				<Form onSubmit={handleSubmit(handleSignUp)}>
-					<FormGroup className='d-flex mb-2'>
+				<Form className='d-grid gap-2' onSubmit={handleSubmit(handleSignUp)}>
+					<FormGroup className='d-flex'>
 						<FormControl
 							className={classNames('me-1', {
 								'missing-border': errors.firstName
@@ -72,7 +72,7 @@ export default function SignUpForm({
 						/>
 					</FormGroup>
 
-					<InputGroup className='mb-2'>
+					<InputGroup>
 						<InputGroupText>
 							<Envelope />
 						</InputGroupText>
@@ -86,9 +86,9 @@ export default function SignUpForm({
 						/>
 					</InputGroup>
 
-					<InputGroup className='mb-2'>
+					<InputGroup>
 						<InputGroupText>
-							<User />
+							<Lock />
 						</InputGroupText>
 						<FormControl
 							autoComplete='new-password'
@@ -112,11 +112,9 @@ export default function SignUpForm({
 						</div>
 					)}
 
-					<FormGroup className='d-grid'>
-						<Button disabled={isSubmitting} type='submit' variant='success'>
-							{isSubmitting ? 'Signing up...' : 'Sign up'}
-						</Button>
-					</FormGroup>
+					<Button disabled={isSubmitting} type='submit' variant='success'>
+						{isSubmitting ? 'Signing up...' : 'Sign up'}
+					</Button>
 				</Form>
 			</ModalBody>
 

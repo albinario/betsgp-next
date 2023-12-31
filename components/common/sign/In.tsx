@@ -1,10 +1,9 @@
 import classNames from 'classnames'
-import { Envelope, User } from '@/icons'
+import { Envelope, Lock } from '@/icons'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import FormControl from 'react-bootstrap/FormControl'
-import FormGroup from 'react-bootstrap/FormGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -16,7 +15,7 @@ import { toast } from 'react-toastify'
 import { signInWithEmailAndPassword } from './serverActions'
 import type { Form as TForm, SignIn } from '@/types/Auth.types'
 
-export default function SignInForm({
+export default function SignIn({
 	hideModal,
 	setForm
 }: {
@@ -52,8 +51,8 @@ export default function SignInForm({
 				<ModalTitle>Sign in</ModalTitle>
 			</ModalHeader>
 			<ModalBody>
-				<Form onSubmit={handleSubmit(handleSignIn)}>
-					<InputGroup className='mb-2'>
+				<Form className='d-grid gap-2' onSubmit={handleSubmit(handleSignIn)}>
+					<InputGroup>
 						<InputGroupText>
 							<Envelope />
 						</InputGroupText>
@@ -67,9 +66,9 @@ export default function SignInForm({
 						/>
 					</InputGroup>
 
-					<InputGroup className='mb-2'>
+					<InputGroup>
 						<InputGroupText>
-							<User />
+							<Lock />
 						</InputGroupText>
 						<FormControl
 							autoComplete='new-password'
@@ -93,11 +92,9 @@ export default function SignInForm({
 						</div>
 					)}
 
-					<FormGroup className='d-grid'>
-						<Button disabled={isSubmitting} type='submit' variant='success'>
-							{isSubmitting ? 'Signing in...' : 'Sign in'}
-						</Button>
-					</FormGroup>
+					<Button disabled={isSubmitting} type='submit' variant='success'>
+						{isSubmitting ? 'Signing in...' : 'Sign in'}
+					</Button>
 				</Form>
 			</ModalBody>
 

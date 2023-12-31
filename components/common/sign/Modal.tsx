@@ -1,9 +1,9 @@
 'use client'
-import SignInForm from './InForm'
-import SignUpForm from './UpForm'
+import SignIn from './In'
+import SignUp from './Up'
+import ResetPassword from './ResetPassword'
 import { useState } from 'react'
-import type { Form, SignIn, SignUp } from '@/types/Auth.types'
-import ResetPasswordForm from './ResetPasswordForm'
+import type { Form } from '@/types/Auth.types'
 
 export default function SignModal({ hideModal }: { hideModal: () => void }) {
 	const [form, setForm] = useState<Form>('in')
@@ -13,10 +13,10 @@ export default function SignModal({ hideModal }: { hideModal: () => void }) {
 	}
 
 	return form === 'up' ? (
-		<SignUpForm hideModal={hideModal} setForm={_setForm} />
+		<SignUp hideModal={hideModal} setForm={_setForm} />
 	) : form === 'reset' ? (
-		<ResetPasswordForm hideModal={hideModal} setForm={_setForm} />
+		<ResetPassword hideModal={hideModal} setForm={_setForm} />
 	) : (
-		<SignInForm hideModal={hideModal} setForm={_setForm} />
+		<SignIn hideModal={hideModal} setForm={_setForm} />
 	)
 }

@@ -3,7 +3,6 @@ import { Envelope } from '@/icons'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import FormGroup from 'react-bootstrap/FormGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
 import InputGroupText from 'react-bootstrap/esm/InputGroupText'
 import ModalBody from 'react-bootstrap/ModalBody'
@@ -15,7 +14,7 @@ import { toast } from 'react-toastify'
 import { resetPassword } from './serverActions'
 import type { Form as TForm, ResetPassword } from '@/types/Auth.types'
 
-export default function ResetPasswordForm({
+export default function ResetPassword({
 	hideModal,
 	setForm
 }: {
@@ -53,8 +52,11 @@ export default function ResetPasswordForm({
 				<ModalTitle>Reset password</ModalTitle>
 			</ModalHeader>
 			<ModalBody>
-				<Form onSubmit={handleSubmit(handleResetPassword)}>
-					<InputGroup className='mb-2'>
+				<Form
+					className='d-grid gap-2'
+					onSubmit={handleSubmit(handleResetPassword)}
+				>
+					<InputGroup>
 						<InputGroupText>
 							<Envelope />
 						</InputGroupText>
@@ -68,11 +70,9 @@ export default function ResetPasswordForm({
 						/>
 					</InputGroup>
 
-					<FormGroup className='d-grid'>
-						<Button disabled={isSubmitting} type='submit' variant='success'>
-							{isSubmitting ? 'Resetting password...' : 'Reset password'}
-						</Button>
-					</FormGroup>
+					<Button disabled={isSubmitting} type='submit' variant='success'>
+						{isSubmitting ? 'Resetting password...' : 'Reset password'}
+					</Button>
 				</Form>
 			</ModalBody>
 
