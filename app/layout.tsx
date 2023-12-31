@@ -19,6 +19,7 @@ export default async function RootLayout({
 	children: React.ReactNode
 }) {
 	const session = await readSession()
+	// console.log(session)
 
 	return (
 		<html lang='en' data-bs-theme='dark'>
