@@ -44,7 +44,7 @@ export const getGps = async (year: number) => {
 					}
 				},
 				orderBy: {
-					position: 'asc'
+					pos: 'asc'
 				}
 			}
 		}
