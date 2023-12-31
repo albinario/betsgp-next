@@ -8,7 +8,7 @@ datasource db {
 }
 
 model activity {
-  id        Int       @id @default(autoincrement()) @unique
+  id        Int       @id @default(autoincrement())
   dateTime  DateTime  @default(now())
   userId    Int
   user      user      @relation(fields: [userId], references: [id])
@@ -18,7 +18,7 @@ model activity {
 }
 
 model city {
-  id        Int     @id @default(autoincrement()) @unique
+  id        Int     @id @default(autoincrement())
   name      String
   nationId  Int
   nation    nation  @relation(fields: [nationId], references: [id])
@@ -27,7 +27,7 @@ model city {
 }
 
 model gp {
-  id            Int       @id @default(autoincrement()) @unique
+  id            Int       @id @default(autoincrement())
   gp            Int
   cityId        Int
   city          city      @relation(fields: [cityId], references: [id])
@@ -42,7 +42,7 @@ model gp {
 }
 
 model nation {
-  id      Int     @id @default(autoincrement()) @unique
+  id      Int     @id @default(autoincrement())
   name    String
   code    String
   cities  city[]
@@ -51,7 +51,7 @@ model nation {
 }
 
 model rider {
-  id            Int     @id @default(autoincrement()) @unique
+  id            Int     @id @default(autoincrement())
   name          String
   number        Int
   nationId      Int
@@ -64,7 +64,7 @@ model rider {
 }
 
 model riderResult {
-  id      Int   @id @default(autoincrement()) @unique
+  id      Int   @id @default(autoincrement())
   riderId Int
   rider   rider @relation(fields: [riderId], references: [id])
   gpId    Int
@@ -78,7 +78,7 @@ model riderResult {
 }
 
 model user {
-  id            Int       @id @default(autoincrement()) @unique
+  id            Int       @id @default(autoincrement())
   firstName     String
   lastName      String
   email         String    @unique
@@ -95,19 +95,19 @@ model user {
 }
 
 model userPick {
-  id          Int       @id @default(autoincrement()) @unique
-  userId      Int
-  user        user      @relation(fields: [userId], references: [id])
-  gpId        Int
-  gp          gp        @relation(fields: [gpId], references: [id])
-  dateCreated DateTime  @default(now())
-  dateUpdated DateTime  @updatedAt
-  picks       pick[]
+  id      Int       @id @default(autoincrement())
+  userId  Int
+  user    user      @relation(fields: [userId], references: [id])
+  gpId    Int
+  gp      gp        @relation(fields: [gpId], references: [id])
+  created DateTime  @default(now())
+  updated DateTime  @updatedAt
+  picks   pick[]
 	@@map("userPicks")
 }
 
 model pick {
-  id          Int       @id @default(autoincrement()) @unique
+  id          Int       @id @default(autoincrement())
   userPickId  Int
   user        userPick  @relation(fields: [userPickId], references: [id])
   riderId     Int
@@ -116,37 +116,37 @@ model pick {
 }
 
 model userResult {
-  id        Int   @id @default(autoincrement()) @unique
-  userId    Int
-  user      user  @relation(fields: [userId], references: [id])
-  gpId      Int
-  gp        gp    @relation(fields: [gpId], references: [id])
-  points    Int   @default(0)
-  m1        Int?
-  m2        Int?
-  m3        Int?
-  races     Int   @default(0)
-  position  Int?
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  user    user  @relation(fields: [userId], references: [id])
+  gpId    Int
+  gp      gp    @relation(fields: [gpId], references: [id])
+  points  Int   @default(0)
+  m1      Int?
+  m2      Int?
+  m3      Int?
+  races   Int   @default(0)
+  pos     Int?
 	@@map("userResults")
 }
 
 model userStanding {
-  id            Int   @id @default(autoincrement()) @unique
-  userId        Int
-  user          user  @relation(fields: [userId], references: [id])
-  year          Int
-  points        Int   @default(0)
-  m1            Int   @default(0)
-  m2            Int   @default(0)
-  m3            Int   @default(0)
-  races         Int   @default(0)
-  position      Int?
-  prevPosition  Int?
+  id      Int   @id @default(autoincrement())
+  userId  Int
+  user    user  @relation(fields: [userId], references: [id])
+  year    Int
+  points  Int   @default(0)
+  m1      Int?
+  m2      Int?
+  m3      Int?
+  races   Int   @default(0)
+  pos     Int?
+  prevPos Int?
 	@@map("userStandings")
 }
 
 model userStar {
-  id      Int   @id @default(autoincrement()) @unique
+  id      Int   @id @default(autoincrement())
   userId  Int
   user    user  @relation(fields: [userId], references: [id])
   year    Int
