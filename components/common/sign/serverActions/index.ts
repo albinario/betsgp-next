@@ -18,6 +18,8 @@ export async function signUpWithEmailAndPassword(data: SignUp) {
 		password: data.password
 	})
 
+	// TODO: create logic for adding / updating user in postgres
+
 	if (result.error) throw new Error()
 }
 

@@ -1,7 +1,12 @@
 'use server'
 import createSupabaseServerClient from '../serverClient'
 
-export default async function readUserSession() {
+export async function readSession() {
 	const supabase = await createSupabaseServerClient()
 	return supabase.auth.getSession()
+}
+
+export async function readUser(token: string) {
+	const supabase = await createSupabaseServerClient()
+	return supabase.auth.getUser(token)
 }

@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
 import { metadata as meta } from '@/theme'
-import readUserSession from '@/supabase/actions'
+import { readSession } from '@/supabase/actions'
 
 export const metadata: Metadata = {
 	title: meta.title,
@@ -18,7 +18,7 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const session = await readUserSession()
+	const session = await readSession()
 
 	return (
 		<html lang='en' data-bs-theme='dark'>

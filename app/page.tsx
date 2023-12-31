@@ -1,8 +1,8 @@
 import { getUser } from '@/hooks/useUsers'
-import readUserSession from '@/supabase/actions'
+import { readSession } from '@/supabase/actions'
 
 export default async function Home() {
-	const session = await readUserSession()
+	const session = await readSession()
 
 	const user = session.data.session?.user
 
