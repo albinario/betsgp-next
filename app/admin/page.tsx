@@ -1,8 +1,8 @@
-import AnimationWrapper from '@/components/AnimationWrapper'
-import Row from 'react-bootstrap/Row'
 import AddCity from './AddCity'
 import AddNation from './AddNation'
+import AnimationWrapper from '@/components/AnimationWrapper'
 import { getNations } from '@/prisma/service'
+import Row from 'react-bootstrap/Row'
 
 export default async function Admin() {
 	const nations = await getNations()
