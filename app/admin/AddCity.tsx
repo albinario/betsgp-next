@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { postToApi } from '@/service'
 
 type CityNew = {
 	name: string
@@ -33,21 +34,16 @@ export default function AddCity({
 		formState: { errors }
 	} = useForm<CityNew>()
 
-	const onAddCity: SubmitHandler<CityNew> = async (data: CityNew) => {
+	const onSubmit: SubmitHandler<CityNew> = async (data: CityNew) => {
 		try {
 			setIsSubmitting(true)
 
-			await fetch('api/cities', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${token}`
-				},
-				body: JSON.stringify({
-					name: data.name,
-					nationId: Number(data.nationId)
-				})
-			})
+			const cityNew: CityNew = {
+				name: data.name,
+				nationId: Number(data.nationId)
+			}
+
+			await postToApi<CityNew>(cityNew, 'cities', token)
 
 			toast.success('City added')
 		} catch (error) {
@@ -60,9 +56,9 @@ export default function AddCity({
 	return (
 		<Col>
 			<Card>
-				<CardHeader>Add city</CardHeader>
+				<CardHeader>City</CardHeader>
 				<CardBody>
-					<Form className='d-grid gap-2' onSubmit={handleSubmit(onAddCity)}>
+					<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
 						<FormControl
 							{...register('name', { required: true })}
 							className={classNames('me-1', {

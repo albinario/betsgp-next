@@ -10,9 +10,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
 	const data = await req.json()
 
-	console.log(data)
-
-	// await prisma.nation.create({ data })
+	await prisma.nation.create({ data })
 
 	return new NextResponse('Nation created')
 }

@@ -16,7 +16,6 @@ export async function middleware(req: NextRequest) {
 	if (pathname.startsWith('/api') && req.method === 'POST') {
 		try {
 			const authHeader = req.headers.get('Authorization')
-
 			if (!authHeader) throw new Error('No auth header')
 
 			const [authSchema, token] = authHeader.split(' ')
@@ -24,8 +23,7 @@ export async function middleware(req: NextRequest) {
 				throw new Error('Auth is not bearer')
 
 			const { data, error } = await readUser(token)
-			if (error) throw error && console.error(error)
-
+			if (error) throw error
 			if (!data.user) throw new Error('User not found')
 		} catch (error) {
 			return new NextResponse(

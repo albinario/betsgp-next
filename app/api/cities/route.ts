@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import prisma from '../../../prisma/client'
-import { readUser } from '@/supabase/actions'
 
 export async function GET(req: NextRequest) {
 	const cities = await prisma.city.findMany()
@@ -10,6 +9,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
 	const data = await req.json()
+
 	await prisma.city.create({ data })
 
 	return new NextResponse('City added')
