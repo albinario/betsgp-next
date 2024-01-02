@@ -1,19 +1,15 @@
+import AnimationWrapper from '@/components/AnimationWrapper'
 import { Star } from '@/icons'
-import prisma from '../../prisma/client'
+import Link from 'next/link'
+import { getUserStars } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import Link from 'next/link'
-import AnimationWrapper from '@/components/AnimationWrapper'
 
 export default async function HallOfFame() {
-	const stars = await prisma.userStar.findMany({
-		include: {
-			user: true
-		}
-	})
+	const stars = await getUserStars()
 
 	const years = stars.reduce<number[]>((uniqueYears, item) => {
 		if (!uniqueYears.includes(item.year)) {

@@ -2,5 +2,9 @@
 import prisma from '@/prisma/client'
 
 export const getUserStars = async () => {
-	return await prisma.userStar.findMany()
+	return await prisma.userStar.findMany({
+		include: {
+			user: true
+		}
+	})
 }
