@@ -7,7 +7,7 @@ export default function Medals({ medals }: { medals: (number | null)[] }) {
 	medals.forEach((medal, index) => {
 		if (medal) {
 			for (let i = 0; i < medal; i++) {
-				medalsElement.push(<Medal type={index + 1} />)
+				medalsElement.push(<Medal key={medal + index} type={index + 1} />)
 			}
 		}
 	})
