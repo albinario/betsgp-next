@@ -1,25 +1,26 @@
 import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
+import CardImgRider from './CardImgRider'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
-import CardImgRider from './CardImgRider'
-import { getRidersResults } from '@/hooks/useRiders'
 import Link from 'next/link'
+import { getRiderResults } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import { Fragment } from 'react'
 
 export default async function Riders() {
-	const riders = await getRidersResults(2023)
+	const riders = await getRiderResults(2023)
 
 	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
 				{riders.map((rider) => (
-					<>
+					<Fragment key={rider.riderId}>
 						{rider.rider && (
-							<Col key={rider.riderId}>
+							<Col>
 								<Link href={'/riders/' + rider.riderId}>
 									<Card>
 										<CardImgRider riderId={rider.riderId} />
@@ -48,7 +49,7 @@ export default async function Riders() {
 								</Link>
 							</Col>
 						)}
-					</>
+					</Fragment>
 				))}
 			</Row>
 		</AnimationWrapper>

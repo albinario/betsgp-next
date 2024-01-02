@@ -1,5 +1,6 @@
 'use client'
 import classNames from 'classnames'
+import { createNation } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
@@ -11,14 +12,9 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { postToApi } from '@/service'
+import type { NationNew } from '@/types/Data.types'
 
-type NationNew = {
-	name: string
-	code: string
-}
-
-export default function AddNation({ token }: { token?: string }) {
+export default function AddNation() {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const {
@@ -31,7 +27,7 @@ export default function AddNation({ token }: { token?: string }) {
 		try {
 			setIsSubmitting(true)
 
-			await postToApi<NationNew>(data, 'nations', token)
+			await createNation(data)
 
 			toast.success('Nation added')
 		} catch (error) {
@@ -45,7 +41,7 @@ export default function AddNation({ token }: { token?: string }) {
 		<Col>
 			<Card>
 				<CardHeader>Nation</CardHeader>
-				<CardBody>
+				<CardBody className='p-2'>
 					<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
 						<Row>
 							<Col xs={8} className='pe-1'>

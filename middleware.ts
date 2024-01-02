@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { readSession, readUser } from './supabase/actions'
+import { readSession, readUser } from './supabase/service'
 
 export async function middleware(req: NextRequest) {
 	const { pathname } = req.nextUrl

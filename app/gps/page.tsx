@@ -1,13 +1,13 @@
 import AnimationWrapper from '@/components/AnimationWrapper'
 import Flag from '@/components/Flag'
 import getLocalDateTime from '@/helpers/getDateTime'
-import { getGps } from '@/hooks/useGps'
+import Link from 'next/link'
+import { getGps } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardImg from 'react-bootstrap/CardImg'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import Link from 'next/link'
 
 export default async function Riders() {
 	const gps = await getGps(2023)

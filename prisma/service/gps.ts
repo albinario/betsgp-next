@@ -1,3 +1,4 @@
+'use server'
 import prisma from '@/prisma/client'
 
 export const getGps = async (year: number) => {

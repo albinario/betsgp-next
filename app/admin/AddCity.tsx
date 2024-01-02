@@ -1,6 +1,7 @@
 'use client'
 import classNames from 'classnames'
 import type { nation } from '@prisma/client'
+import { createCity } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
@@ -12,20 +13,9 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { postToApi } from '@/service'
+import type { CityNew } from '@/types/Data.types'
 
-type CityNew = {
-	name: string
-	nationId: number
-}
-
-export default function AddCity({
-	nations,
-	token
-}: {
-	nations?: nation[]
-	token?: string
-}) {
+export default function AddCity({ nations }: { nations?: nation[] }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const {
@@ -43,7 +33,7 @@ export default function AddCity({
 				nationId: Number(data.nationId)
 			}
 
-			await postToApi<CityNew>(cityNew, 'cities', token)
+			await createCity(cityNew)
 
 			toast.success('City added')
 		} catch (error) {
@@ -57,7 +47,7 @@ export default function AddCity({
 		<Col>
 			<Card>
 				<CardHeader>City</CardHeader>
-				<CardBody>
+				<CardBody className='p-2'>
 					<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
 						<FormControl
 							{...register('name', { required: true })}
