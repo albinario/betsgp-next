@@ -13,7 +13,7 @@ import NavbarToggle from 'react-bootstrap/NavbarToggle'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import NavLink from 'react-bootstrap/NavLink'
 import { toast } from 'react-toastify'
-import { signOutUser } from './sign/serverActions'
+import { signOutUser } from './sign/service'
 import type { User } from '@supabase/supabase-js'
 import { logo } from '@/theme'
 

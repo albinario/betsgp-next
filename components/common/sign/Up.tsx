@@ -13,7 +13,7 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { signUpWithEmailAndPassword } from './serverActions'
+import { signUpWithEmailAndPassword } from './service'
 import type { Form as TForm, SignUp } from '@/types/Auth.types'
 
 export default function SignUp({

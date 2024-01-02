@@ -11,7 +11,7 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { resetPassword } from './serverActions'
+import { resetPassword } from './service'
 import type { Form as TForm, ResetPassword } from '@/types/Auth.types'
 
 export default function ResetPassword({
