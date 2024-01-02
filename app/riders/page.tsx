@@ -1,15 +1,15 @@
 import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
-import CardImgRider from './CardImgRider'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
 import Link from 'next/link'
 import { getRiderResults } from '@/prisma/service'
+import { Fragment } from 'react'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
+import CardImg from 'react-bootstrap/CardImg'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { Fragment } from 'react'
 
 export default async function Riders() {
 	const riders = await getRiderResults(2023)
@@ -17,13 +17,16 @@ export default async function Riders() {
 	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
-				{riders.map((rider) => (
+				{riders?.map((rider) => (
 					<Fragment key={rider.riderId}>
 						{rider.rider && (
 							<Col>
 								<Link href={'/riders/' + rider.riderId}>
 									<Card>
-										<CardImgRider riderId={rider.riderId} />
+										<CardImg
+											src={`/riders/${rider.riderId}.jpg`}
+											variant='top'
+										/>
 										<div className='position-absolute p-2 w-100'>
 											<div className='d-flex align-items-center justify-content-between'>
 												<span className='overlay-text'>{rider.rider.name}</span>
@@ -36,7 +39,7 @@ export default async function Riders() {
 												{rider.rider.number}
 											</span>
 										</div>
-										<CardBody className='pt-2'>
+										<CardBody className='p-2'>
 											<div style={{ minHeight: '22px' }}>
 												<Medals
 													medals={[rider._sum.m1, rider._sum.m2, rider._sum.m3]}
