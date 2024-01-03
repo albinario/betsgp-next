@@ -13,5 +13,7 @@ export const logo = {
 export const colors = {
 	gold: '#ffd700',
 	silver: '#c0c0c0',
-	bronze: '#cd7f32'
+	bronze: '#cd7f32',
+	green: '#5cb85c',
+	red: '#d9534f'
 }
