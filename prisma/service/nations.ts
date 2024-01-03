@@ -1,6 +1,6 @@
 'use server'
 import prisma from '@/prisma/client'
-import type { NationNew } from '@/types/Data.types'
+import type { NationNew } from '@/types'
 
 export const createNation = async (data: NationNew) => {
 	await prisma.nation.create({ data })

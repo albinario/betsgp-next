@@ -13,7 +13,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import type { CityNew } from '@/types/Data.types'
+import type { CityNew } from '@/types'
 
 export default function AddCity({ nations }: { nations?: nation[] }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)

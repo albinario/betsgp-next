@@ -14,7 +14,7 @@ import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { signUpWithEmailAndPassword } from './service'
-import type { Form as TForm, SignUp } from '@/types/Auth.types'
+import type { Form as TForm, SignUp } from '@/types'
 
 export default function SignUp({
 	hideModal,

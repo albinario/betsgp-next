@@ -12,7 +12,7 @@ import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import type { NationNew } from '@/types/Data.types'
+import type { NationNew } from '@/types'
 
 export default function AddNation() {
 	const [isSubmitting, setIsSubmitting] = useState(false)

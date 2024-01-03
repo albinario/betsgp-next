@@ -12,7 +12,7 @@ import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { resetPassword } from './service'
-import type { Form as TForm, ResetPassword } from '@/types/Auth.types'
+import type { Form as TForm, ResetPassword } from '@/types'
 
 export default function ResetPassword({
 	hideModal,

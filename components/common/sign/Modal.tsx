@@ -3,7 +3,7 @@ import SignIn from './In'
 import SignUp from './Up'
 import ResetPassword from './ResetPassword'
 import { useState } from 'react'
-import type { Form } from '@/types/Auth.types'
+import type { Form } from '@/types'
 
 export default function SignModal({ hideModal }: { hideModal: () => void }) {
 	const [form, setForm] = useState<Form>('in')

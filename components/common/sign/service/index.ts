@@ -1,6 +1,6 @@
 'use server'
 import createSupabaseServerClient from '@/supabase/serverClient'
-import { ResetPassword, SignIn, SignUp } from '@/types/Auth.types'
+import type { ResetPassword, SignIn, SignUp } from '@/types'
 
 export async function resetPassword(data: ResetPassword) {
 	const supabase = await createSupabaseServerClient()
