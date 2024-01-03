@@ -1,21 +1,19 @@
 import classNames from 'classnames'
 import { Arrow, Medal } from '@/icons'
+import { getUserStandings } from '@/prisma/service'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
-import type { UserStanding } from '@/types'
 
-export default function TotalStandings({
-	userStandings
-}: {
-	userStandings: UserStanding[]
-}) {
+export default async function UserStandings() {
+	const userStandings = await getUserStandings(2023)
+
 	return (
 		<Col>
 			<Card>
 				<CardHeader className='text-center'>Total standings</CardHeader>
-				<Table size='sm' borderless hover striped className='text-center p-1'>
+				<Table borderless className='p-1 text-center' hover size='sm' striped>
 					<thead>
 						<tr>
 							<th></th>
@@ -32,8 +30,8 @@ export default function TotalStandings({
 					<tbody>
 						{userStandings.map((user) => (
 							<tr key={user.id}>
-								<td className='text-end'>
-									{user.pos}{' '}
+								<td className='d-flex align-items-center justify-content-end '>
+									{user.pos}
 									{user.pos && user.prevPos && (
 										<Arrow diff={user.prevPos - user.pos} />
 									)}
@@ -42,15 +40,11 @@ export default function TotalStandings({
 									{user.user.firstName} {user.user.lastName}
 								</td>
 								<td>{user.points}</td>
-								<td className={classNames({ 'text-muted': !user.m1 })}>
-									{user.m1}
-								</td>
-								<td className={classNames({ 'text-muted': !user.m2 })}>
-									{user.m2}
-								</td>
-								<td className={classNames({ 'text-muted': !user.m3 })}>
-									{user.m3}
-								</td>
+								{[user.m1, user.m2, user.m3].map((m, index) => (
+									<td key={index} className={classNames({ 'text-muted': !m })}>
+										{m}
+									</td>
+								))}
 								<td>{user.races}</td>
 							</tr>
 						))}

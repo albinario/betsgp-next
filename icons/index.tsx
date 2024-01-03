@@ -2,9 +2,10 @@ import { colors } from '@/theme'
 
 export const Arrow = ({ diff }: { diff: number }) => (
 	<svg
+		className='ms-1'
 		fill={diff > 0 ? colors.green : colors.red}
-		strokeWidth='0'
 		opacity={diff === 0 ? 0 : 1}
+		strokeWidth='0'
 		transform={diff < 0 ? 'rotate(180)' : ''}
 		viewBox='0 0 16 16'
 		width='11'
