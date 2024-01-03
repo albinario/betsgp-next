@@ -70,9 +70,9 @@ model riderResult {
   gpId    Int
   gp      gp    @relation(fields: [gpId], references: [id])
   points  Int   @default(0)
-  m1      Int?
-  m2      Int?
-  m3      Int?
+  m1      Int   @default(0)
+  m2      Int   @default(0)
+  m3      Int   @default(0)
   races   Int   @default(0)
 	@@map("riderResults")
 }
@@ -122,9 +122,9 @@ model userResult {
   gpId    Int
   gp      gp    @relation(fields: [gpId], references: [id])
   points  Int   @default(0)
-  m1      Int?
-  m2      Int?
-  m3      Int?
+  m1      Int   @default(0)
+  m2      Int   @default(0)
+  m3      Int   @default(0)
   races   Int   @default(0)
   pos     Int?
 	@@map("userResults")
@@ -136,9 +136,9 @@ model userStanding {
   user    user  @relation(fields: [userId], references: [id])
   year    Int
   points  Int   @default(0)
-  m1      Int?
-  m2      Int?
-  m3      Int?
+  m1      Int   @default(0)
+  m2      Int   @default(0)
+  m3      Int   @default(0)
   races   Int   @default(0)
   pos     Int?
   prevPos Int?
