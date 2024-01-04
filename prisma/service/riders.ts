@@ -15,6 +15,21 @@ export const getRider = async (id: number, year = 2023) => {
 							lte: new Date(`${year}-12-31`)
 						}
 					}
+				},
+				include: {
+					gp: {
+						include: {
+							city: {
+								include: {
+									nation: true
+								}
+							},
+							userPicks: true
+						}
+					}
+				},
+				orderBy: {
+					gpId: 'desc'
 				}
 			}
 		}

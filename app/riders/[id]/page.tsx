@@ -1,13 +1,13 @@
-import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
-import Flag from '@/components/Flag'
+import GPCardHeader from '@/components/GPCardHeader'
 import Medals from '@/components/Medals'
+import { Medal } from '@/icons'
 import { getRider } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
-import CardImg from 'react-bootstrap/CardImg'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import RiderCardHeader from '../RiderCardHeader copy'
 
 export default async function Rider({ params }: { params: { id: string } }) {
 	const rider = params.id ? await getRider(Number(params.id)) : null
@@ -18,46 +18,57 @@ export default async function Rider({ params }: { params: { id: string } }) {
 	const racesTotal =
 		rider?.riderResults.reduce((acc, obj) => acc + obj.races, 0) || 0
 
-	const m1Total =
-		rider?.riderResults.reduce((acc, obj) => {
-			if (obj.m1) return acc + obj.m1
-			return acc
-		}, 0) || 0
-
-	const m2Total =
-		rider?.riderResults.reduce((acc, obj) => {
-			if (obj.m2) return acc + obj.m2
-			return acc
-		}, 0) || 0
-
-	const m3Total =
-		rider?.riderResults.reduce((acc, obj) => {
-			if (obj.m3) return acc + obj.m3
-			return acc
-		}, 0) || 0
+	const m1Total = rider?.riderResults.reduce((acc, obj) => acc + obj.m1, 0) || 0
+	const m2Total = rider?.riderResults.reduce((acc, obj) => acc + obj.m2, 0) || 0
+	const m3Total = rider?.riderResults.reduce((acc, obj) => acc + obj.m3, 0) || 0
 
 	return rider ? (
-		<AnimationWrapper>
-			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
-				<Col>
-					<Card>
-						<CardImg src={`/riders/${rider.id}.jpg`} variant='top' />
-						<div className='position-absolute p-2 w-100'>
-							<div className='d-flex align-items-center justify-content-between'>
-								<span className='overlay-text'>{rider.name}</span>
-								<Flag height={'1.5em'} nationCode={rider.nation.code} />
-							</div>
-							<span className='overlay-text small'>{rider.number}</span>
-						</div>
-						<CardBody className='p-2'>
-							<Medals medals={[m1Total, m2Total, m3Total]} />
-							<CardBodyRow title={'Points'} value={pointsTotal} />
-							<CardBodyRow title={'Races'} value={racesTotal} />
-						</CardBody>
-					</Card>
-				</Col>
-			</Row>
-		</AnimationWrapper>
+		<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
+			<Col>
+				<Card>
+					<RiderCardHeader
+						riderId={rider.id}
+						riderName={rider.name}
+						nationCode={rider.nation.code}
+						number={rider.number}
+					/>
+					<CardBody className='p-2'>
+						<Medals medals={[m1Total, m2Total, m3Total]} />
+						<CardBodyRow title={'Points'} value={pointsTotal} />
+						<CardBodyRow title={'Races'} value={racesTotal} />
+					</CardBody>
+				</Card>
+			</Col>
+			{rider.riderResults.map((res) => {
+				return (
+					<Col key={res.gpId}>
+						<Card>
+							<GPCardHeader
+								cityId={res.gp.cityId}
+								cityName={res.gp.city.name}
+								nationCode={res.gp.city.nation.code}
+								dateTime={res.gp.dateTime}
+								round={res.gp.gp}
+								rounds={10}
+							/>
+
+							<CardBody className='p-2'>
+								<div className='d-flex justify-content-between'>
+									<span>Points</span>
+									<span className='d-flex align-items-center'>
+										{res.m1 !== 0 && <Medal type={1} />}
+										{res.m2 !== 0 && <Medal type={2} />}
+										{res.m3 !== 0 && <Medal type={3} />}
+										<span className='ms-1'>{res.points}</span>
+									</span>
+								</div>
+								<CardBodyRow title={'Races'} value={res.races}></CardBodyRow>
+							</CardBody>
+						</Card>
+					</Col>
+				)
+			})}
+		</Row>
 	) : (
 		<div>Loading rider...</div>
 	)

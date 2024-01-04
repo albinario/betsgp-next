@@ -33,7 +33,7 @@ export const getGps = async (year: number) => {
 					nation: true
 				}
 			},
-			usersResults: {
+			userResults: {
 				include: {
 					user: {
 						select: {
