@@ -7,7 +7,7 @@ import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import RiderCardHeader from './RiderCardHeader copy'
+import RiderCardHeader from '../../components/RiderCardHeader'
 
 export default async function Riders() {
 	const riders = await getRiderResults(2023)

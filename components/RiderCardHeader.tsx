@@ -1,4 +1,4 @@
-import Flag from '../../components/Flag'
+import Flag from './Flag'
 import CardImg from 'react-bootstrap/CardImg'
 
 export default function RiderCardHeader({
