@@ -9,12 +9,12 @@ datasource db {
 
 model activity {
   id        Int       @id @default(autoincrement())
-  dateTime  DateTime  @default(now())
   userId    Int
   user      user      @relation(fields: [userId], references: [id])
   gpId      Int
   gp        gp        @relation(fields: [gpId], references: [id])
-  action    String
+  dateTime  DateTime  @default(now())
+  creation  Boolean   @default(true)
 }
 
 model city {
@@ -34,9 +34,9 @@ model gp {
   dateTime      DateTime
   wildCard      Int?
   finished      Boolean   @default(false)
-  userResults  userResult[]
-  userPicks    userPick[]
-  riderResults riderResult[]
+  userResults   userResult[]
+  userPicks     userPick[]
+  riderResults  riderResult[]
   activity      activity[]
 	@@map("gps")
 }
