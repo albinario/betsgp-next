@@ -7,8 +7,8 @@ import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
-export default async function RiderResults() {
-	const riderResults = await getRiderResults(2023)
+export default async function RidersResults() {
+	const ridersResults = await getRiderResults(2023)
 
 	let pos = 0
 	let prev: (number | null)[] = []
@@ -36,7 +36,7 @@ export default async function RiderResults() {
 						</tr>
 					</thead>
 					<tbody>
-						{riderResults.map((rider) => {
+						{ridersResults.map((rider) => {
 							pos++
 
 							const res = [

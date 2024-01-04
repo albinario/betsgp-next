@@ -6,8 +6,8 @@ import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
-export default async function UserStandings() {
-	const userStandings = await getUserStandings(2023)
+export default async function UsersStandings() {
+	const usersStandings = await getUserStandings(2023)
 
 	let prev: number | null = 0
 	let showPos = true
@@ -33,7 +33,7 @@ export default async function UserStandings() {
 						</tr>
 					</thead>
 					<tbody>
-						{userStandings.map((user) => {
+						{usersStandings.map((user) => {
 							showPos = user.pos === prev ? false : true
 							prev = user.pos
 
