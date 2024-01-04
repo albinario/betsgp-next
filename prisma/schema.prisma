@@ -34,9 +34,9 @@ model gp {
   dateTime      DateTime
   wildCard      Int?
   finished      Boolean   @default(false)
-  usersResults  userResult[]
-  usersPicks    userPick[]
-  ridersResults riderResult[]
+  userResults  userResult[]
+  userPicks    userPick[]
+  riderResults riderResult[]
   activity      activity[]
 	@@map("gps")
 }
