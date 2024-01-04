@@ -109,7 +109,7 @@ model userPick {
 model pick {
   id          Int       @id @default(autoincrement())
   userPickId  Int
-  user        userPick  @relation(fields: [userPickId], references: [id])
+  userPick    userPick  @relation(fields: [userPickId], references: [id])
   riderId     Int
   rider       rider     @relation(fields: [riderId], references: [id])
 	@@map("picks")
