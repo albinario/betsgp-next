@@ -1,4 +1,5 @@
 import './globals.css'
+import AnimationWrapper from '@/components/AnimationWrapper'
 import Footer from '@/components/common/Footer'
 import Header from '@/components/common/Header'
 import type { Metadata } from 'next'
@@ -26,7 +27,7 @@ export default async function RootLayout({
 			<body>
 				<Container>
 					<Header user={session.data.session?.user} />
-					{children}
+					<AnimationWrapper>{children}</AnimationWrapper>
 					<Footer />
 				</Container>
 				<ToastContainer
