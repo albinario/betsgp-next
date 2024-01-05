@@ -39,7 +39,7 @@ export default async function UsersStandings() {
 
 							return (
 								<tr key={user.id}>
-									<td className='d-flex align-items-center justify-content-end '>
+									<td className='d-flex align-items-center justify-content-end'>
 										<span className={classNames({ 'opacity-0': !showPos })}>
 											{user.pos}
 										</span>

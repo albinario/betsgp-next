@@ -10,7 +10,7 @@ import Row from 'react-bootstrap/Row'
 import RiderCardHeader from '../../../components/RiderCardHeader'
 
 export default async function Rider({ params }: { params: { id: string } }) {
-	const rider = params.id ? await getRider(Number(params.id)) : null
+	const rider = await getRider(Number(params.id))
 
 	const pointsTotal =
 		rider?.riderResults.reduce((acc, obj) => acc + obj.points, 0) || 0
