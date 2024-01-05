@@ -1,4 +1,4 @@
-import { city, nation } from '@prisma/client'
+import type { city, nation } from '@prisma/client'
 
 export type City = city & {
 	nation: nation

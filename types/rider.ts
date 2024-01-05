@@ -1,10 +1,13 @@
-import { nation, pick, rider, riderResult } from '@prisma/client'
+import type { nation, rider, riderResult, userPick } from '@prisma/client'
 
 export type Rider = rider & {
 	nation: nation
-	picks: pick[]
 }
 
 export type RiderResult = riderResult & {
-	rider: Rider
+	rider: Rider & {
+		pick1s: userPick[]
+		pick2s: userPick[]
+		pick3s: userPick[]
+	}
 }
