@@ -6,7 +6,7 @@ export const getRider = async (id: number, year = 2023) => {
 		where: { id },
 		include: {
 			nation: true,
-			picks: true,
+
 			riderResults: {
 				where: {
 					gp: {

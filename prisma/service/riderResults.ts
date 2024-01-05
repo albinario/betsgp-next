@@ -55,8 +55,7 @@ export const getRiderResults = async (year = 0) => {
 			const rider = await prisma.rider.findUnique({
 				where: { id: result.riderId },
 				include: {
-					nation: true,
-					picks: true
+					nation: true
 				}
 			})
 			return {
