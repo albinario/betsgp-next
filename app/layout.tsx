@@ -4,8 +4,8 @@ import Header from '@/components/layout/Header'
 import type { Metadata } from 'next'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
-import { metadata as meta } from '@/theme'
 import { readSession } from '@/supabase/service'
+import { metadata as meta } from '@/theme'
 
 export const metadata: Metadata = {
 	title: meta.title,
