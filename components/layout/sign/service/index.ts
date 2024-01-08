@@ -1,8 +1,9 @@
 'use server'
+import { createUser } from '@/prisma/service'
 import createSupabaseServerClient from '@/supabase/serverClient'
-import type { ResetPassword, SignIn, SignUp } from '@/types'
+import type { ResetPassword, SignIn, SignUp, UserNew } from '@/types'
 
-export async function resetPassword(data: ResetPassword) {
+export const resetPassword = async (data: ResetPassword) => {
 	const supabase = await createSupabaseServerClient()
 
 	const result = await supabase.auth.resetPasswordForEmail(data.email)
@@ -10,7 +11,7 @@ export async function resetPassword(data: ResetPassword) {
 	if (result.error) throw new Error()
 }
 
-export async function signUpWithEmailAndPassword(data: SignUp) {
+export const signUpWithEmailAndPassword = async (data: SignUp) => {
 	const supabase = await createSupabaseServerClient()
 
 	const result = await supabase.auth.signUp({
@@ -18,12 +19,19 @@ export async function signUpWithEmailAndPassword(data: SignUp) {
 		password: data.password
 	})
 
-	// TODO: create logic for adding / updating user in postgres
+	if (result.error || !result.data.user) throw new Error()
 
-	if (result.error) throw new Error()
+	const userNew: UserNew = {
+		firstName: data.firstName,
+		lastName: data.lastName,
+		email: data.email,
+		uid: result.data.user.id
+	}
+
+	await createUser(userNew)
 }
 
-export async function signInWithEmailAndPassword(data: SignIn) {
+export const signInWithEmailAndPassword = async (data: SignIn) => {
 	const supabase = await createSupabaseServerClient()
 
 	const result = await supabase.auth.signInWithPassword({
@@ -34,7 +42,7 @@ export async function signInWithEmailAndPassword(data: SignIn) {
 	if (result.error) throw new Error()
 }
 
-export async function signOutUser() {
+export const signOutUser = async () => {
 	const supabase = await createSupabaseServerClient()
 
 	const result = await supabase.auth.signOut()

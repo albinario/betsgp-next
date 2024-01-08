@@ -1,5 +1,5 @@
 import { Medal } from '@/icons'
-import { ReactElement } from 'react'
+import type { ReactElement } from 'react'
 
 export default function Medals({ medals }: { medals: (number | null)[] }) {
 	const medalsElement: ReactElement[] = []

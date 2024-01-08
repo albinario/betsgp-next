@@ -1,4 +1,4 @@
-import Flag from './Flag'
+import Flag from '@/components/Flag'
 import getLocalDateTime from '@/helpers/getDateTime'
 import CardImg from 'react-bootstrap/CardImg'
 

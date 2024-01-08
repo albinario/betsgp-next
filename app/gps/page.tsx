@@ -1,13 +1,17 @@
+import classNames from 'classnames'
 import AnimationWrapper from '@/components/AnimationWrapper'
-import GPCardHeader from '@/components/GPCardHeader'
+import GPCardHeader from '@/components/gp/CardHeader'
+import getLocalDateTime from '@/helpers/getDateTime'
+import { Medal, Pick } from '@/icons'
 import Link from 'next/link'
 import { getGps } from '@/prisma/service'
+import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
+import Table from 'react-bootstrap/Table'
 
-export default async function Riders() {
+export default async function GPs() {
 	const gps = await getGps(2023)
 	const gpsTotal = gps.length
 
@@ -16,7 +20,7 @@ export default async function Riders() {
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
 				{gps.map((gp) => (
 					<Col key={gp.id}>
-						<Link href={'gps/' + gp.id}>
+						<Link href={'/gps/' + gp.id}>
 							<Card>
 								<GPCardHeader
 									cityId={gp.cityId}
@@ -26,21 +30,70 @@ export default async function Riders() {
 									round={gp.gp}
 									rounds={gpsTotal}
 								/>
-								<CardBody>
-									{/* {gp.users_results && moment.utc(gp.dateTime) < moment.utc() && (
-									<UsersResultsTable users={gp.users_results.slice(0,3)} />
-								)} */}
 
-									{/* {moment.utc(gp.dateTime) > moment.utc() && (
-									<>
-									<ActivityTable activity={gp.activity} showCity={false} />
+								<Table
+									borderless
+									className='mb-0'
+									hover
+									responsive
+									size='sm'
+									striped
+								>
+									<tbody>
+										{false &&
+											gp.userResults.map((userResult, index) => (
+												<tr key={index}>
+													<td className='text-center'>
+														<span
+															className={classNames({
+																'opacity-0': userResult.pos !== index + 1
+															})}
+														>
+															{userResult.pos}
+														</span>
+													</td>
+													<td>
+														{userResult.user.firstName}{' '}
+														{userResult.user.lastName}
+													</td>
+													<td className='text-end'>
+														{userResult.m1 !== 0 && <Medal type={1} />}
+														{userResult.m2 !== 0 && <Medal type={2} />}
+														{userResult.m3 !== 0 && <Medal type={3} />}
+													</td>
+													<td className='text-center'>{userResult.points}</td>
+												</tr>
+											))}
+										{true &&
+											gp.activity.map((act) => (
+												<tr key={act.id}>
+													<td className='text-center'>
+														<Pick creation={act.creation} />
+													</td>
+													<td>
+														<Link href={'/users/' + act.userId}>
+															{act.user.firstName} {act.user.lastName}
+														</Link>
+													</td>
+													<td className='text-end'>
+														{getLocalDateTime(act.dateTime, true)}
+													</td>
+												</tr>
+											))}
+									</tbody>
+
+									{/* 
 									
 									<Card.Text className='text-center'>
 									{next && <Countdown dateTime={gp.dateTime} />}
 									</Card.Text>
 									</>
 								)} */}
-								</CardBody>
+								</Table>
+
+								<Button className='m-2' size='sm' variant='outline-success'>
+									More
+								</Button>
 							</Card>
 						</Link>
 					</Col>

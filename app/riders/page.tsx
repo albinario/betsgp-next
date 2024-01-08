@@ -1,9 +1,9 @@
 import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
 import Medals from '@/components/Medals'
-import RiderCardHeader from '../../components/RiderCardHeader'
+import RiderCardHeader from '@/components/rider/CardHeader'
 import Link from 'next/link'
-import { getRiderResults } from '@/prisma/service'
+import { getRiderStandings } from '@/prisma/service'
 import { Fragment } from 'react'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
@@ -11,7 +11,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 export default async function Riders() {
-	const riders = await getRiderResults(2023)
+	const riders = await getRiderStandings(2023)
 
 	return (
 		<AnimationWrapper>

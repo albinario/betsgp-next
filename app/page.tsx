@@ -1,18 +1,30 @@
-import { getUser } from '@/prisma/service'
+import UserResults from '@/components/user/Results'
+import UserStandings from '@/components/user/Standings'
+import { getGpLatest, getUser } from '@/prisma/service'
+import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import { readSession } from '@/supabase/service'
 
 export default async function Home() {
-	const session = await readSession()
+	// const session = await readSession()
 
-	const user = session.data.session?.user
+	// const user = session.data.session?.user
 
-	const userDetails = await getUser(user?.id)
+	// const userDetails = user ? await getUser(user.id) : null
 
-	return userDetails ? (
-		<span>
-			{userDetails.firstName} {userDetails.lastName}
-		</span>
-	) : (
-		<span>OUT</span>
+	const gpLatest = await getGpLatest()
+
+	return (
+		<Row className='g-2'>
+			<Col>
+				{/* @ts-expect-error Server Component */}
+				<UserStandings topTen={true} />
+			</Col>
+			<Col>
+				{/* @ts-expect-error Server Component */}
+				{gpLatest && <UserResults gp={gpLatest} topTen={true} />}
+			</Col>
+			<Col lg={2}></Col>
+		</Row>
 	)
 }

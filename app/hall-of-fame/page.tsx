@@ -20,7 +20,7 @@ export default async function HallOfFame() {
 
 	return (
 		<AnimationWrapper>
-			<Row xs={1} sm={2} md={3} lg={4} xl={5} xxl={6} className='g-2'>
+			<Row xs={1} sm={2} md={3} lg={4} className='g-2 text-center'>
 				{years
 					.sort((a, b) => b - a)
 					.map((year) => (

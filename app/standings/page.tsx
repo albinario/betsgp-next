@@ -1,16 +1,21 @@
 import AnimationWrapper from '@/components/AnimationWrapper'
-import RidersResults from './RidersResults'
-import UsersStandings from './UsersStandings'
+import RiderStandings from '@/components/rider/Standings'
+import UserStandings from '@/components/user/Standings'
+import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 export default async function Standings() {
 	return (
 		<AnimationWrapper>
 			<Row xs={1} md={2} className='g-2'>
-				{/* @ts-expect-error Server Component */}
-				<UsersStandings />
-				{/* @ts-expect-error Server Component */}
-				<RidersResults />
+				<Col>
+					{/* @ts-expect-error Server Component */}
+					<UserStandings />
+				</Col>
+				<Col>
+					{/* @ts-expect-error Server Component */}
+					<RiderStandings />
+				</Col>
 			</Row>
 		</AnimationWrapper>
 	)
