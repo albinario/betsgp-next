@@ -1,5 +1,5 @@
 'use server'
-import createSupabaseServerClient from '../serverClient'
+import createSupabaseServerClient from '@/supabase/serverClient'
 
 export async function readSession() {
 	const supabase = await createSupabaseServerClient()
