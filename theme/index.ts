@@ -15,5 +15,6 @@ export const colors = {
 	silver: '#c0c0c0',
 	bronze: '#cd7f32',
 	green: '#5cb85c',
-	red: '#d9534f'
+	red: '#d9534f',
+	yellow: '#f1c40f'
 }
