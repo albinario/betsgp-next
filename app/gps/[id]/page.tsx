@@ -1,3 +1,4 @@
+import AnimationWrapper from '@/components/AnimationWrapper'
 import GPCardHeader from '@/components/GPCardHeader'
 import RidersResults from './RidersResults'
 import UsersResults from './UsersResults'
@@ -11,7 +12,7 @@ export default async function GP({ params }: { params: { id: string } }) {
 	const gp = await getGp(Number(params.id))
 
 	return gp ? (
-		<>
+		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2 mb-2'>
 				<Col>
 					<Card>
@@ -33,7 +34,7 @@ export default async function GP({ params }: { params: { id: string } }) {
 				{/* @ts-expect-error Server Component */}
 				<RidersResults ridersResults={gp.riderResults} />
 			</Row>
-		</>
+		</AnimationWrapper>
 	) : (
 		<div>Loading GP...</div>
 	)
