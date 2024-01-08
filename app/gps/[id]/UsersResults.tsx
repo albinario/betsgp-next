@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import { FlagCheckered, Medal } from '@/icons'
-import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
+import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import type { Rider, UserResult } from '@/types'
 
@@ -15,20 +15,26 @@ export default async function UsersResults({
 	let prev: number | null = 0
 	let showPos = true
 
+	const pickedRiders: number[] = []
+
 	return (
 		<Col>
 			<Card>
-				<CardHeader className='text-center'>Standings</CardHeader>
-				<Table borderless className='p-1 text-center' hover size='sm' striped>
+				<CardHeader className='text-center'>Results</CardHeader>
+				<Table
+					borderless
+					className='p-1 text-center'
+					hover
+					responsive
+					size='sm'
+					striped
+				>
 					<thead>
 						<tr>
-							<th></th>
-							<th></th>
-							<th></th>
+							<th colSpan={4} />
 							<th>
 								P<span className='d-none d-sm-inline'>oin</span>ts
 							</th>
-							<th></th>
 							<th>
 								<FlagCheckered />
 							</th>
@@ -36,7 +42,7 @@ export default async function UsersResults({
 					</thead>
 					<tbody>
 						{usersResults.map((userResult) => {
-							showPos = userResult.pos === prev ? false : true
+							showPos = userResult.pos !== prev
 							prev = userResult.pos
 
 							const picks: Rider[] = [
@@ -55,27 +61,45 @@ export default async function UsersResults({
 									<td className='text-start'>
 										{userResult.user.firstName} {userResult.user.lastName}
 									</td>
-									<td>
-										<div className='d-flex justify-content-center'>
-											{picks
-												.sort((a, b) => a.number - b.number)
-												.map((pick) => (
+									<td className='d-flex justify-content-around'>
+										{picks
+											.sort((a, b) => a.number - b.number)
+											.map((pick, index) => {
+												const unique = !pickedRiders.includes(pick.id)
+												if (unique) pickedRiders.push(pick.id)
+
+												return (
 													<div
 														key={pick.id}
-														className='d-flex align-items-center'
+														style={{ marginRight: index !== 2 ? '2px' : '' }}
 													>
-														<Flag height='.7em' nationCode={pick.nation.code} />
-														<span className='small me-1'>{pick.number}</span>
+														<span
+															className={classNames({ unique })}
+															style={{ paddingBottom: '2px' }}
+														>
+															<Flag
+																height='.7em'
+																nationCode={pick.nation.code}
+															/>
+															<span
+																style={{
+																	fontSize: '.8em',
+																	marginLeft: '2px'
+																}}
+															>
+																{pick.number}
+															</span>
+														</span>
 													</div>
-												))}
-										</div>
+												)
+											})}
 									</td>
-									<td>{userResult.points}</td>
 									<td>
 										{userResult.m1 !== 0 && <Medal type={1} />}
 										{userResult.m2 !== 0 && <Medal type={2} />}
 										{userResult.m3 !== 0 && <Medal type={3} />}
 									</td>
+									<td>{userResult.points}</td>
 									<td>{userResult.races}</td>
 								</tr>
 							)

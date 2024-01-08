@@ -1,12 +1,11 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
-import { FlagCheckered, Medal } from '@/icons'
-import Col from 'react-bootstrap/Col'
+import { FlagCheckered, Medal, Picked } from '@/icons'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
+import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import type { RiderResult, UserPick } from '@/types'
-import { userPick } from '@prisma/client'
+import type { RiderResult } from '@/types'
 
 export default async function RidersResults({
 	ridersResults
@@ -21,17 +20,26 @@ export default async function RidersResults({
 		<Col>
 			<Card>
 				<CardHeader className='text-center'>Riders</CardHeader>
-				<Table borderless className='p-1 text-center' hover size='sm' striped>
+				<Table
+					borderless
+					className='p-1 text-center'
+					hover
+					responsive
+					size='sm'
+					striped
+				>
 					<thead>
 						<tr>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th>Points</th>
+							<th colSpan={3} />
+							<th>
+								P<span className='d-none d-sm-inline'>oin</span>ts
+							</th>
 							<th>
 								<FlagCheckered />
 							</th>
-							<th>Picked</th>
+							<th>
+								<Picked />
+							</th>
 						</tr>
 					</thead>
 					<tbody>

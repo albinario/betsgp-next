@@ -42,3 +42,8 @@ a {
 	content: '\a';
 	white-space: pre;
 }
+
+.unique {
+	border: 1px solid #ffd700b3;
+	border-radius: 5px;
+}
