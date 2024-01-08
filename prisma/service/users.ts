@@ -1,5 +1,10 @@
 'use server'
 import prisma from '@/prisma/client'
+import type { UserNew } from '@/types'
+
+export const createUser = async (data: UserNew) => {
+	await prisma.user.create({ data })
+}
 
 export const getUsers = async () => {
 	return await prisma.user.findMany()

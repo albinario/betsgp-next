@@ -1,5 +1,10 @@
 'use server'
 import prisma from '@/prisma/client'
+import type { GPNew } from '@/types'
+
+export const createGP = async (data: GPNew) => {
+	await prisma.gp.create({ data })
+}
 
 export const getGp = async (id: number) => {
 	return await prisma.gp.findUnique({
@@ -7,93 +12,45 @@ export const getGp = async (id: number) => {
 			id
 		},
 		include: {
-			activity: {
-				include: {
-					user: {
-						select: {
-							id: true,
-							firstName: true,
-							lastName: true
-						}
-					}
-				},
-				orderBy: {
-					id: 'desc'
-				}
-			},
+			// activity: {
+			// 	include: {
+			// 		user: {
+			// 			select: {
+			// 				id: true,
+			// 				firstName: true,
+			// 				lastName: true
+			// 			}
+			// 		}
+			// 	},
+			// 	orderBy: {
+			// 		id: 'desc'
+			// 	}
+			// },
 			city: {
 				include: {
 					nation: true
 				}
-			},
-			riderResults: {
-				include: {
-					rider: {
-						include: {
-							nation: true,
-							pick1s: {
-								where: {
-									gpId: id
-								}
-							},
-							pick2s: {
-								where: {
-									gpId: id
-								}
-							},
-							pick3s: {
-								where: {
-									gpId: id
-								}
-							}
-						}
-					}
-				},
-				orderBy: [
-					{ points: 'desc' },
-					{ m1: 'desc' },
-					{ m2: 'desc' },
-					{ m3: 'desc' },
-					{ races: 'desc' }
-				]
-			},
+			}
+		}
+	})
+}
+
+export const getGpLatest = async () => {
+	return await prisma.gp.findFirst({
+		where: {
 			userResults: {
+				some: {}
+			}
+		},
+		include: {
+			city: {
 				include: {
-					user: {
-						select: {
-							id: true,
-							firstName: true,
-							lastName: true,
-							userStars: true,
-							userPicks: {
-								where: {
-									gpId: id
-								},
-								include: {
-									pick1: {
-										include: {
-											nation: true
-										}
-									},
-									pick2: {
-										include: {
-											nation: true
-										}
-									},
-									pick3: {
-										include: {
-											nation: true
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				orderBy: {
-					pos: 'asc'
+					nation: true
 				}
 			}
+		},
+		orderBy: {
+			id: 'desc'
 		}
 	})
 }
@@ -143,7 +100,8 @@ export const getGps = async (year: number) => {
 				},
 				orderBy: {
 					pos: 'asc'
-				}
+				},
+				take: 3
 			}
 		}
 	})
