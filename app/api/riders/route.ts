@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getRiderResults } from '@/prisma/service'
+import { getRiderStandings } from '@/prisma/service'
 
 export async function GET(req: NextRequest) {
-	const riders = await getRiderResults(2023)
+	const riders = await getRiderStandings(2023)
 
 	return NextResponse.json(riders)
 }
