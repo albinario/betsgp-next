@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { Arrow, FlagCheckered, Medal } from '@/icons'
+import Link from 'next/link'
 import { getUserStandings } from '@/prisma/service'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
@@ -16,7 +17,14 @@ export default async function UsersStandings() {
 		<Col>
 			<Card>
 				<CardHeader className='text-center'>Total standings</CardHeader>
-				<Table borderless className='p-1 text-center' hover size='sm' striped>
+				<Table
+					borderless
+					className='p-1 text-center'
+					hover
+					responsive
+					size='sm'
+					striped
+				>
 					<thead>
 						<tr>
 							<th></th>
@@ -33,33 +41,37 @@ export default async function UsersStandings() {
 						</tr>
 					</thead>
 					<tbody>
-						{usersStandings.map((user) => {
-							showPos = user.pos === prev ? false : true
-							prev = user.pos
+						{usersStandings.map((userStanding) => {
+							showPos = userStanding.pos === prev ? false : true
+							prev = userStanding.pos
 
 							return (
-								<tr key={user.id}>
+								<tr key={userStanding.id}>
 									<td className='d-flex align-items-center justify-content-end'>
 										<span className={classNames({ 'opacity-0': !showPos })}>
-											{user.pos}
+											{userStanding.pos}
 										</span>
-										{user.pos && user.prevPos && (
-											<Arrow diff={user.prevPos - user.pos} />
+										{userStanding.pos && userStanding.prevPos && (
+											<Arrow diff={userStanding.prevPos - userStanding.pos} />
 										)}
 									</td>
 									<td className='text-start'>
-										{user.user.firstName} {user.user.lastName}
+										<Link href={'/users/' + userStanding.userId}>
+											{userStanding.user.firstName} {userStanding.user.lastName}
+										</Link>
 									</td>
-									<td>{user.points}</td>
-									{[user.m1, user.m2, user.m3].map((medals, index) => (
-										<td
-											key={index}
-											className={classNames({ 'text-muted': !medals })}
-										>
-											{medals}
-										</td>
-									))}
-									<td>{user.races}</td>
+									<td>{userStanding.points}</td>
+									{[userStanding.m1, userStanding.m2, userStanding.m3].map(
+										(medals, index) => (
+											<td
+												key={index}
+												className={classNames({ 'text-muted': !medals })}
+											>
+												{medals}
+											</td>
+										)
+									)}
+									<td>{userStanding.races}</td>
 								</tr>
 							)
 						})}

@@ -55,7 +55,43 @@ export const getRiderResults = async (year = 0) => {
 			const rider = await prisma.rider.findUnique({
 				where: { id: result.riderId },
 				include: {
-					nation: true
+					nation: true,
+					pick1s: {
+						where: year
+							? {
+									gp: {
+										dateTime: {
+											gte: new Date(`${year}-01-01`),
+											lte: new Date(`${year}-12-31`)
+										}
+									}
+							  }
+							: undefined
+					},
+					pick2s: {
+						where: year
+							? {
+									gp: {
+										dateTime: {
+											gte: new Date(`${year}-01-01`),
+											lte: new Date(`${year}-12-31`)
+										}
+									}
+							  }
+							: undefined
+					},
+					pick3s: {
+						where: year
+							? {
+									gp: {
+										dateTime: {
+											gte: new Date(`${year}-01-01`),
+											lte: new Date(`${year}-12-31`)
+										}
+									}
+							  }
+							: undefined
+					}
 				}
 			})
 			return {

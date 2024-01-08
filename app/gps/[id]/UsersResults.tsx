@@ -6,6 +6,7 @@ import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import type { Rider, UserResult } from '@/types'
+import Link from 'next/link'
 
 export default async function UsersResults({
 	usersResults
@@ -59,7 +60,9 @@ export default async function UsersResults({
 										</span>
 									</td>
 									<td className='text-start'>
-										{userResult.user.firstName} {userResult.user.lastName}
+										<Link href={'/users/' + userResult.userId}>
+											{userResult.user.firstName} {userResult.user.lastName}
+										</Link>
 									</td>
 									<td className='d-flex justify-content-around'>
 										{picks

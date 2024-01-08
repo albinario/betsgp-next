@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import { FlagCheckered, Medal, Picked } from '@/icons'
+import Link from 'next/link'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
@@ -77,11 +78,13 @@ export default async function RidersResults({
 										</span>
 									</td>
 									<td className='d-flex align-items-center'>
-										<Flag
-											height='.7em'
-											nationCode={riderResult.rider.nation.code}
-										/>
-										<span className='ms-1'>{riderResult.rider?.name}</span>
+										<Link href={'/riders/' + riderResult.riderId}>
+											<Flag
+												height='.7em'
+												nationCode={riderResult.rider.nation.code}
+											/>
+											<span className='ms-1'>{riderResult.rider.name}</span>
+										</Link>
 									</td>
 									<td className='text-end'>
 										{riderResult.m1 !== 0 && <Medal type={1} />}

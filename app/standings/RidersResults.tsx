@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
-import { FlagCheckered, Medal } from '@/icons'
+import { FlagCheckered, Medal, Picked } from '@/icons'
+import Link from 'next/link'
 import { getRiderResults } from '@/prisma/service'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
@@ -18,7 +19,14 @@ export default async function RidersResults() {
 		<Col>
 			<Card>
 				<CardHeader className='text-center'>Riders</CardHeader>
-				<Table borderless className='p-1 text-center' hover size='sm' striped>
+				<Table
+					borderless
+					className='p-1 text-center'
+					hover
+					responsive
+					size='sm'
+					striped
+				>
 					<thead>
 						<tr>
 							<th></th>
@@ -32,19 +40,21 @@ export default async function RidersResults() {
 							<th>
 								<FlagCheckered />
 							</th>
-							<th>Picked</th>
+							<th>
+								<Picked />
+							</th>
 						</tr>
 					</thead>
 					<tbody>
-						{ridersResults.map((rider) => {
+						{ridersResults.map((riderResult) => {
 							pos++
 
 							const res = [
-								rider._sum.points,
-								rider._sum.m1,
-								rider._sum.m2,
-								rider._sum.m3,
-								rider._sum.races
+								riderResult._sum.points,
+								riderResult._sum.m1,
+								riderResult._sum.m2,
+								riderResult._sum.m3,
+								riderResult._sum.races
 							]
 
 							showPos = false
@@ -57,30 +67,45 @@ export default async function RidersResults() {
 
 							prev = res
 
+							const picked: number = riderResult.rider
+								? riderResult.rider.pick1s.length +
+								  riderResult.rider.pick2s.length +
+								  riderResult.rider.pick3s.length
+								: 0
+
 							return (
-								<tr key={rider.riderId}>
+								<tr key={riderResult.riderId}>
 									<td className='text-end'>
 										<span className={classNames({ 'opacity-0': !showPos })}>
 											{pos}
 										</span>
 									</td>
 									<td className='d-flex align-items-center'>
-										<Flag height='.7em' nationCode={rider.rider?.nation.code} />
-										<span className='ms-1'>{rider.rider?.name}</span>
+										<Link href={'/riders/' + riderResult.riderId}>
+											<Flag
+												height='.7em'
+												nationCode={riderResult.rider?.nation.code}
+											/>
+											<span className='ms-1'>{riderResult.rider?.name}</span>
+										</Link>
 									</td>
-									<td>{rider._sum.points}</td>
-									{[rider._sum.m1, rider._sum.m2, rider._sum.m3].map(
-										(medals, index) => (
-											<td
-												key={index}
-												className={classNames({ 'text-muted': !medals })}
-											>
-												{medals}
-											</td>
-										)
-									)}
-									<td>{rider._sum.races}</td>
-									<td>p</td>
+									<td>{riderResult._sum.points}</td>
+									{[
+										riderResult._sum.m1,
+										riderResult._sum.m2,
+										riderResult._sum.m3
+									].map((medals, index) => (
+										<td
+											key={index}
+											className={classNames({ 'text-muted': !medals })}
+										>
+											{medals}
+										</td>
+									))}
+									<td>{riderResult._sum.races}</td>
+									<td className={classNames({ 'text-muted': !picked })}>
+										{picked}
+									</td>
 								</tr>
 							)
 						})}
