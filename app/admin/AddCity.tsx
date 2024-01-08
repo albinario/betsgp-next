@@ -15,7 +15,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { CityNew } from '@/types'
 
-export default function AddCity({ nations }: { nations?: nation[] }) {
+export default function AddCity({ nations }: { nations: nation[] }) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const {

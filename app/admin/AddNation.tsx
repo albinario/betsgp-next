@@ -43,8 +43,8 @@ export default function AddNation() {
 				<CardHeader>Nation</CardHeader>
 				<CardBody className='p-2'>
 					<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-						<Row>
-							<Col xs={8} className='pe-1'>
+						<Row className='g-2'>
+							<Col xs={8}>
 								<FormControl
 									className={classNames({
 										'missing-border': errors.name
@@ -55,7 +55,7 @@ export default function AddNation() {
 									{...register('name', { required: true })}
 								/>
 							</Col>
-							<Col className='ps-1'>
+							<Col>
 								<FormControl
 									className={classNames({
 										'missing-border': errors.code
