@@ -27,13 +27,14 @@ model city {
 }
 
 model gp {
-  id            Int       @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   gp            Int
   cityId        Int
-  city          city      @relation(fields: [cityId], references: [id])
+  city          city          @relation(fields: [cityId], references: [id])
   dateTime      DateTime
-  wildCard      Int?
-  finished      Boolean   @default(false)
+  wildCardId    Int?
+  wildCard      rider?        @relation(fields: [wildCardId], references: [id])
+  finished      Boolean       @default(false)
   userResults   userResult[]
   userPicks     userPick[]
   riderResults  riderResult[]
@@ -51,17 +52,18 @@ model nation {
 }
 
 model rider {
-  id            Int     @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   name          String
   number        Int
   nationId      Int
-  nation        nation  @relation(fields: [nationId], references: [id])
-  active        Int     @default(0)
-  sub           Int     @default(0)
+  nation        nation        @relation(fields: [nationId], references: [id])
+  active        Int           @default(0)
+  sub           Int           @default(0)
   riderResults  riderResult[]
-  pick1s        userPick[] @relation("pick1")
-  pick2s        userPick[] @relation("pick2")
-  pick3s        userPick[] @relation("pick3")
+  pick1s        userPick[]    @relation("pick1")
+  pick2s        userPick[]    @relation("pick2")
+  pick3s        userPick[]    @relation("pick3")
+  wildCards     gp[]
 	@@map("riders")
 }
 
