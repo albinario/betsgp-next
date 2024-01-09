@@ -3,12 +3,15 @@ import Flag from '@/components/Flag'
 import { FlagCheckered, Medal, Picked } from '@/icons'
 import Link from 'next/link'
 import { getRiderStandings } from '@/prisma/service'
+import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
-export default async function RiderStandings() {
-	const ridersStandings = await getRiderStandings(2023)
+export default async function RiderStandings({ topTen }: { topTen?: boolean }) {
+	let riderStandings = await getRiderStandings(2023)
+
+	if (topTen) riderStandings = riderStandings.slice(0, 10)
 
 	let pos = 0
 	let prev: (number | null)[] = []
@@ -27,8 +30,7 @@ export default async function RiderStandings() {
 			>
 				<thead>
 					<tr>
-						<th></th>
-						<th></th>
+						<th colSpan={2} />
 						<th>Points</th>
 						{[1, 2, 3].map((m) => (
 							<th key={m}>
@@ -44,7 +46,7 @@ export default async function RiderStandings() {
 					</tr>
 				</thead>
 				<tbody>
-					{ridersStandings.map((riderStanding) => {
+					{riderStandings.map((riderStanding) => {
 						pos++
 
 						const res = [
@@ -78,13 +80,16 @@ export default async function RiderStandings() {
 										{pos}
 									</span>
 								</td>
-								<td className='d-flex align-items-center'>
-									<Link href={'/riders/' + riderStanding.riderId}>
+								<td>
+									<Link
+										className='d-flex align-items-center gap-1'
+										href={'/riders/' + riderStanding.riderId}
+									>
 										<Flag
 											height='.7em'
 											nationCode={riderStanding.rider?.nation.code}
 										/>
-										<span className='ms-1'>{riderStanding.rider?.name}</span>
+										{riderStanding.rider?.name}
 									</Link>
 								</td>
 								<td>{riderStanding._sum.points}</td>
@@ -109,6 +114,14 @@ export default async function RiderStandings() {
 					})}
 				</tbody>
 			</Table>
+
+			{topTen && (
+				<Link href={'/standings#riders'} className='d-grid p-2'>
+					<Button size='sm' variant='outline-success'>
+						More
+					</Button>
+				</Link>
+			)}
 		</Card>
 	)
 }

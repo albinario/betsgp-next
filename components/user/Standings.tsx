@@ -7,9 +7,8 @@ import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
-export default async function UserStandings({ topTen }: { topTen: boolean }) {
+export default async function UserStandings({ topTen }: { topTen?: boolean }) {
 	let userStandings = await getUserStandings(2023)
-	console.log(topTen)
 
 	if (topTen) userStandings = userStandings.slice(0, 10)
 
@@ -29,8 +28,7 @@ export default async function UserStandings({ topTen }: { topTen: boolean }) {
 			>
 				<thead>
 					<tr>
-						<th></th>
-						<th></th>
+						<th colSpan={2} />
 						<th>Points</th>
 						{[1, 2, 3].map((m) => (
 							<th key={m}>
