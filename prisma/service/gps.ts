@@ -106,3 +106,11 @@ export const getGps = async (year: number) => {
 		}
 	})
 }
+
+export const getGpParticipants = async (gpId: number) => {
+	return await prisma.userPick.count({
+		where: {
+			gpId
+		}
+	})
+}

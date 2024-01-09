@@ -14,5 +14,5 @@ export default function Medals({ medals }: { medals: (number | null)[] }) {
 		}
 	})
 
-	return <div className='d-flex justify-content-center'>{medalsElement}</div>
+	return <>{medalsElement}</>
 }
