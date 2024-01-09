@@ -63,7 +63,7 @@ export default async function Rider({ params }: { params: { id: string } }) {
 											<span className='ms-1'>{res.points}</span>
 										</span>
 									</div>
-									<CardBodyRow title={'Races'} value={res.races}></CardBodyRow>
+									<CardBodyRow title={'Races'} value={res.races} />
 								</CardBody>
 							</Card>
 						</Col>
