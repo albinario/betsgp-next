@@ -17,6 +17,7 @@ export default async function UserResults({
 	topTen?: boolean
 }) {
 	let userResults = await getUserResults(gp.id)
+
 	if (topTen) userResults = userResults.slice(0, 10)
 
 	let prev: number | null = 0
@@ -68,12 +69,12 @@ export default async function UserResults({
 
 						return (
 							<tr key={userResult.id}>
-								<td>
+								<td className='text-end'>
 									<span className={classNames({ 'opacity-0': !showPos })}>
 										{userResult.pos}
 									</span>
 								</td>
-								<td className='px-0 text-start'>
+								<td className='pe-0 text-start'>
 									<Link href={'/users/' + userResult.userId}>
 										{userResult.user.firstName} {userResult.user.lastName}
 									</Link>
