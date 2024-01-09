@@ -4,6 +4,7 @@ import GPCardHeader from '@/components/gp/CardHeader'
 import GPParticipants from '@/components/gp/Participants'
 import Medals from '@/components/Medals'
 import UserPicks from '@/components/user/Picks'
+import { participants, rounds } from '@/data'
 import { Star } from '@/icons'
 import { getUser } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
@@ -11,7 +12,6 @@ import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import { staticData } from '@/theme'
 
 export default async function User({ params }: { params: { id: string } }) {
 	const year = 2023
@@ -32,7 +32,7 @@ export default async function User({ params }: { params: { id: string } }) {
 						<CardBody className='p-2'>
 							<CardBodyRow
 								title={'Position'}
-								value={`${user.userStandings[0].pos} / ${staticData.participants[year]}`}
+								value={`${user.userStandings[0].pos} / ${participants[year]}`}
 							/>
 							<CardBodyRow
 								title={'Total points'}
@@ -74,7 +74,7 @@ export default async function User({ params }: { params: { id: string } }) {
 									nationCode={res.gp.city.nation.code}
 									dateTime={res.gp.dateTime}
 									round={res.gp.gp}
-									rounds={staticData.rounds[year]}
+									rounds={rounds[year]}
 								/>
 
 								<CardBody className='p-2'>
