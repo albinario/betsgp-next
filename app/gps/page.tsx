@@ -90,8 +90,8 @@ export default async function GPs() {
 								)} */}
 							</Table>
 
-							<Link href={'/gps/' + gp.id} className='d-grid g-2'>
-								<Button className='m-2' size='sm' variant='outline-success'>
+							<Link href={'/gps/' + gp.id} className='d-grid p-2'>
+								<Button size='sm' variant='outline-success'>
 									More
 								</Button>
 							</Link>
