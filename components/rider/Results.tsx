@@ -75,14 +75,14 @@ export default async function RiderResults({ gp }: { gp: GP }) {
 								</td>
 								<td>
 									<Link
-										className='d-flex align-items-center'
+										className='d-flex align-items-center gap-1'
 										href={'/riders/' + riderResult.riderId}
 									>
 										<Flag
 											height='.7em'
 											nationCode={riderResult.rider.nation.code}
 										/>
-										<span className='ms-1'>{riderResult.rider.name}</span>
+										{riderResult.rider.name}
 									</Link>
 								</td>
 								<td className='text-end'>
