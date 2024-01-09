@@ -1,5 +1,10 @@
 'use server'
 import prisma from '@/prisma/client'
+import type { RiderNew } from '@/types'
+
+export const createRider = async (data: RiderNew) => {
+	await prisma.rider.create({ data })
+}
 
 export const getRider = async (id: number, year = 2023) => {
 	return await prisma.rider.findUnique({
@@ -58,6 +63,14 @@ export const getRiders = async (year = 2023) => {
 					}
 				}
 			}
+		}
+	})
+}
+
+export const getRidersNotActive = async () => {
+	return await prisma.rider.findMany({
+		where: {
+			active: 0
 		}
 	})
 }

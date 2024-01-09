@@ -2,6 +2,17 @@
 import prisma from '@/prisma/client'
 import type { GPNew } from '@/types'
 
+export const assignWildCard = async (id: number, riderId: number) => {
+	await prisma.gp.update({
+		where: {
+			id
+		},
+		data: {
+			wildCardId: riderId
+		}
+	})
+}
+
 export const createGP = async (data: GPNew) => {
 	await prisma.gp.create({ data })
 }
@@ -103,6 +114,17 @@ export const getGps = async (year: number) => {
 				},
 				take: 3
 			}
+		}
+	})
+}
+
+export const getGpsNoWildCard = async () => {
+	return await prisma.gp.findMany({
+		where: {
+			wildCardId: null
+		},
+		include: {
+			city: true
 		}
 	})
 }

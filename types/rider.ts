@@ -4,6 +4,8 @@ export type Rider = rider & {
 	nation: nation
 }
 
+export type RiderNew = Omit<rider, 'id'>
+
 export type PickedRider = Rider & {
 	riderResults: riderResult[]
 }

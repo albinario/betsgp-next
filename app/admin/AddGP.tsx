@@ -46,61 +46,62 @@ export default function AddGP({ cities }: { cities: city[] }) {
 	}
 
 	return (
-		<Col>
-			<Card>
-				<CardHeader>GP</CardHeader>
-				<CardBody className='p-2'>
-					<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-						<FormSelect
-							className={classNames({
-								'missing-border': errors.cityId
-							})}
-							size='sm'
-							{...register('cityId', { required: true })}
-						>
-							<option value=''>Select city</option>
-							{cities
-								?.sort((a, b) => a.name.localeCompare(b.name))
-								.map((city) => (
-									<option key={city.id} value={city.id}>
-										{city.name}
-									</option>
-								))}
-						</FormSelect>
-						<Row className='g-2'>
-							<Col>
-								<FormControl
-									className={classNames({
-										'missing-border': errors.gp
-									})}
-									placeholder='#'
-									type='number'
-									size='sm'
-									{...register('gp', { required: true })}
-								/>
-							</Col>
-							<Col xs={9}>
-								<FormControl
-									className={classNames({
-										'missing-border': errors.dateTime
-									})}
-									type='datetime-local'
-									size='sm'
-									{...register('dateTime', { required: true })}
-								/>
-							</Col>
-						</Row>
-						<Button
-							disabled={isSubmitting}
-							size='sm'
-							type='submit'
-							variant='outline-success'
-						>
-							+
-						</Button>
-					</Form>
-				</CardBody>
-			</Card>
-		</Col>
+		<Card>
+			<CardHeader className='text-center'>GP</CardHeader>
+			<CardBody className='p-2'>
+				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
+					<FormSelect
+						className={classNames({
+							'missing-border': errors.cityId
+						})}
+						size='sm'
+						{...register('cityId', { required: true })}
+					>
+						<option value=''>Select city</option>
+						{cities
+							?.sort((a, b) => a.name.localeCompare(b.name))
+							.map((city) => (
+								<option key={city.id} value={city.id}>
+									{city.name}
+								</option>
+							))}
+					</FormSelect>
+
+					<Row className='g-2'>
+						<Col>
+							<FormControl
+								className={classNames({
+									'missing-border': errors.gp
+								})}
+								placeholder='#'
+								type='number'
+								size='sm'
+								{...register('gp', { required: true })}
+							/>
+						</Col>
+
+						<Col xs={9}>
+							<FormControl
+								className={classNames({
+									'missing-border': errors.dateTime
+								})}
+								type='datetime-local'
+								size='sm'
+								{...register('dateTime', { required: true })}
+							/>
+						</Col>
+					</Row>
+
+					<Button
+						disabled={isSubmitting}
+						size='sm'
+						type='submit'
+						variant='outline-success'
+					>
+						+
+					</Button>
+				</Form>
+			</CardBody>
+		</Card>
 	)
 }

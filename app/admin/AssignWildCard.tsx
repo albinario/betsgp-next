@@ -1,42 +1,50 @@
 'use client'
 import classNames from 'classnames'
-import type { nation } from '@prisma/client'
-import { createCity } from '@/prisma/service'
+import type { city, gp, rider } from '@prisma/client'
+import { assignWildCard } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import FormSelect from 'react-bootstrap/FormSelect'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import type { CityNew } from '@/types'
 
-export default function AddCity({ nations }: { nations: nation[] }) {
+type GP = gp & {
+	city: city
+}
+
+type WildCard = {
+	gpId: number
+	riderId: number
+}
+
+export default function AssignWildCard({
+	gps,
+	riders
+}: {
+	gps: GP[]
+	riders: rider[]
+}) {
 	const [isSubmitting, setIsSubmitting] = useState(false)
 
 	const {
 		handleSubmit,
 		register,
 		formState: { errors }
-	} = useForm<CityNew>()
+	} = useForm<WildCard>()
 
-	const onSubmit: SubmitHandler<CityNew> = async (data: CityNew) => {
+	const onSubmit: SubmitHandler<WildCard> = async (data: WildCard) => {
 		try {
 			setIsSubmitting(true)
 
-			const cityNew: CityNew = {
-				name: data.name,
-				nationId: Number(data.nationId)
-			}
+			await assignWildCard(Number(data.gpId), Number(data.riderId))
 
-			await createCity(cityNew)
-
-			toast.success('City added')
+			toast.success('Wild card assigned')
 		} catch (error) {
-			toast.error('Something went wrong when trying to add city')
+			toast.error('Something went wrong when trying to assign wild card')
 		} finally {
 			setIsSubmitting(false)
 		}
@@ -44,32 +52,37 @@ export default function AddCity({ nations }: { nations: nation[] }) {
 
 	return (
 		<Card>
-			<CardHeader className='text-center'>City</CardHeader>
+			<CardHeader className='text-center'>Wild Card</CardHeader>
 			<CardBody className='p-2'>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-					<FormControl
+					<FormSelect
 						className={classNames({
-							'missing-border': errors.name
+							'missing-border': errors.gpId
 						})}
-						placeholder='Name'
-						type='text'
 						size='sm'
-						{...register('name', { required: true })}
-					/>
+						{...register('gpId', { required: true })}
+					>
+						<option value=''>Select GP</option>
+						{gps.map((gp) => (
+							<option key={gp.id} value={gp.id}>
+								{gp.city.name}
+							</option>
+						))}
+					</FormSelect>
 
 					<FormSelect
 						className={classNames({
-							'missing-border': errors.nationId
+							'missing-border': errors.riderId
 						})}
 						size='sm'
-						{...register('nationId', { required: true })}
+						{...register('riderId', { required: true })}
 					>
-						<option value=''>Select nation</option>
-						{nations
+						<option value=''>Select rider</option>
+						{riders
 							?.sort((a, b) => a.name.localeCompare(b.name))
-							.map((nation) => (
-								<option key={nation.id} value={nation.id}>
-									{nation.name}
+							.map((rider) => (
+								<option key={rider.id} value={rider.id}>
+									{rider.name}
 								</option>
 							))}
 					</FormSelect>

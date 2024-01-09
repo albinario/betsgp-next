@@ -4,11 +4,11 @@ import { createNation } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import FormControl from 'react-bootstrap/FormControl'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
+import FormControl from 'react-bootstrap/FormControl'
 import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -38,46 +38,46 @@ export default function AddNation() {
 	}
 
 	return (
-		<Col>
-			<Card>
-				<CardHeader>Nation</CardHeader>
-				<CardBody className='p-2'>
-					<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-						<Row className='g-2'>
-							<Col xs={8}>
-								<FormControl
-									className={classNames({
-										'missing-border': errors.name
-									})}
-									placeholder='Name'
-									type='text'
-									size='sm'
-									{...register('name', { required: true })}
-								/>
-							</Col>
-							<Col>
-								<FormControl
-									className={classNames({
-										'missing-border': errors.code
-									})}
-									placeholder='Code'
-									type='text'
-									size='sm'
-									{...register('code', { required: true })}
-								/>
-							</Col>
-						</Row>
-						<Button
-							disabled={isSubmitting}
-							size='sm'
-							type='submit'
-							variant='outline-success'
-						>
-							+
-						</Button>
-					</Form>
-				</CardBody>
-			</Card>
-		</Col>
+		<Card>
+			<CardHeader className='text-center'>Nation</CardHeader>
+			<CardBody className='p-2'>
+				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
+					<Row className='g-2'>
+						<Col xs={8}>
+							<FormControl
+								className={classNames({
+									'missing-border': errors.name
+								})}
+								placeholder='Name'
+								type='text'
+								size='sm'
+								{...register('name', { required: true })}
+							/>
+						</Col>
+
+						<Col>
+							<FormControl
+								className={classNames({
+									'missing-border': errors.code
+								})}
+								placeholder='Code'
+								type='text'
+								size='sm'
+								{...register('code', { required: true })}
+							/>
+						</Col>
+					</Row>
+
+					<Button
+						disabled={isSubmitting}
+						size='sm'
+						type='submit'
+						variant='outline-success'
+					>
+						+
+					</Button>
+				</Form>
+			</CardBody>
+		</Card>
 	)
 }
