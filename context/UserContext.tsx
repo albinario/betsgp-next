@@ -14,7 +14,7 @@ export function useUser() {
 }
 
 // export const someInfo = {
-// 	balls: 'deep'
+// 	howCome: 'this works?'
 // }
 
 export function UserProvider({ children, user }: UserProviderProps) {
