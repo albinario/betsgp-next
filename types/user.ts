@@ -1,4 +1,4 @@
-import type { userPick, userStar } from '@prisma/client'
+import type { user, userPick, userStanding, userStar } from '@prisma/client'
 import type { Rider } from './rider'
 
 export type User = {
@@ -23,3 +23,7 @@ export type UserPick = userPick & {
 }
 
 export type UserPickAdd = Omit<userPick, 'id' | 'created' | 'updated'>
+
+export type UserStanding = userStanding & {
+	user: user
+}
