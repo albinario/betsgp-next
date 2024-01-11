@@ -2,6 +2,7 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import GPCardHeader from '@/components/gp/CardHeader'
 import RiderResults from '@/components/rider/Results'
 import UserResults from '@/components/user/Results'
+import getUserSession from '@/helpers/getUserSession.server'
 import { getGp, getUserPick, getUserRaw } from '@/prisma/service'
 import { readSession } from '@/supabase/service'
 import Card from 'react-bootstrap/Card'
@@ -11,9 +12,7 @@ import Row from 'react-bootstrap/Row'
 export default async function GP({ params }: { params: { id: string } }) {
 	const gp = await getGp(Number(params.id))
 
-	const session = gp ? await readSession() : null
-	const userSession = session ? session.data.session?.user : null
-	const user = userSession ? await getUserRaw(userSession.id) : null
+	const user = gp ? await getUserSession() : null
 
 	const userPick = user && gp ? await getUserPick(gp.id, user.id) : null
 	const userPicks = userPick

@@ -2,11 +2,10 @@ import './globals.css'
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
 import { UserProvider } from '@/context/UserContext'
+import getUserSession from '@/helpers/getUserSession.server'
 import type { Metadata } from 'next'
-import { getUserRaw } from '@/prisma/service'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
-import { readSession } from '@/supabase/service'
 import { metadata as meta } from '@/theme'
 
 export const metadata: Metadata = {
@@ -20,9 +19,7 @@ export default async function RootLayout({
 }: {
 	children: React.ReactNode
 }) {
-	const session = await readSession()
-	const userSession = session.data.session?.user
-	const user = userSession ? await getUserRaw(userSession.id) : null
+	const user = await getUserSession()
 
 	return (
 		<html lang='en' data-bs-theme='dark'>
