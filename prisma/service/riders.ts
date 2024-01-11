@@ -11,7 +11,6 @@ export const getRider = async (id: number, year = 2023) => {
 		where: { id },
 		include: {
 			nation: true,
-
 			riderResults: {
 				where: {
 					gp: {
@@ -29,7 +28,11 @@ export const getRider = async (id: number, year = 2023) => {
 									nation: true
 								}
 							},
-							userPicks: true
+							userPicks: {
+								where: {
+									OR: [{ pick1Id: id }, { pick2Id: id }, { pick3Id: id }]
+								}
+							}
 						}
 					}
 				},

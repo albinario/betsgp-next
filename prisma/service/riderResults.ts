@@ -88,9 +88,9 @@ export const getRiderStandings = async (year = 0) => {
 	})
 
 	const riders = await Promise.all(
-		riderResults.map(async (result) => {
+		riderResults.map(async (riderResult) => {
 			const rider = await prisma.rider.findUnique({
-				where: { id: result.riderId },
+				where: { id: riderResult.riderId },
 				include: {
 					nation: true,
 					pick1s: {
@@ -133,7 +133,7 @@ export const getRiderStandings = async (year = 0) => {
 			})
 			return {
 				rider,
-				...result
+				...riderResult
 			}
 		})
 	)
