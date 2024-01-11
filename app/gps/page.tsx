@@ -13,6 +13,8 @@ import Table from 'react-bootstrap/Table'
 
 export default async function GPs() {
 	const gps = await getGps(2023)
+	if (!gps) return <></>
+
 	const gpsTotal = gps.length
 
 	return (

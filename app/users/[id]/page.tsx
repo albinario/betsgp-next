@@ -17,12 +17,14 @@ import Row from 'react-bootstrap/Row'
 export default async function User({ params }: { params: { id: string } }) {
 	const year = 2023
 	const user = await getUser(Number(params.id), year)
-	const gpsAmount = user ? user.userResults.length : 0
+	if (!user) return <></>
+
+	const gpsAmount = user.userResults.length
 
 	const gpsUpcoming = await getGpsUpcoming()
 	const riders = await getRiders()
 
-	return user ? (
+	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
 				<Col>
@@ -105,7 +107,5 @@ export default async function User({ params }: { params: { id: string } }) {
 				})}
 			</Row>
 		</AnimationWrapper>
-	) : (
-		<></>
 	)
 }

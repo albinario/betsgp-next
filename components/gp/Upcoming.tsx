@@ -17,8 +17,9 @@ export default function GPUpcoming({
 }) {
 	const year = 2023
 	const user = useUser()
+	if (!user) return <></>
 
-	return user ? (
+	return (
 		<>
 			{gps.map((gp) => (
 				<Col key={gp.id}>
@@ -39,7 +40,5 @@ export default function GPUpcoming({
 				</Col>
 			))}
 		</>
-	) : (
-		<></>
 	)
 }

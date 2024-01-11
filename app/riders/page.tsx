@@ -12,11 +12,12 @@ import Row from 'react-bootstrap/Row'
 
 export default async function Riders() {
 	const riderStandings = await getRiderStandings(2023)
+	if (!riderStandings) return <></>
 
 	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
-				{riderStandings?.map((riderStanding) => (
+				{riderStandings.map((riderStanding) => (
 					<Fragment key={riderStanding.riderId}>
 						{riderStanding.rider && (
 							<Col>

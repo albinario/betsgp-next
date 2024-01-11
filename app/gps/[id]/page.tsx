@@ -11,15 +11,16 @@ import Row from 'react-bootstrap/Row'
 
 export default async function GP({ params }: { params: { id: string } }) {
 	const gp = await getGp(Number(params.id))
+	if (!gp) return <></>
 
-	const user = gp ? await getUserSession() : null
+	const user = await getUserSession()
 
-	const userPick = user && gp ? await getUserPick(gp.id, user.id) : null
+	const userPick = user ? await getUserPick(gp.id, user.id) : null
 	const userPicks = userPick
 		? [userPick.pick1Id, userPick.pick2Id, userPick.pick3Id]
 		: null
 
-	return gp ? (
+	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2 mb-2'>
 				<Col>
@@ -46,7 +47,5 @@ export default async function GP({ params }: { params: { id: string } }) {
 				</Col>
 			</Row>
 		</AnimationWrapper>
-	) : (
-		<div>Loading GP...</div>
 	)
 }

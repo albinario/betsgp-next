@@ -13,24 +13,25 @@ import Row from 'react-bootstrap/Row'
 
 export default async function Rider({ params }: { params: { id: string } }) {
 	const rider = await getRider(Number(params.id))
+	if (!rider) return <></>
 
-	const pointsTotal =
-		rider?.riderResults.reduce((acc, obj) => acc + obj.points, 0) || 0
+	const pointsTotal = rider.riderResults.reduce(
+		(acc, obj) => acc + obj.points,
+		0
+	)
 
-	const racesTotal =
-		rider?.riderResults.reduce((acc, obj) => acc + obj.races, 0) || 0
+	const racesTotal = rider.riderResults.reduce((acc, obj) => acc + obj.races, 0)
 
-	const m1Total = rider?.riderResults.reduce((acc, obj) => acc + obj.m1, 0) || 0
-	const m2Total = rider?.riderResults.reduce((acc, obj) => acc + obj.m2, 0) || 0
-	const m3Total = rider?.riderResults.reduce((acc, obj) => acc + obj.m3, 0) || 0
+	const m1Total = rider.riderResults.reduce((acc, obj) => acc + obj.m1, 0)
+	const m2Total = rider.riderResults.reduce((acc, obj) => acc + obj.m2, 0)
+	const m3Total = rider.riderResults.reduce((acc, obj) => acc + obj.m3, 0)
 
-	const picksTotal =
-		rider?.riderResults.reduce(
-			(acc, obj) => acc + obj.gp.userPicks.length,
-			0
-		) || 0
+	const picksTotal = rider.riderResults.reduce(
+		(acc, obj) => acc + obj.gp.userPicks.length,
+		0
+	)
 
-	return rider ? (
+	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
 				<Col>
@@ -87,7 +88,5 @@ export default async function Rider({ params }: { params: { id: string } }) {
 				))}
 			</Row>
 		</AnimationWrapper>
-	) : (
-		<div>Loading rider...</div>
 	)
 }

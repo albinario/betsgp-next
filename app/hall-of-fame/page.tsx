@@ -10,6 +10,7 @@ import Row from 'react-bootstrap/Row'
 
 export default async function HallOfFame() {
 	const stars = await getUserStars()
+	if (!stars) return <></>
 
 	const years = stars.reduce<number[]>((uniqueYears, item) => {
 		if (!uniqueYears.includes(item.year)) {

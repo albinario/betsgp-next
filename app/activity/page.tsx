@@ -3,7 +3,7 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function Standings() {
+export default async function ActivityPage() {
 	return (
 		<AnimationWrapper>
 			<Row xs={1}>

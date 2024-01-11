@@ -17,6 +17,8 @@ export default async function RiderResults({
 	userPicks: number[] | null
 }) {
 	const riderResults = await getRiderResults(gp.id)
+	if (!riderResults) return <></>
+
 	let pos = 0
 	let prev: (number | null)[] = []
 	let showPos = true

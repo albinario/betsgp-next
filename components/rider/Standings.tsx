@@ -10,6 +10,7 @@ import Table from 'react-bootstrap/Table'
 
 export default async function RiderStandings({ topTen }: { topTen?: boolean }) {
 	let riderStandings = await getRiderStandings(2023)
+	if (!riderStandings) return <></>
 
 	if (topTen) riderStandings = riderStandings.slice(0, 10)
 

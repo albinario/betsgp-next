@@ -10,6 +10,7 @@ import Table from 'react-bootstrap/Table'
 
 export default async function Activity({ topTen }: { topTen?: boolean }) {
 	let activity = await getActivity()
+	if (!activity) return <></>
 
 	if (topTen) activity = activity.slice(0, 11)
 

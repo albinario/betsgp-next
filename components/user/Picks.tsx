@@ -12,10 +12,13 @@ export default async function UserPicks({
 	userId: number
 }) {
 	const userPicks = await getUserPicks(gpId, userId)
+	if (!userPicks) return <></>
 
-	const picks: PickedRider[] = userPicks
-		? [userPicks.pick1, userPicks.pick2, userPicks.pick3]
-		: []
+	const picks: PickedRider[] = [
+		userPicks.pick1,
+		userPicks.pick2,
+		userPicks.pick3
+	]
 
 	return (
 		<>
