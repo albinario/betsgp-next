@@ -10,6 +10,8 @@ import Activity from '@/components/Activity'
 
 export default async function Home() {
 	const user = await getUserSession()
+	const userId = user?.id
+
 	const gpLatest = await getGpLatest()
 
 	return (
@@ -17,13 +19,13 @@ export default async function Home() {
 			<Row className='g-2' xs={1} lg={2}>
 				<Col>
 					{/* @ts-expect-error Server Component */}
-					<UserStandings topTen={true} userId={user?.id} />
+					<UserStandings topTen={true} userId={userId} />
 				</Col>
 				<Col>
 					{gpLatest && (
 						<>
 							{/* @ts-expect-error Server Component */}
-							<UserResults gp={gpLatest} topTen={true} userId={user?.id} />
+							<UserResults gp={gpLatest} topTen={true} userId={userId} />
 						</>
 					)}
 				</Col>
@@ -33,7 +35,7 @@ export default async function Home() {
 				</Col>
 				<Col>
 					{/* @ts-expect-error Server Component */}
-					<Activity topTen={true} />
+					<Activity topTen={true} userId={userId} />
 				</Col>
 			</Row>
 		</AnimationWrapper>
