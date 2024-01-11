@@ -6,6 +6,7 @@ import GPUpcoming from '@/components/gp/Upcoming'
 import Medals from '@/components/Medals'
 import UserPicks from '@/components/user/Picks'
 import { participants, rounds } from '@/data'
+import getUserSession from '@/helpers/getUserSession.server'
 import { Star } from '@/icons'
 import { getGpsUpcoming, getRiders, getUser } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
@@ -18,6 +19,8 @@ export default async function User({ params }: { params: { id: string } }) {
 	const year = 2023
 	const user = await getUser(Number(params.id), year)
 	if (!user) return <></>
+
+	const userSession = await getUserSession()
 
 	const gpsAmount = user.userResults.length
 
@@ -70,7 +73,9 @@ export default async function User({ params }: { params: { id: string } }) {
 					</Card>
 				</Col>
 
-				{!!gpsUpcoming && <GPUpcoming gps={gpsUpcoming} riders={riders} />}
+				{!!gpsUpcoming && user.id === userSession?.id && (
+					<GPUpcoming gps={gpsUpcoming} riders={riders} />
+				)}
 
 				{user.userResults.map((res) => {
 					return (

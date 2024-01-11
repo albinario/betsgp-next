@@ -39,7 +39,7 @@ export default async function UserResults({
 				userResult.user.userPicks[0].pick3
 			]
 			userTr = (
-				<tr>
+				<tr className='userTrTop'>
 					<td className='text-end'>{userResult.pos}</td>
 					<td className='pe-0 text-start'>
 						<Link className='highlight' href={'/users/' + userResult.userId}>
@@ -81,9 +81,9 @@ export default async function UserResults({
 				</tr>
 			)
 		}
-
-		userResults = userResults.slice(0, 10)
 	}
+
+	if (topTen) userResults = userResults.slice(0, 10)
 
 	let prev: number | null = 0
 	let showPos = true

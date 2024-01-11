@@ -27,7 +27,7 @@ export default async function UserStandings({
 
 		if (userStanding) {
 			userTr = (
-				<tr>
+				<tr className='userTrTop'>
 					<td className='d-flex align-items-center justify-content-end'>
 						{userStanding.pos}
 						{userStanding.pos && userStanding.prevPos && (
@@ -51,9 +51,9 @@ export default async function UserStandings({
 				</tr>
 			)
 		}
-
-		userStandings = userStandings.slice(0, 10)
 	}
+
+	if (topTen) userStandings = userStandings.slice(0, 10)
 
 	let prev: number | null = 0
 	let showPos = true

@@ -4,7 +4,9 @@ import GPCardHeader from '@/components/gp/CardHeader'
 import Medal from '@/components/Medal'
 import Medals from '@/components/Medals'
 import RiderCardHeader from '@/components/rider/CardHeader'
+import { Picked } from '@/icons'
 import { getRider } from '@/prisma/service'
+import classNames from 'classnames'
 import Link from 'next/link'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
@@ -50,42 +52,59 @@ export default async function Rider({ params }: { params: { id: string } }) {
 						</CardBody>
 					</Card>
 				</Col>
-				{rider.riderResults.map((riderResult) => (
-					<Col key={riderResult.gpId}>
-						<Link href={'/gps/' + riderResult.gpId}>
-							<Card>
-								<GPCardHeader
-									cityId={riderResult.gp.cityId}
-									cityName={riderResult.gp.city.name}
-									nationCode={riderResult.gp.city.nation.code}
-									dateTime={riderResult.gp.dateTime}
-									round={riderResult.gp.gp}
-									rounds={10}
-								/>
-								<CardBody className='p-2'>
-									<div className='d-flex justify-content-between'>
-										<span>Points</span>
-										<span className='d-flex align-items-center'>
-											<Medal
-												medals={[
-													riderResult.m1,
-													riderResult.m2,
-													riderResult.m3
-												]}
-											/>
-											<span className='ms-1'>{riderResult.points}</span>
-										</span>
-									</div>
-									<CardBodyRow title={'Races'} value={riderResult.races} />
-									<CardBodyRow
-										title={'Times picked'}
-										value={riderResult.gp.userPicks.length}
+				{rider.riderResults.map((riderResult) => {
+					const isPicked = riderResult.gp.userPicks.find(
+						(pick) => pick.userId === 1
+					)
+						? true
+						: false
+
+					return (
+						<Col key={riderResult.gpId}>
+							<Link href={'/gps/' + riderResult.gpId}>
+								<Card
+									className={classNames({
+										highlightBorder: isPicked
+									})}
+								>
+									<GPCardHeader
+										cityId={riderResult.gp.cityId}
+										cityName={riderResult.gp.city.name}
+										nationCode={riderResult.gp.city.nation.code}
+										dateTime={riderResult.gp.dateTime}
+										round={riderResult.gp.gp}
+										rounds={10}
 									/>
-								</CardBody>
-							</Card>
-						</Link>
-					</Col>
-				))}
+									<CardBody className='p-2'>
+										<div className='d-flex justify-content-between'>
+											<span>Points</span>
+											<span className='d-flex align-items-center'>
+												<Medal
+													medals={[
+														riderResult.m1,
+														riderResult.m2,
+														riderResult.m3
+													]}
+												/>
+												<span className='ms-1'>{riderResult.points}</span>
+											</span>
+										</div>
+										<CardBodyRow title={'Races'} value={riderResult.races} />
+										<CardBodyRow
+											title={'Times picked'}
+											value={riderResult.gp.userPicks.length}
+										/>
+										{isPicked && (
+											<div className='d-flex justify-content-center'>
+												<Picked clas={'highlight'} />
+											</div>
+										)}
+									</CardBody>
+								</Card>
+							</Link>
+						</Col>
+					)
+				})}
 			</Row>
 		</AnimationWrapper>
 	)
