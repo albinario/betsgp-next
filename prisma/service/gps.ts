@@ -142,10 +142,14 @@ export const getGpParticipants = async (gpId: number) => {
 	})
 }
 
-export const getGpsUpcoming = async () => {
+export const getGpsUpcoming = async (year: number) => {
 	return await prisma.gp.findMany({
 		where: {
-			finished: false
+			finished: false,
+			dateTime: {
+				gte: new Date(`${year}-01-01`),
+				lte: new Date(`${year}-12-31`)
+			}
 		},
 		include: {
 			city: {

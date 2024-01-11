@@ -3,7 +3,7 @@ export default function CardBodyRow({
 	value
 }: {
 	title: string
-	value: number | string | null
+	value?: number | string
 }) {
 	return (
 		<div className='d-flex justify-content-between'>

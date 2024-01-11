@@ -10,7 +10,7 @@ import { participants, rounds } from '@/data'
 import getCurrentYear from '@/helpers/getCurrentYear'
 import getUserSession from '@/helpers/getUserSession.server'
 import { Star } from '@/icons'
-import { getGpsUpcoming, getRiders, getUser } from '@/prisma/service'
+import { getGpsUpcoming, getRidersActive, getUser } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
@@ -28,8 +28,13 @@ export default async function User({ params }: { params: { id: string } }) {
 
 	const gpsAmount = user.userResults.length
 
-	const gpsUpcoming = await getGpsUpcoming()
-	const riders = await getRiders()
+	const gpsUpcoming = await getGpsUpcoming(year)
+	const ridersActive = await getRidersActive()
+
+	const userStanding = user.userStandings.find(
+		(userStanding) => userStanding.year === year
+	)
+	console.log(userStanding)
 
 	return (
 		<AnimationWrapper>
@@ -45,40 +50,44 @@ export default async function User({ params }: { params: { id: string } }) {
 						<CardBody className='p-2'>
 							<CardBodyRow
 								title={'Position'}
-								value={`${user.userStandings[0].pos} / ${participants[year]}`}
+								value={`${userStanding?.pos || 0} / ${participants[year] || 0}`}
 							/>
 							<CardBodyRow
 								title={'Total points'}
-								value={user.userStandings[0].points}
+								value={userStanding?.points}
 							/>
 							<Medals
 								medals={[
-									user.userStandings[0].m1,
-									user.userStandings[0].m2,
-									user.userStandings[0].m3
+									userStanding?.m1 || null,
+									userStanding?.m2 || null,
+									userStanding?.m3 || null
 								]}
 							/>
 							<CardBodyRow title={`GP's`} value={gpsAmount} />
 							<CardBodyRow
 								title={'Average per GP'}
-								value={(user.userStandings[0].points / gpsAmount).toFixed(2)}
+								value={
+									userStanding?.points &&
+									(userStanding?.points / gpsAmount).toFixed(2)
+								}
 							/>
 							<CardBodyRow
 								title={'Average per rider'}
-								value={(user.userStandings[0].points / gpsAmount / 3).toFixed(
-									2
-								)}
+								value={
+									userStanding?.points &&
+									(userStanding?.points / gpsAmount / 3).toFixed(2)
+								}
 							/>
 							<CardBodyRow
 								title={'Finished races'}
-								value={user.userStandings[0].races}
+								value={userStanding?.races}
 							/>
 						</CardBody>
 					</Card>
 				</Col>
 
 				{!!gpsUpcoming && user.id === userSession?.id && (
-					<GPsUpcoming gps={gpsUpcoming} riders={riders} />
+					<GPsUpcoming gps={gpsUpcoming} riders={ridersActive} />
 				)}
 
 				{user.userResults.map((res) => {
