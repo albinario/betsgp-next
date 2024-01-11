@@ -12,7 +12,7 @@ import ModalHeader from 'react-bootstrap/ModalHeader'
 import ModalTitle from 'react-bootstrap/ModalTitle'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { signInWithEmailAndPassword } from './service'
+import { signInWithEmailAndPassword } from '@/supabase/service'
 import type { Form as TForm, SignIn } from '@/types'
 
 export default function SignIn({
