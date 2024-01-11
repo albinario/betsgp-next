@@ -41,6 +41,11 @@ export const getGp = async (id: number) => {
 				include: {
 					nation: true
 				}
+			},
+			wildCard: {
+				include: {
+					nation: true
+				}
 			}
 		}
 	})
