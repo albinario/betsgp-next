@@ -95,7 +95,7 @@ export const Pick = ({ creation }: { creation: boolean }) => (
 	</svg>
 )
 
-export const Picked = ({ clas }: { clas: string }) => (
+export const Picked = ({ clas }: { clas?: string }) => (
 	<svg
 		className={clas}
 		fill='currentColor'
