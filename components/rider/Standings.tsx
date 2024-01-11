@@ -8,8 +8,14 @@ import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
-export default async function RiderStandings({ topTen }: { topTen?: boolean }) {
-	let riderStandings = await getRiderStandings(2023)
+export default async function RiderStandings({
+	topTen,
+	year
+}: {
+	topTen?: boolean
+	year: number
+}) {
+	let riderStandings = await getRiderStandings(year)
 	if (!riderStandings) return <></>
 
 	if (topTen) riderStandings = riderStandings.slice(0, 10)

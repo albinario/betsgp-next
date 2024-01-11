@@ -1,6 +1,8 @@
 import classNames from 'classnames'
 import AnimationWrapper from '@/components/AnimationWrapper'
 import GPCardHeader from '@/components/gp/CardHeader'
+import { getCookieYear } from '@/cookies/service'
+import getCurrentYear from '@/helpers/getCurrentYear'
 import getLocalDateTime from '@/helpers/getDateTime'
 import { Medal, Pick } from '@/icons'
 import Link from 'next/link'
@@ -12,7 +14,8 @@ import Row from 'react-bootstrap/Row'
 import Table from 'react-bootstrap/Table'
 
 export default async function GPs() {
-	const gps = await getGps(2023)
+	const cookieYear = await getCookieYear()
+	const gps = await getGps(cookieYear || getCurrentYear())
 	if (!gps) return <></>
 
 	const gpsTotal = gps.length

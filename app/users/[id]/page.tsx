@@ -2,10 +2,12 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
 import GPCardHeader from '@/components/gp/CardHeader'
 import GPParticipants from '@/components/gp/Participants'
-import GPUpcoming from '@/components/gp/Upcoming'
+import GPsUpcoming from '@/components/gp/Upcoming'
 import Medals from '@/components/Medals'
 import UserPicks from '@/components/user/Picks'
+import { getCookieYear } from '@/cookies/service'
 import { participants, rounds } from '@/data'
+import getCurrentYear from '@/helpers/getCurrentYear'
 import getUserSession from '@/helpers/getUserSession.server'
 import { Star } from '@/icons'
 import { getGpsUpcoming, getRiders, getUser } from '@/prisma/service'
@@ -16,7 +18,9 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 export default async function User({ params }: { params: { id: string } }) {
-	const year = 2023
+	const cookieYear = await getCookieYear()
+	const year = cookieYear || getCurrentYear()
+
 	const user = await getUser(Number(params.id), year)
 	if (!user) return <></>
 
@@ -74,7 +78,7 @@ export default async function User({ params }: { params: { id: string } }) {
 				</Col>
 
 				{!!gpsUpcoming && user.id === userSession?.id && (
-					<GPUpcoming gps={gpsUpcoming} riders={riders} />
+					<GPsUpcoming gps={gpsUpcoming} riders={riders} />
 				)}
 
 				{user.userResults.map((res) => {

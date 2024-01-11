@@ -1,5 +1,6 @@
 'use client'
 import SignModal from './sign/Modal'
+import YearSelect from './YearSelect'
 import { useUser } from '@/context/UserContext'
 import NextLink from 'next/link'
 import { useState } from 'react'
@@ -11,7 +12,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import NavbarBrand from 'react-bootstrap/NavbarBrand'
 import NavbarCollapse from 'react-bootstrap/NavbarCollapse'
 import NavbarToggle from 'react-bootstrap/NavbarToggle'
-import NavDropdown from 'react-bootstrap/NavDropdown'
 import NavLink from 'react-bootstrap/NavLink'
 import { toast } from 'react-toastify'
 import { signOutUser } from './sign/service'
@@ -43,15 +43,7 @@ export default function Header() {
 					<NavbarBrand as={NextLink} href='/'>
 						<Image alt={logo.alt} src={logo.src} width={logo.width} />
 					</NavbarBrand>
-					<NavDropdown title='2023' id='basic-nav-dropdown'>
-						{[2022, 2021, 2020].map((year) => (
-							<NavDropdown.Item href='' key={year}>
-								{year}
-							</NavDropdown.Item>
-						))}
-						<NavDropdown.Divider />
-						<NavDropdown.Item href=''>All time</NavDropdown.Item>
-					</NavDropdown>
+					<YearSelect />
 				</div>
 
 				<NavbarToggle aria-controls='basic-navbar-nav' />

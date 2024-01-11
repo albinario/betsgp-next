@@ -10,12 +10,14 @@ import type { ReactElement } from 'react'
 
 export default async function UserStandings({
 	topTen,
-	userId
+	userId,
+	year
 }: {
 	topTen?: boolean
 	userId?: number
+	year: number
 }) {
-	let userStandings = await getUserStandings(2023)
+	let userStandings = await getUserStandings(year)
 	if (!userStandings) return <></>
 
 	let userTr: ReactElement = <></>
@@ -25,7 +27,7 @@ export default async function UserStandings({
 			(userStanding) => userStanding.userId === userId
 		)[0]
 
-		if (userStanding) {
+		if (userStanding && userStanding.pos && userStanding.pos > 10) {
 			userTr = (
 				<tr className='userTrTop'>
 					<td className='d-flex align-items-center justify-content-end'>

@@ -8,14 +8,13 @@ import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
 import type { GP, Rider } from '@/types'
 
-export default function GPUpcoming({
+export default function GPsUpcoming({
 	gps,
 	riders
 }: {
 	gps: GP[]
 	riders: Rider[]
 }) {
-	const year = 2023
 	const user = useUser()
 	if (!user) return <></>
 
@@ -30,7 +29,7 @@ export default function GPUpcoming({
 							nationCode={gp.city.nation.code}
 							dateTime={gp.dateTime}
 							round={gp.gp}
-							rounds={rounds[year]}
+							rounds={rounds[gp.dateTime.getFullYear()]}
 						/>
 
 						<CardBody className='p-2'>
