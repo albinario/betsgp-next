@@ -21,12 +21,11 @@ export default async function Rider({ params }: { params: { id: string } }) {
 		(acc, obj) => acc + obj.points,
 		0
 	)
-
-	const racesTotal = rider.riderResults.reduce((acc, obj) => acc + obj.races, 0)
-
 	const m1Total = rider.riderResults.reduce((acc, obj) => acc + obj.m1, 0)
 	const m2Total = rider.riderResults.reduce((acc, obj) => acc + obj.m2, 0)
 	const m3Total = rider.riderResults.reduce((acc, obj) => acc + obj.m3, 0)
+
+	const racesTotal = rider.riderResults.reduce((acc, obj) => acc + obj.races, 0)
 
 	const picksTotal = rider.riderResults.reduce(
 		(acc, obj) => acc + obj.gp.userPicks.length,
@@ -90,15 +89,13 @@ export default async function Rider({ params }: { params: { id: string } }) {
 											</span>
 										</div>
 										<CardBodyRow title={'Races'} value={riderResult.races} />
-										<CardBodyRow
-											title={'Times picked'}
-											value={riderResult.gp.userPicks.length}
-										/>
-										{isPicked && (
-											<div className='d-flex justify-content-center'>
-												<Picked clas={'highlight'} />
-											</div>
-										)}
+										<div className='d-flex justify-content-between'>
+											<span>Times picked</span>
+											<span className='d-flex align-items-center gap-1'>
+												{isPicked && <Picked clas={'highlight'} />}
+												{riderResult.gp.userPicks.length}
+											</span>
+										</div>
 									</CardBody>
 								</Card>
 							</Link>
