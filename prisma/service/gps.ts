@@ -136,3 +136,23 @@ export const getGpParticipants = async (gpId: number) => {
 		}
 	})
 }
+
+export const getGpsUpcoming = async () => {
+	return await prisma.gp.findMany({
+		where: {
+			finished: false
+		},
+		include: {
+			city: {
+				include: {
+					nation: true
+				}
+			},
+			wildCard: {
+				include: {
+					nation: true
+				}
+			}
+		}
+	})
+}

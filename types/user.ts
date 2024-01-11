@@ -21,3 +21,5 @@ export type UserPick = userPick & {
 	pick2: Rider
 	pick3: Rider
 }
+
+export type UserPickAdd = Omit<userPick, 'id' | 'created' | 'updated'>

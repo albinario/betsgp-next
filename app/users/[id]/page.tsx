@@ -2,11 +2,12 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
 import GPCardHeader from '@/components/gp/CardHeader'
 import GPParticipants from '@/components/gp/Participants'
+import GPUpcoming from '@/components/gp/Upcoming'
 import Medals from '@/components/Medals'
 import UserPicks from '@/components/user/Picks'
 import { participants, rounds } from '@/data'
 import { Star } from '@/icons'
-import { getUser } from '@/prisma/service'
+import { getGpsUpcoming, getRiders, getUser } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
@@ -17,6 +18,9 @@ export default async function User({ params }: { params: { id: string } }) {
 	const year = 2023
 	const user = await getUser(Number(params.id), year)
 	const gpsAmount = user ? user.userResults.length : 0
+
+	const gpsUpcoming = await getGpsUpcoming()
+	const riders = await getRiders()
 
 	return user ? (
 		<AnimationWrapper>
@@ -63,6 +67,8 @@ export default async function User({ params }: { params: { id: string } }) {
 						</CardBody>
 					</Card>
 				</Col>
+
+				{!!gpsUpcoming && <GPUpcoming gps={gpsUpcoming} riders={riders} />}
 
 				{user.userResults.map((res) => {
 					return (

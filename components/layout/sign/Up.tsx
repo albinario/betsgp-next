@@ -53,9 +53,9 @@ export default function SignUp({
 			</ModalHeader>
 			<ModalBody>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(handleSignUp)}>
-					<FormGroup className='d-flex'>
+					<FormGroup className='d-flex gap-2'>
 						<FormControl
-							className={classNames('me-1', {
+							className={classNames({
 								'missing-border': errors.firstName
 							})}
 							placeholder='First name'
@@ -63,7 +63,7 @@ export default function SignUp({
 							{...register('firstName', { required: true })}
 						/>
 						<FormControl
-							className={classNames('ms-1', {
+							className={classNames({
 								'missing-border': errors.lastName
 							})}
 							placeholder='Last name'
