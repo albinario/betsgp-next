@@ -1,5 +1,6 @@
 'use client'
 import SignModal from './sign/Modal'
+import { useUser } from '@/context/UserContext'
 import NextLink from 'next/link'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
@@ -14,11 +15,12 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import NavLink from 'react-bootstrap/NavLink'
 import { toast } from 'react-toastify'
 import { signOutUser } from './sign/service'
-import type { User } from '@supabase/supabase-js'
 import { logo } from '@/theme'
 
-export default function Header({ user }: { user: User | undefined }) {
+export default function Header() {
 	const [showModal, setShowModal] = useState(false)
+
+	const user = useUser()
 
 	const hideModal = () => {
 		setShowModal(false)
@@ -58,17 +60,11 @@ export default function Header({ user }: { user: User | undefined }) {
 						<NavLink as={NextLink} href='/standings'>
 							Standings
 						</NavLink>
-						<NavLink as={NextLink} href='/stats'>
-							Stats
-						</NavLink>
 						<NavLink as={NextLink} href='/gps'>
-							Grand Prix
+							GP&apos;s
 						</NavLink>
 						<NavLink as={NextLink} href='/riders'>
 							Riders
-						</NavLink>
-						<NavLink as={NextLink} href='/comments'>
-							Comments
 						</NavLink>
 						<NavLink as={NextLink} href='/hall-of-fame'>
 							Hall of fame
@@ -76,6 +72,11 @@ export default function Header({ user }: { user: User | undefined }) {
 						<NavLink as={NextLink} href='/rules'>
 							Rules
 						</NavLink>
+						{user && (
+							<NavLink as={NextLink} href={'/users/' + user.id}>
+								My page
+							</NavLink>
+						)}
 						<NavLink className='pe-0'>
 							{!user ? (
 								<Button
@@ -91,7 +92,7 @@ export default function Header({ user }: { user: User | undefined }) {
 								</Button>
 							)}
 						</NavLink>
-						{user?.user_metadata.admin && (
+						{user?.admin && (
 							<NavLink className='pe-0' href='/admin'>
 								<Button size='sm'>Admin</Button>
 							</NavLink>

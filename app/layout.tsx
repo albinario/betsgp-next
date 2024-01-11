@@ -1,7 +1,9 @@
 import './globals.css'
 import Footer from '@/components/layout/Footer'
 import Header from '@/components/layout/Header'
+import { UserProvider } from '@/context/UserContext'
 import type { Metadata } from 'next'
+import { getUserRaw } from '@/prisma/service'
 import Container from 'react-bootstrap/Container'
 import { ToastContainer } from 'react-toastify'
 import { readSession } from '@/supabase/service'
@@ -19,16 +21,19 @@ export default async function RootLayout({
 	children: React.ReactNode
 }) {
 	const session = await readSession()
-	// console.log(session)
+	const userSession = session.data.session?.user
+	const user = userSession ? await getUserRaw(userSession.id) : null
 
 	return (
 		<html lang='en' data-bs-theme='dark'>
 			<body>
-				<Container>
-					<Header user={session.data.session?.user} />
-					{children}
-					<Footer />
-				</Container>
+				<UserProvider user={user}>
+					<Container>
+						<Header />
+						{children}
+						<Footer />
+					</Container>
+				</UserProvider>
 				<ToastContainer
 					autoClose={3000}
 					draggable
