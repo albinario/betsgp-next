@@ -2,13 +2,23 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import GPCardHeader from '@/components/gp/CardHeader'
 import RiderResults from '@/components/rider/Results'
 import UserResults from '@/components/user/Results'
-import { getGp } from '@/prisma/service'
+import { getGp, getUserPick, getUserRaw } from '@/prisma/service'
+import { readSession } from '@/supabase/service'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
 export default async function GP({ params }: { params: { id: string } }) {
 	const gp = await getGp(Number(params.id))
+
+	const session = gp ? await readSession() : null
+	const userSession = session ? session.data.session?.user : null
+	const user = userSession ? await getUserRaw(userSession.id) : null
+
+	const userPick = user && gp ? await getUserPick(gp.id, user.id) : null
+	const userPicks = userPick
+		? [userPick.pick1Id, userPick.pick2Id, userPick.pick3Id]
+		: null
 
 	return gp ? (
 		<AnimationWrapper>
@@ -29,11 +39,11 @@ export default async function GP({ params }: { params: { id: string } }) {
 			<Row xs={1} lg={2} className='g-2'>
 				<Col>
 					{/* @ts-expect-error Server Component */}
-					<UserResults gp={gp} />
+					<UserResults gp={gp} userId={user?.id} userPicks={userPicks} />
 				</Col>
 				<Col>
 					{/* @ts-expect-error Server Component */}
-					<RiderResults gp={gp} />
+					<RiderResults gp={gp} userPicks={userPicks} />
 				</Col>
 			</Row>
 		</AnimationWrapper>

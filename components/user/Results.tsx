@@ -8,13 +8,18 @@ import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 import type { GP, Rider } from '@/types'
+import Medals from '../Medals'
 
 export default async function UserResults({
 	gp,
-	topTen
+	topTen,
+	userId,
+	userPicks
 }: {
 	gp: GP
 	topTen?: boolean
+	userId?: number
+	userPicks: number[] | null
 }) {
 	let userResults = await getUserResults(gp.id)
 
@@ -75,7 +80,12 @@ export default async function UserResults({
 									</span>
 								</td>
 								<td className='pe-0 text-start'>
-									<Link href={'/users/' + userResult.userId}>
+									<Link
+										className={classNames({
+											highlight: userResult.userId === userId
+										})}
+										href={'/users/' + userResult.userId}
+									>
 										{userResult.user.firstName} {userResult.user.lastName}
 									</Link>
 								</td>
@@ -104,7 +114,13 @@ export default async function UserResults({
 																marginLeft: '2px'
 															}}
 														>
-															{pick.number}
+															<span
+																className={classNames({
+																	highlight: userPicks?.includes(pick.id)
+																})}
+															>
+																{pick.number}
+															</span>
 														</span>
 													</span>
 												</Link>
@@ -113,9 +129,9 @@ export default async function UserResults({
 									})}
 
 								<td className='text-nowrap'>
-									{userResult.m1 !== 0 && <Medal type={1} />}
-									{userResult.m2 !== 0 && <Medal type={2} />}
-									{userResult.m3 !== 0 && <Medal type={3} />}
+									<Medals
+										medals={[userResult.m1, userResult.m2, userResult.m3]}
+									/>
 								</td>
 								<td>{userResult.points}</td>
 								<td>{userResult.races}</td>

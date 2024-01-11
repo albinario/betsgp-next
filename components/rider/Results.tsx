@@ -1,14 +1,21 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
-import { FlagCheckered, Medal, Picked } from '@/icons'
+import { FlagCheckered, Picked } from '@/icons'
 import Link from 'next/link'
 import { getRiderResults } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 import type { GP } from '@/types'
+import Medal from '../Medal'
 
-export default async function RiderResults({ gp }: { gp: GP }) {
+export default async function RiderResults({
+	gp,
+	userPicks
+}: {
+	gp: GP
+	userPicks: number[] | null
+}) {
 	const riderResults = await getRiderResults(gp.id)
 	let pos = 0
 	let prev: (number | null)[] = []
@@ -82,13 +89,19 @@ export default async function RiderResults({ gp }: { gp: GP }) {
 											height='.7em'
 											nationCode={riderResult.rider.nation.code}
 										/>
-										{riderResult.rider.name}
+										<span
+											className={classNames({
+												highlight: userPicks?.includes(riderResult.riderId)
+											})}
+										>
+											{riderResult.rider.name}
+										</span>
 									</Link>
 								</td>
 								<td className='text-end'>
-									{riderResult.m1 !== 0 && <Medal type={1} />}
-									{riderResult.m2 !== 0 && <Medal type={2} />}
-									{riderResult.m3 !== 0 && <Medal type={3} />}
+									<Medal
+										medals={[riderResult.m1, riderResult.m2, riderResult.m3]}
+									/>
 								</td>
 								<td>{riderResult.points}</td>
 								<td>{riderResult.races}</td>
