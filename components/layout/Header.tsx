@@ -2,6 +2,7 @@
 import SignModal from '@/components/layout/sign/Modal'
 import YearSelect from '@/components/layout/YearSelect'
 import { useUser } from '@/context/UserContext'
+import { Admin, SignIn } from '@/icons'
 import NextLink from 'next/link'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
@@ -13,8 +14,6 @@ import NavbarBrand from 'react-bootstrap/NavbarBrand'
 import NavbarCollapse from 'react-bootstrap/NavbarCollapse'
 import NavbarToggle from 'react-bootstrap/NavbarToggle'
 import NavLink from 'react-bootstrap/NavLink'
-import { toast } from 'react-toastify'
-import { signOutUser } from '@/supabase/service'
 import { logo } from '@/theme'
 
 export default function Header() {
@@ -26,19 +25,9 @@ export default function Header() {
 		setShowModal(false)
 	}
 
-	const onSignOut = async () => {
-		try {
-			await signOutUser()
-
-			toast.success('Signed out')
-		} catch (error) {
-			toast.error('Something went wrong when trying to sign out')
-		}
-	}
-
 	return (
 		<>
-			<Navbar expand='lg' collapseOnSelect>
+			<Navbar expand='md' collapseOnSelect>
 				<div className='d-flex align-items-center'>
 					<NavbarBrand as={NextLink} href='/'>
 						<Image alt={logo.alt} src={logo.src} width={logo.width} />
@@ -48,7 +37,7 @@ export default function Header() {
 
 				<NavbarToggle aria-controls='basic-navbar-nav' />
 				<NavbarCollapse id='basic-navbar-nav'>
-					<Nav className='d-flex align-items-center ms-auto small text-uppercase'>
+					<Nav className='d-flex align-items-center ms-auto small'>
 						<NavLink as={NextLink} href='/standings'>
 							Standings
 						</NavLink>
@@ -69,24 +58,28 @@ export default function Header() {
 								My page
 							</NavLink>
 						)}
-						<NavLink className='pe-0'>
-							{!user ? (
+						{!user && (
+							<div className='pe-0'>
 								<Button
+									className='d-flex align-items-center gap-1'
 									onClick={() => setShowModal(true)}
 									size='sm'
 									variant='success'
 								>
-									Sign in
+									<span style={{ fontSize: '.8em' }}>Sign in</span>
+									<SignIn />
 								</Button>
-							) : (
-								<Button onClick={onSignOut} size='sm' variant='danger'>
-									Sign out
-								</Button>
-							)}
-						</NavLink>
+							</div>
+						)}
 						{user?.admin && (
-							<NavLink className='pe-0' href='/admin'>
-								<Button size='sm'>Admin</Button>
+							<NavLink as={NextLink} className='pe-0' href='/admin'>
+								<Button
+									className='d-flex align-items-center'
+									size='sm'
+									variant='outline-primary'
+								>
+									<Admin />
+								</Button>
 							</NavLink>
 						)}
 					</Nav>
