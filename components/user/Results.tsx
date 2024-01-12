@@ -93,13 +93,14 @@ export default async function UserResults({
 	return (
 		<Card>
 			<CardHeader className='py-1 d-flex justify-content-center'>
-				{topTen && (
+				{topTen ? (
 					<div className='d-flex align-items-center'>
 						<Flag height='.8em' nationCode={gp.city.nation.code} />
 						<span className='ms-1'>{gp.city.name}</span>
 					</div>
+				) : (
+					'Results'
 				)}
-				{!topTen && 'Results'}
 			</CardHeader>
 			<Table
 				borderless
