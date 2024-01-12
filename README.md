@@ -12,4 +12,4 @@ The app will keep track of the leaderboards, for each GP as well as the total st
 
 [Link to project kanban board](https://github.com/users/albinario/projects/3)
 
-[Link to deployed app](https://fed22m-exjobb-albinario-albin-lindeborgs-projects.vercel.app/)
+[Link to deployed app](https://fed22m-exjobb-albinario.vercel.app/)
