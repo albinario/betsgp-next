@@ -25,9 +25,11 @@ export default async function RootLayout({
 		<html lang='en' data-bs-theme='dark'>
 			<body>
 				<UserProvider user={user}>
-					<Container>
-						<Header />
-						{children}
+					<Container className='d-flex flex-column justify-content-between'>
+						<div>
+							<Header />
+							{children}
+						</div>
 						<Footer />
 					</Container>
 				</UserProvider>
