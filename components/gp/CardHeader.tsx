@@ -1,5 +1,5 @@
 import Flag from '@/components/Flag'
-import getLocalDateTime from '@/helpers/getDateTime'
+import getDateTimeLocal from '@/helpers/getDateTime'
 import CardImg from 'react-bootstrap/CardImg'
 
 export default function GPCardHeader({
@@ -26,7 +26,7 @@ export default function GPCardHeader({
 					<Flag height={'1.5em'} nationCode={nationCode} />
 				</div>
 
-				<span className='small overlay-text'>{getLocalDateTime(dateTime)}</span>
+				<span className='small overlay-text'>{getDateTimeLocal(dateTime)}</span>
 
 				<span className='small overlay-text'>
 					Round {round} of {rounds}

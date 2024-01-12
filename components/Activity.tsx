@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
-import getLocalDateTime from '@/helpers/getDateTime'
+import getDateTimeLocal from '@/helpers/getDateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
 import { getActivity } from '@/prisma/service'
@@ -44,7 +44,7 @@ export default async function Activity({
 								{act.gp.city.name}
 							</td>
 							<td className='pe-2 text-end'>
-								{getLocalDateTime(act.dateTime)}
+								{getDateTimeLocal(act.dateTime)}
 							</td>
 						</tr>
 					))}

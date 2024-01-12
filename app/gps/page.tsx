@@ -3,7 +3,7 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import GPCardHeader from '@/components/gp/CardHeader'
 import { getCookieYear } from '@/cookies/service'
 import getCurrentYear from '@/helpers/getCurrentYear'
-import getLocalDateTime from '@/helpers/getDateTime'
+import getDateTimeLocal from '@/helpers/getDateTime'
 import { Medal, Pick } from '@/icons'
 import Link from 'next/link'
 import { getGps } from '@/prisma/service'
@@ -80,7 +80,7 @@ export default async function GPs() {
 													</Link>
 												</td>
 												<td className='text-end'>
-													{getLocalDateTime(act.dateTime, true)}
+													{getDateTimeLocal(act.dateTime, true)}
 												</td>
 											</tr>
 										))}
