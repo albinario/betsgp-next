@@ -29,12 +29,14 @@ export default async function UserPicks({
 							<Flag height='.7em' nationCode={pick.nation.code} />
 							{pick.name}
 						</span>
-						<span className='d-flex align-items-center gap-1'>
-							{pick.riderResults[0].m1 !== 0 && <Medal type={1} />}
-							{pick.riderResults[0].m2 !== 0 && <Medal type={2} />}
-							{pick.riderResults[0].m3 !== 0 && <Medal type={3} />}
-							{pick.riderResults[0].points}
-						</span>
+						{pick.riderResults[0] && (
+							<span className='d-flex align-items-center gap-1'>
+								{pick.riderResults[0].m1 !== 0 && <Medal type={1} />}
+								{pick.riderResults[0].m2 !== 0 && <Medal type={2} />}
+								{pick.riderResults[0].m3 !== 0 && <Medal type={3} />}
+								{pick.riderResults[0].points}
+							</span>
+						)}
 					</div>
 				</Link>
 			))}
