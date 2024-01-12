@@ -1,8 +1,10 @@
+import classNames from 'classnames'
 import AnimationWrapper from '@/components/AnimationWrapper'
 import CardBodyRow from '@/components/CardBodyRow'
 import GPCardHeader from '@/components/gp/CardHeader'
 import GPParticipants from '@/components/gp/Participants'
 import GPsUpcoming from '@/components/gp/Upcoming'
+import SignOut from '@/components/layout/sign/Out'
 import Medals from '@/components/Medals'
 import UserPicks from '@/components/user/Picks'
 import { getCookieYear } from '@/cookies/service'
@@ -11,6 +13,7 @@ import getCurrentYear from '@/helpers/getCurrentYear'
 import getUserSession from '@/helpers/getUserSession.server'
 import { Star } from '@/icons'
 import { getGpsUpcoming, getRidersActive, getUser } from '@/prisma/service'
+import Link from 'next/link'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import CardHeader from 'react-bootstrap/CardHeader'
@@ -25,6 +28,7 @@ export default async function User({ params }: { params: { id: string } }) {
 	if (!user) return <></>
 
 	const userSession = await getUserSession()
+	const userAccess = user.id === userSession?.id
 
 	const gpsAmount = user.userResults.length
 
@@ -34,7 +38,6 @@ export default async function User({ params }: { params: { id: string } }) {
 	const userStanding = user.userStandings.find(
 		(userStanding) => userStanding.year === year
 	)
-	console.log(userStanding)
 
 	return (
 		<AnimationWrapper>
@@ -48,10 +51,14 @@ export default async function User({ params }: { params: { id: string } }) {
 							))}
 						</CardHeader>
 						<CardBody className='p-2'>
-							<CardBodyRow
-								title={'Position'}
-								value={`${userStanding?.pos || 0} / ${participants[year] || 0}`}
-							/>
+							<Link href='/standings'>
+								<CardBodyRow
+									title={'Position'}
+									value={`${userStanding?.pos || 0} / ${
+										participants[year] || 0
+									}`}
+								/>
+							</Link>
 							<CardBodyRow
 								title={'Total points'}
 								value={userStanding?.points}
@@ -82,18 +89,25 @@ export default async function User({ params }: { params: { id: string } }) {
 								title={'Finished races'}
 								value={userStanding?.races}
 							/>
+							{userAccess && <SignOut />}
 						</CardBody>
 					</Card>
 				</Col>
 
-				{!!gpsUpcoming && user.id === userSession?.id && (
+				{!!gpsUpcoming && userAccess && (
 					<GPsUpcoming gps={gpsUpcoming} riders={ridersActive} />
 				)}
 
 				{user.userResults.map((res) => {
 					return (
 						<Col key={res.gpId}>
-							<Card>
+							<Card
+								className={classNames({
+									goldBorder: res.pos === 1,
+									silverBorder: res.pos === 2,
+									bronzeBorder: res.pos === 3
+								})}
+							>
 								<GPCardHeader
 									cityId={res.gp.cityId}
 									cityName={res.gp.city.name}
