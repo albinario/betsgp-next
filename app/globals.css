@@ -53,9 +53,19 @@ a {
 	color: #ffb24c;
 }
 .highlightBorder {
-	border-color: #ffb24c !important;
+	border-color: #ffb24c;
 }
 
 .userTrTop {
 	border-top: 2px solid #141414;
+}
+
+.goldBorder {
+	border-color: #ffd700;
+}
+.silverBorder {
+	border-color: #c0c0c0;
+}
+.bronzeBorder {
+	border-color: #cd7f32;
 }
