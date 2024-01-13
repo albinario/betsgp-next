@@ -1,5 +1,6 @@
 'use server'
 import prisma from '@/prisma/client'
+import type { RiderResultIncoming } from '@/types'
 
 export const getRiderResults = async (gpId: number) => {
 	return await prisma.riderResult.findMany({
@@ -139,4 +140,30 @@ export const getRiderStandings = async (year = 0) => {
 	)
 
 	return riders
+}
+
+export const updateRiderResult = async (data: RiderResultIncoming) => {
+	const existing = await prisma.riderResult.findFirst({
+		where: {
+			gpId: data.gpId,
+			riderId: data.riderId
+		}
+	})
+
+	if (existing) {
+		await prisma.riderResult.update({
+			where: {
+				id: existing.id
+			},
+			data: {
+				m1: data.m1,
+				m2: data.m2,
+				m3: data.m3,
+				points: existing.points + data.points,
+				races: existing.races + data.races
+			}
+		})
+	} else {
+		await prisma.riderResult.create({ data })
+	}
 }
