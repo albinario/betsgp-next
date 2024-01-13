@@ -9,3 +9,5 @@ export type RiderNew = Omit<rider, 'id'>
 export type PickedRider = Rider & {
 	riderResults: riderResult[]
 }
+
+export type RiderResultIncoming = Omit<riderResult, 'id'>
