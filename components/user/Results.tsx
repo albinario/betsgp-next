@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
+import getDateTimeLocal from '@/helpers/getDateTime'
 import { FlagCheckered } from '@/icons'
 import Link from 'next/link'
 import { getUserResults } from '@/prisma/service'
@@ -93,14 +94,18 @@ export default async function UserResults({
 	return (
 		<Card>
 			<CardHeader className='py-1 d-flex justify-content-center'>
-				{topTen ? (
-					<div className='d-flex align-items-center'>
+				{topTen && (
+					<div className='d-flex align-items-center gap-1'>
 						<Flag height='.8em' nationCode={gp.city.nation.code} />
-						<span className='ms-1'>{gp.city.name}</span>
+						{gp.city.name}
+						<span className='position-absolute end-0 pe-2'>
+							<span className='small text-muted'>
+								{getDateTimeLocal(gp.dateTime).split(' ')[0]}
+							</span>
+						</span>
 					</div>
-				) : (
-					'Results'
 				)}
+				{!topTen && 'Results'}
 			</CardHeader>
 			<Table
 				borderless
