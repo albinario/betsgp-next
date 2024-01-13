@@ -17,6 +17,17 @@ export const createGP = async (data: GPNew) => {
 	await prisma.gp.create({ data })
 }
 
+export const finishGp = async (id: number) => {
+	await prisma.gp.update({
+		where: {
+			id
+		},
+		data: {
+			finished: true
+		}
+	})
+}
+
 export const getGp = async (id: number) => {
 	return await prisma.gp.findUnique({
 		where: {
@@ -123,17 +134,6 @@ export const getGps = async (year: number) => {
 	})
 }
 
-export const getGpsNoWildCard = async () => {
-	return await prisma.gp.findMany({
-		where: {
-			wildCardId: null
-		},
-		include: {
-			city: true
-		}
-	})
-}
-
 export const getGpParticipants = async (gpId: number) => {
 	return await prisma.userPick.count({
 		where: {
@@ -142,16 +142,29 @@ export const getGpParticipants = async (gpId: number) => {
 	})
 }
 
-export const getGpsUpcoming = async (year: number) => {
+export const getGpsUpcoming = async () => {
 	return await prisma.gp.findMany({
 		where: {
-			finished: false,
 			dateTime: {
-				gte: new Date(`${year}-01-01`),
-				lte: new Date(`${year}-12-31`)
+				gt: new Date()
 			}
 		},
 		include: {
+			activity: {
+				include: {
+					user: {
+						select: {
+							id: true,
+							firstName: true,
+							lastName: true
+						}
+					}
+				},
+				orderBy: {
+					id: 'desc'
+				},
+				take: 5
+			},
 			city: {
 				include: {
 					nation: true
@@ -162,6 +175,9 @@ export const getGpsUpcoming = async (year: number) => {
 					nation: true
 				}
 			}
+		},
+		orderBy: {
+			id: 'asc'
 		}
 	})
 }
