@@ -11,10 +11,7 @@ import Form from 'react-bootstrap/Form'
 import FormSelect from 'react-bootstrap/FormSelect'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-
-type GP = gp & {
-	city: city
-}
+import type { GP } from '@/types'
 
 type WildCard = {
 	gpId: number
