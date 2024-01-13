@@ -90,7 +90,7 @@ export default function PickRiders({
 			data.pick1Id == data.pick3Id ||
 			data.pick2Id == data.pick3Id
 		) {
-			return toast.error('Same rider picked more than once')
+			return toast.error('Duplicate picks')
 		}
 
 		try {
