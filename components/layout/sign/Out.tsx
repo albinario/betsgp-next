@@ -18,12 +18,12 @@ export default function SignOut() {
 	return (
 		<div className='d-grid g-2 mt-3'>
 			<Button
-				className='d-flex align-items-center justify-content-center gap-1'
+				className='d-flex align-items-center justify-content-center gap-1 p-1'
 				onClick={onSignOut}
 				size='sm'
-				variant='danger'
+				variant='outline-danger'
 			>
-				Sign out <SignOutIcon />
+				<span style={{ fontSize: '.8em' }}>Sign out</span> <SignOutIcon />
 			</Button>
 		</div>
 	)
