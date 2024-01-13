@@ -1,5 +1,5 @@
 import Flag from '@/components/Flag'
-import getDateTimeLocal from '@/helpers/getDateTime'
+import { getDateTimeLocal } from '@/helpers/dateTime'
 import CardImg from 'react-bootstrap/CardImg'
 
 export default function GPCardHeader({

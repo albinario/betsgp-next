@@ -1,5 +1,5 @@
 import { getCookieYear, setCookieYear } from '@/cookies/service'
-import getCurrentYear from '@/helpers/getCurrentYear'
+import { getCurrentYear } from '@/helpers/dateTime'
 import { useState, type ReactElement, useEffect } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import { toast } from 'react-toastify'

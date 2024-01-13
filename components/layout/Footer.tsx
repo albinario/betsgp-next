@@ -1,4 +1,4 @@
-import getCurrentYear from '@/helpers/getCurrentYear'
+import { getCurrentYear } from '@/helpers/dateTime'
 
 export default function Footer() {
 	return (
