@@ -1,3 +1,4 @@
+'use client'
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import { addUserPick, getUserPick } from '@/prisma/service'
@@ -26,6 +27,7 @@ export default function PickRiders({
 	riders: Rider[]
 	userId: number
 }) {
+	const [isAllGood, setIsAllGood] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
 	const [isUpdated, setIsUpdated] = useState(false)
 	const [nationCodes, setNationCodes] = useState<string[]>([])
@@ -51,6 +53,7 @@ export default function PickRiders({
 					userPick.pick2.nation.code,
 					userPick.pick3.nation.code
 				])
+				setIsAllGood(true)
 			}
 		}
 		checkPicks()
@@ -106,6 +109,7 @@ export default function PickRiders({
 
 			await addUserPick(picks)
 
+			setIsAllGood(true)
 			setIsUpdated(false)
 			toast.success('Riders picked')
 		} catch (error) {
@@ -156,7 +160,7 @@ export default function PickRiders({
 				type='submit'
 				variant='outline-success'
 			>
-				{!!nationCodes ? 'Pick riders' : 'Update picks'}
+				{isAllGood ? 'Update picks' : 'Pick Riders'}
 			</Button>
 		</Form>
 	)

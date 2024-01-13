@@ -9,10 +9,10 @@ import Medals from '@/components/Medals'
 import UserPicks from '@/components/user/Picks'
 import { getCookieYear } from '@/cookies/service'
 import { participants, rounds } from '@/data'
-import getCurrentYear from '@/helpers/getCurrentYear'
-import getUserSession from '@/helpers/getUserSession.server'
+import { getCurrentYear } from '@/helpers/dateTime'
+import getUserSession from '@/helpers/userSession.server'
 import { Star } from '@/icons'
-import { getGpsUpcoming, getRidersActive, getUser } from '@/prisma/service'
+import { getUser } from '@/prisma/service'
 import Link from 'next/link'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
@@ -31,9 +31,6 @@ export default async function User({ params }: { params: { id: string } }) {
 	const userAccess = user.id === userSession?.id
 
 	const gpsAmount = user.userResults.length
-
-	const gpsUpcoming = await getGpsUpcoming(year)
-	const ridersActive = await getRidersActive()
 
 	const userStanding = user.userStandings.find(
 		(userStanding) => userStanding.year === year
@@ -89,13 +86,17 @@ export default async function User({ params }: { params: { id: string } }) {
 								title={'Finished races'}
 								value={userStanding?.races}
 							/>
+
 							{userAccess && <SignOut />}
 						</CardBody>
 					</Card>
 				</Col>
 
-				{!!gpsUpcoming && userAccess && (
-					<GPsUpcoming gps={gpsUpcoming} riders={ridersActive} />
+				{userAccess && (
+					<>
+						{/* @ts-expect-error Server Component */}
+						<GPsUpcoming userId={user.id} />
+					</>
 				)}
 
 				{user.userResults.map((res) => {
