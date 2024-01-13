@@ -9,16 +9,16 @@ import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
 export default async function RiderStandings({
-	topTen,
+	take,
 	year
 }: {
-	topTen?: boolean
+	take?: number
 	year: number
 }) {
 	let riderStandings = await getRiderStandings(year)
 	if (!riderStandings) return <></>
 
-	if (topTen) riderStandings = riderStandings.slice(0, 10)
+	if (take) riderStandings = riderStandings.slice(0, take)
 
 	let pos = 0
 	let prev: (number | null)[] = []
@@ -122,7 +122,7 @@ export default async function RiderStandings({
 				</tbody>
 			</Table>
 
-			{topTen && (
+			{take && (
 				<Link href={'/standings#riders'} className='d-grid p-2'>
 					<Button size='sm' variant='outline-success'>
 						More

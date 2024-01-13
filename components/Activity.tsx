@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
-import getDateTimeLocal from '@/helpers/getDateTime'
+import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
 import { getActivity } from '@/prisma/service'
@@ -10,16 +10,16 @@ import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 
 export default async function Activity({
-	topTen,
+	take,
 	userId
 }: {
-	topTen?: boolean
+	take?: number
 	userId?: number
 }) {
 	let activity = await getActivity()
 	if (!activity) return <></>
 
-	if (topTen) activity = activity.slice(0, 11)
+	if (take) activity = activity.slice(0, take)
 
 	return (
 		<Card>
@@ -31,27 +31,25 @@ export default async function Activity({
 							<td className='text-center'>
 								<Pick creation={act.creation} />
 							</td>
-							<td>
+							<td className='d-flex align-items-center gap-1'>
 								<Link
 									className={classNames({ highlight: act.userId === userId })}
 									href={'/users/' + act.userId}
 								>
 									{act.user.firstName} {act.user.lastName}
 								</Link>
-							</td>
-							<td className='d-flex align-items-center justify-content-end gap-1 pe-0'>
 								<Flag height='.7em' nationCode={act.gp.city.nation.code} />
 								{act.gp.city.name}
 							</td>
-							<td className='pe-2 text-end'>
-								{getDateTimeLocal(act.dateTime)}
+							<td className='pe-2 text-end text-muted'>
+								<span className='small'>{getDateTimeLocal(act.dateTime)}</span>
 							</td>
 						</tr>
 					))}
 				</tbody>
 			</Table>
 
-			{topTen && (
+			{take && (
 				<Link href={'/activity'} className='d-grid p-2'>
 					<Button size='sm' variant='outline-success'>
 						More

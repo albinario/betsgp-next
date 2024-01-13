@@ -1,26 +1,32 @@
-'use client'
 import GPCardHeader from '@/components/gp/CardHeader'
 import PickRiders from '@/components/gp/PickRiders'
-import { useUser } from '@/context/UserContext'
 import { rounds } from '@/data'
+import { getDateTimeLocal } from '@/helpers/dateTime'
+import { Pick } from '@/icons'
+import Link from 'next/link'
+import { getGpsUpcoming, getRidersActive } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
-import type { GP, Rider } from '@/types'
+import Table from 'react-bootstrap/Table'
 
-export default function GPsUpcoming({
-	gps,
-	riders
+export default async function GPsUpcoming({
+	take,
+	userId
 }: {
-	gps: GP[]
-	riders: Rider[]
+	take?: number
+	userId?: number
 }) {
-	const user = useUser()
-	if (!user) return <></>
+	let gpsUpcoming = await getGpsUpcoming()
+	if (!gpsUpcoming) return <></>
+
+	if (take) gpsUpcoming = gpsUpcoming.slice(0, take)
+
+	const ridersActive = userId ? await getRidersActive() : null
 
 	return (
 		<>
-			{gps.map((gp) => (
+			{gpsUpcoming.map((gp) => (
 				<Col key={gp.id}>
 					<Card>
 						<GPCardHeader
@@ -32,9 +38,42 @@ export default function GPsUpcoming({
 							rounds={rounds[gp.dateTime.getFullYear()]}
 						/>
 
-						<CardBody className='p-2'>
-							<PickRiders gp={gp} riders={riders} userId={user.id} />
-						</CardBody>
+						{ridersActive && userId && (
+							<CardBody className='p-2'>
+								<PickRiders gp={gp} riders={ridersActive} userId={userId} />
+							</CardBody>
+						)}
+
+						{!userId && (
+							<Table
+								borderless
+								className='mb-1'
+								hover
+								responsive
+								size='sm'
+								striped
+							>
+								<tbody>
+									{gp.activity.map((act) => (
+										<tr key={act.id}>
+											<td className='text-center'>
+												<Pick creation={act.creation} />
+											</td>
+											<td>
+												<Link href={'/users/' + act.userId}>
+													{act.user.firstName} {act.user.lastName}
+												</Link>
+											</td>
+											<td className='pe-2 text-end text-muted'>
+												<span className='small'>
+													{getDateTimeLocal(act.dateTime)}
+												</span>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</Table>
+						)}
 					</Card>
 				</Col>
 			))}

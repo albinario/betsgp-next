@@ -9,11 +9,11 @@ import Table from 'react-bootstrap/Table'
 import type { ReactElement } from 'react'
 
 export default async function UserStandings({
-	topTen,
+	take,
 	userId,
 	year
 }: {
-	topTen?: boolean
+	take?: number
 	userId?: number
 	year: number
 }) {
@@ -22,12 +22,12 @@ export default async function UserStandings({
 
 	let userTr: ReactElement = <></>
 
-	if (userId && topTen) {
+	if (userId && take) {
 		const userStanding = userStandings.filter(
 			(userStanding) => userStanding.userId === userId
 		)[0]
 
-		if (userStanding && userStanding.pos && userStanding.pos > 10) {
+		if (userStanding && userStanding.pos && userStanding.pos > take) {
 			userTr = (
 				<tr className='userTrTop'>
 					<td className='d-flex align-items-center justify-content-end'>
@@ -55,7 +55,7 @@ export default async function UserStandings({
 		}
 	}
 
-	if (topTen) userStandings = userStandings.slice(0, 10)
+	if (take) userStandings = userStandings.slice(0, take)
 
 	let prev: number | null = 0
 	let showPos = true
@@ -129,7 +129,7 @@ export default async function UserStandings({
 				</tbody>
 			</Table>
 
-			{topTen && (
+			{take && (
 				<Link href={'/standings'} className='d-grid p-2'>
 					<Button size='sm' variant='outline-success'>
 						More

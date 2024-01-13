@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
-import getDateTimeLocal from '@/helpers/getDateTime'
+import { getDateTimeLocal } from '@/helpers/dateTime'
 import { FlagCheckered } from '@/icons'
 import Link from 'next/link'
 import { getUserResults } from '@/prisma/service'
@@ -14,12 +14,12 @@ import type { GP, Rider } from '@/types'
 
 export default async function UserResults({
 	gp,
-	topTen,
+	take,
 	userId,
 	userPicks
 }: {
 	gp: GP
-	topTen?: boolean
+	take?: number
 	userId?: number
 	userPicks: number[] | null
 }) {
@@ -28,7 +28,7 @@ export default async function UserResults({
 
 	let userTr: ReactElement = <></>
 
-	if (userId && topTen) {
+	if (userId && take) {
 		const userResult = userResults.filter(
 			(userResult) => userResult.userId === userId
 		)[0]
@@ -84,7 +84,7 @@ export default async function UserResults({
 		}
 	}
 
-	if (topTen) userResults = userResults.slice(0, 10)
+	if (take) userResults = userResults.slice(0, take)
 
 	let prev: number | null = 0
 	let showPos = true
@@ -94,7 +94,7 @@ export default async function UserResults({
 	return (
 		<Card>
 			<CardHeader className='py-1 d-flex justify-content-center'>
-				{topTen && (
+				{take && (
 					<div className='d-flex align-items-center gap-1'>
 						<Flag height='.8em' nationCode={gp.city.nation.code} />
 						{gp.city.name}
@@ -105,7 +105,7 @@ export default async function UserResults({
 						</span>
 					</div>
 				)}
-				{!topTen && 'Results'}
+				{!take && 'Results'}
 			</CardHeader>
 			<Table
 				borderless
@@ -208,7 +208,7 @@ export default async function UserResults({
 				</tbody>
 			</Table>
 
-			{topTen && (
+			{take && (
 				<Link href={'/gps/' + gp.id} className='d-grid p-2'>
 					<Button size='sm' variant='outline-success'>
 						More
