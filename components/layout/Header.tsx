@@ -38,6 +38,11 @@ export default function Header() {
 				<NavbarToggle aria-controls='basic-navbar-nav' />
 				<NavbarCollapse id='basic-navbar-nav'>
 					<Nav className='d-flex align-items-center ms-auto small'>
+						{user && (
+							<NavLink as={NextLink} href={'/users/' + user.id}>
+								My page
+							</NavLink>
+						)}
 						<NavLink as={NextLink} href='/standings'>
 							Standings
 						</NavLink>
@@ -53,11 +58,6 @@ export default function Header() {
 						<NavLink as={NextLink} href='/rules'>
 							Rules
 						</NavLink>
-						{user && (
-							<NavLink as={NextLink} href={'/users/' + user.id}>
-								My page
-							</NavLink>
-						)}
 						{!user && (
 							<div className='pe-0'>
 								<Button
