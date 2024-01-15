@@ -1,7 +1,14 @@
 'use server'
 import { createUser } from '@/prisma/service'
 import createSupabaseServerClient from '@/supabase/serverClient'
-import type { ResetPassword, SignIn, SignUp, UserNew } from '@/types'
+import { metadata } from '@/theme'
+import type {
+	ResetPassword,
+	SignIn,
+	SignUp,
+	UpdatePassword,
+	UserNew
+} from '@/types'
 
 export const readSession = async () => {
 	const supabase = await createSupabaseServerClient()
@@ -16,7 +23,9 @@ export const readUser = async (token: string) => {
 export const resetPassword = async (data: ResetPassword) => {
 	const supabase = await createSupabaseServerClient()
 
-	const result = await supabase.auth.resetPasswordForEmail(data.email)
+	const result = await supabase.auth.resetPasswordForEmail(data.email, {
+		redirectTo: metadata.websiteUrl + '/users/update-password'
+	})
 
 	if (result.error) throw new Error()
 }
@@ -56,6 +65,14 @@ export const signOutUser = async () => {
 	const supabase = await createSupabaseServerClient()
 
 	const result = await supabase.auth.signOut()
+
+	if (result.error) throw new Error()
+}
+
+export const updatePassword = async (data: UpdatePassword) => {
+	const supabase = await createSupabaseServerClient()
+
+	const result = await supabase.auth.updateUser({ password: data.passwordNew })
 
 	if (result.error) throw new Error()
 }

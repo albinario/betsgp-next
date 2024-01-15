@@ -1,7 +1,8 @@
 export const metadata = {
 	title: 'Bet SGP',
 	description: 'define Bet SGP',
-	authors: [{ name: 'Albin Lindeborg', url: 'albinlindeborg.surge.sh' }]
+	authors: [{ name: 'Albin Lindeborg', url: 'albinlindeborg.surge.sh' }],
+	websiteUrl: 'http://localhost:3000'
 }
 
 export const logo = {

@@ -15,3 +15,7 @@ export type SignUp = {
 	lastName: string
 	password: string
 }
+
+export type UpdatePassword = {
+	passwordNew: string
+}

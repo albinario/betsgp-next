@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { readSession, readUser } from './supabase/service'
 
 export async function middleware(req: NextRequest) {
-	const { pathname } = req.nextUrl
+	const { pathname, search } = req.nextUrl
 
 	if (pathname.startsWith('/admin')) {
 		const session = await readSession()
@@ -39,6 +39,13 @@ export async function middleware(req: NextRequest) {
 				}
 			)
 		}
+	}
+
+	if (pathname.startsWith('/users/update-password')) {
+		const searchParams = new URLSearchParams(search)
+		const code = searchParams.get('code')
+
+		if (!code) return NextResponse.redirect(new URL('/', req.url))
 	}
 
 	return NextResponse.next()
