@@ -4,8 +4,7 @@ import MoreButton from '@/components/MoreButton'
 import Stars from '@/components/Stars'
 import { getCookieYear } from '@/cookies/service'
 import { rounds } from '@/data'
-import { getDateTimeLocal } from '@/helpers/dateTime'
-import { Medal, Pick } from '@/icons'
+import { Medal } from '@/icons'
 import Link from 'next/link'
 import { getGpsFinished } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
@@ -70,37 +69,7 @@ export default async function GPsFinished() {
 										<td className='text-center'>{userResult.points}</td>
 									</tr>
 								))}
-								{!gp.userResults &&
-									gp.activity.map((act) => (
-										<tr key={act.id}>
-											<td className='text-center'>
-												<Pick creation={act.creation} />
-											</td>
-											<td>
-												<Link href={'/users/' + act.userId}>
-													{act.user.firstName} {act.user.lastName}
-													{!!act.user.userStars.length && (
-														<Stars
-															isSup={true}
-															userStars={act.user.userStars}
-														/>
-													)}
-												</Link>
-											</td>
-											<td className='text-end'>
-												{getDateTimeLocal(act.dateTime, true)}
-											</td>
-										</tr>
-									))}
 							</tbody>
-
-							{/* 
-									
-									<Card.Text className='text-center'>
-									{next && <Countdown dateTime={gp.dateTime} />}
-									</Card.Text>
-									</>
-								)} */}
 						</Table>
 
 						<MoreButton href={'/gps/' + gp.id} />
