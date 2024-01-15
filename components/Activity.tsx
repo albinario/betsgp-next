@@ -28,7 +28,7 @@ export default async function Activity({
 				<tbody>
 					{activity.map((act) => (
 						<tr key={act.id}>
-							<td className='text-center'>
+							<td className='pe-0 text-center'>
 								<Pick creation={act.creation} />
 							</td>
 							<td className='d-flex align-items-center gap-1'>
