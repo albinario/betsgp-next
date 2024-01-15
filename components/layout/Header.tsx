@@ -36,7 +36,7 @@ export default function Header() {
 					<Nav className='d-flex align-items-center ms-auto small'>
 						{user && (
 							<Nav.Link as={NextLink} href={'/users/' + user.id}>
-								My page
+								{user.firstName} {user.lastName}
 							</Nav.Link>
 						)}
 						<Nav.Link as={NextLink} href='/standings'>
