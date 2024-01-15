@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
+import { isIdentical } from '@/helpers/array'
 import { FlagCheckered, Medal, Picked } from '@/icons'
 import Link from 'next/link'
 import { getRiderStandings } from '@/prisma/service'
@@ -13,7 +14,7 @@ export default async function RiderStandings({
 	year
 }: {
 	take?: number
-	year: number
+	year?: number
 }) {
 	let riderStandings = await getRiderStandings(year)
 	if (!riderStandings) return <></>
@@ -64,15 +65,9 @@ export default async function RiderStandings({
 							riderStanding._sum.races
 						]
 
-						showPos = false
-						for (let i = 0; i < res.length; i++) {
-							if (res[i] !== prev[i]) {
-								showPos = true
-								break
-							}
-						}
+						showPos = isIdentical(prev, res) ? false : true
 
-						prev = res
+						prev = [...res]
 
 						const picked: number = riderStanding.rider
 							? riderStanding.rider.pick1s.length +

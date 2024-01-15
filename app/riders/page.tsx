@@ -3,7 +3,6 @@ import CardBodyRow from '@/components/CardBodyRow'
 import Medals from '@/components/Medals'
 import RiderCardHeader from '@/components/rider/CardHeader'
 import { getCookieYear } from '@/cookies/service'
-import { getCurrentYear } from '@/helpers/dateTime'
 import Link from 'next/link'
 import { getRiderStandings } from '@/prisma/service'
 import { Fragment } from 'react'
@@ -14,7 +13,7 @@ import Row from 'react-bootstrap/Row'
 
 export default async function Riders() {
 	const cookieYear = await getCookieYear()
-	const riderStandings = await getRiderStandings(cookieYear || getCurrentYear())
+	const riderStandings = await getRiderStandings(cookieYear)
 	if (!riderStandings) return <></>
 
 	return (

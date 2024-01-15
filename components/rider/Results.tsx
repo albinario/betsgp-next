@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
+import Medal from '@/components/Medal'
 import { FlagCheckered, Picked } from '@/icons'
 import Link from 'next/link'
 import { getRiderResults } from '@/prisma/service'
@@ -7,7 +8,6 @@ import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
 import type { GP } from '@/types'
-import Medal from '../Medal'
 
 export default async function RiderResults({
 	gp,
@@ -19,8 +19,7 @@ export default async function RiderResults({
 	const riderResults = await getRiderResults(gp.id)
 	if (!riderResults) return <></>
 
-	let pos = 0
-	let prev: (number | null)[] = []
+	let prev: number | null = 0
 	let showPos = true
 
 	return (
@@ -50,25 +49,8 @@ export default async function RiderResults({
 				</thead>
 				<tbody>
 					{riderResults.map((riderResult) => {
-						pos++
-
-						const res = [
-							riderResult.points,
-							riderResult.m1,
-							riderResult.m2,
-							riderResult.m3,
-							riderResult.races
-						]
-
-						showPos = false
-						for (let i = 0; i < res.length; i++) {
-							if (res[i] !== prev[i]) {
-								showPos = true
-								break
-							}
-						}
-
-						prev = res
+						showPos = riderResult.pos !== prev
+						prev = riderResult.pos
 
 						const picked: number =
 							riderResult.rider.pick1s.length +
@@ -79,7 +61,7 @@ export default async function RiderResults({
 							<tr key={riderResult.riderId}>
 								<td className='text-end'>
 									<span className={classNames({ 'opacity-0': !showPos })}>
-										{pos}
+										{riderResult.pos}
 									</span>
 								</td>
 								<td>
