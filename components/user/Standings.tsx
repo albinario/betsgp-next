@@ -1,8 +1,9 @@
 import classNames from 'classnames'
+import MoreButton from '@/components/MoreButton'
+import Stars from '@/components/Stars'
 import { Arrow, FlagCheckered, Medal } from '@/icons'
 import Link from 'next/link'
 import { getUserStandings } from '@/prisma/service'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
@@ -108,6 +109,12 @@ export default async function UserStandings({
 										href={'/users/' + userStanding.userId}
 									>
 										{userStanding.user.firstName} {userStanding.user.lastName}
+										{!!userStanding.user.userStars.length && (
+											<Stars
+												isSup={true}
+												userStars={userStanding.user.userStars}
+											/>
+										)}
 									</Link>
 								</td>
 								<td>{userStanding.points}</td>
@@ -129,13 +136,7 @@ export default async function UserStandings({
 				</tbody>
 			</Table>
 
-			{take && (
-				<Link href={'/standings'} className='d-grid p-2'>
-					<Button size='sm' variant='outline-success'>
-						More
-					</Button>
-				</Link>
-			)}
+			{take && <MoreButton href={'/standings'} />}
 		</Card>
 	)
 }

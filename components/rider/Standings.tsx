@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
+import MoreButton from '@/components/MoreButton'
 import { isIdentical } from '@/helpers/array'
 import { FlagCheckered, Medal, Picked } from '@/icons'
 import Link from 'next/link'
 import { getRiderStandings } from '@/prisma/service'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
@@ -117,13 +117,7 @@ export default async function RiderStandings({
 				</tbody>
 			</Table>
 
-			{take && (
-				<Link href={'/standings#riders'} className='d-grid p-2'>
-					<Button size='sm' variant='outline-success'>
-						More
-					</Button>
-				</Link>
-			)}
+			{take && <MoreButton href={'/standings#riders'} />}
 		</Card>
 	)
 }

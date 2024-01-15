@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
+import MoreButton from '@/components/MoreButton'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
 import { getActivity } from '@/prisma/service'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
@@ -49,13 +49,7 @@ export default async function Activity({
 				</tbody>
 			</Table>
 
-			{take && (
-				<Link href={'/activity'} className='d-grid p-2'>
-					<Button size='sm' variant='outline-success'>
-						More
-					</Button>
-				</Link>
-			)}
+			{take && <MoreButton href={'/activity'} />}
 		</Card>
 	)
 }

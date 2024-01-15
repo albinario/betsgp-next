@@ -1,11 +1,11 @@
 import GPCardHeader from '@/components/gp/CardHeader'
+import MoreButton from '@/components/MoreButton'
 import PickRiders from '@/components/gp/PickRiders'
 import { rounds } from '@/data'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
 import { getGpsUpcoming, getRidersActive } from '@/prisma/service'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
@@ -76,11 +76,7 @@ export default async function GPsUpcoming({
 									</tbody>
 								</Table>
 
-								<Link href={'/gps/' + gp.id} className='d-grid p-2'>
-									<Button size='sm' variant='outline-success'>
-										More
-									</Button>
-								</Link>
+								<MoreButton href={'/gps/' + gp.id} />
 							</>
 						)}
 					</Card>

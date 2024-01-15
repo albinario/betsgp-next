@@ -1,12 +1,12 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
+import MoreButton from '@/components/MoreButton'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { FlagCheckered } from '@/icons'
 import Link from 'next/link'
 import { getUserResults } from '@/prisma/service'
 import type { ReactElement } from 'react'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import CardHeader from 'react-bootstrap/CardHeader'
 import Table from 'react-bootstrap/Table'
@@ -208,13 +208,7 @@ export default async function UserResults({
 				</tbody>
 			</Table>
 
-			{take && (
-				<Link href={'/gps/' + gp.id} className='d-grid p-2'>
-					<Button size='sm' variant='outline-success'>
-						More
-					</Button>
-				</Link>
-			)}
+			{take && <MoreButton href={'/gps/' + gp.id} />}
 		</Card>
 	)
 }

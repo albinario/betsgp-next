@@ -1,11 +1,11 @@
 import classNames from 'classnames'
 import GPCardHeader from '@/components/gp/CardHeader'
+import MoreButton from '@/components/MoreButton'
 import { getCookieYear } from '@/cookies/service'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Medal, Pick } from '@/icons'
 import Link from 'next/link'
 import { getGpsFinished } from '@/prisma/service'
-import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
@@ -90,11 +90,7 @@ export default async function GPsFinished() {
 								)} */}
 						</Table>
 
-						<Link href={'/gps/' + gp.id} className='d-grid p-2'>
-							<Button size='sm' variant='outline-success'>
-								More
-							</Button>
-						</Link>
+						<MoreButton href={'/gps/' + gp.id} />
 					</Card>
 				</Col>
 			))}
