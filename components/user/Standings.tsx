@@ -15,7 +15,7 @@ export default async function UserStandings({
 }: {
 	take?: number
 	userId?: number
-	year: number
+	year?: number
 }) {
 	let userStandings = await getUserStandings(year)
 	if (!userStandings) return <></>

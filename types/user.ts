@@ -30,8 +30,13 @@ export type UserPick = userPick & {
 
 export type UserPickAdd = Omit<userPick, 'id' | 'created' | 'updated'>
 
-export type UserResultIncoming = Omit<userResult, 'id' | 'pos'>
+export type UserResultNew = Omit<userResult, 'id' | 'm1' | 'm2' | 'm3' | 'pos'>
 
 export type UserStanding = userStanding & {
 	user: user
 }
+
+export type UserStandingNew = Omit<
+	userStanding,
+	'id' | 'm1' | 'm2' | 'm3' | 'pos' | 'prevPos'
+>

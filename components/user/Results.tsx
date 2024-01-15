@@ -33,7 +33,7 @@ export default async function UserResults({
 			(userResult) => userResult.userId === userId
 		)[0]
 
-		if (userResult) {
+		if (userResult && userResult.pos && userResult.pos > take) {
 			const picks: Rider[] = [
 				userResult.user.userPicks[0].pick1,
 				userResult.user.userPicks[0].pick2,
