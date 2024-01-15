@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import MoreButton from '@/components/MoreButton'
 import Stars from '@/components/Stars'
-import { getDateTimeLocal } from '@/helpers/dateTime'
+import { getDateTimeLocalFormatted } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
 import { getActivity } from '@/prisma/service'
@@ -46,7 +46,9 @@ export default async function Activity({
 								{act.gp.city.name}
 							</td>
 							<td className='pe-2 text-end text-muted'>
-								<span className='small'>{getDateTimeLocal(act.dateTime)}</span>
+								<span className='small'>
+									{getDateTimeLocalFormatted(act.dateTime)}
+								</span>
 							</td>
 						</tr>
 					))}

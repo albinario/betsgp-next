@@ -3,7 +3,7 @@ import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
 import MoreButton from '@/components/MoreButton'
 import Stars from '@/components/Stars'
-import { getDateTimeLocal } from '@/helpers/dateTime'
+import { getDateTimeLocalFormatted } from '@/helpers/dateTime'
 import { FlagCheckered } from '@/icons'
 import Link from 'next/link'
 import { getUserResults } from '@/prisma/service'
@@ -104,7 +104,7 @@ export default async function UserResults({
 						{gp.city.name}
 						<span className='position-absolute end-0 pe-2'>
 							<span className='small text-muted'>
-								{getDateTimeLocal(gp.dateTime).split(' ')[0]}
+								{getDateTimeLocalFormatted(gp.dateTime).split(' ')[0]}
 							</span>
 						</span>
 					</div>
