@@ -28,7 +28,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
 	const user = await getUser(Number(params.id), year)
 	if (!user) return <></>
 
-	const userSession = await getUserSession()
+	const userSession = year === getCurrentYear() ? await getUserSession() : null
 	const userAccess = user.id === userSession?.id
 
 	const gpsAmount = user.userResults.length
