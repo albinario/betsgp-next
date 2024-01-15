@@ -164,13 +164,22 @@ export const SignOut = () => (
 	</svg>
 )
 
-export const Star = ({ type, width }: { type: number; width: number }) => (
+export const Star = ({
+	type,
+	width,
+	year
+}: {
+	type: number
+	width: number
+	year: number
+}) => (
 	<svg
 		fill={type === 1 ? colors.gold : type === 2 ? colors.silver : colors.bronze}
 		viewBox='0 0 260 245'
 		width={width}
 		xmlns='http://www.w3.org/2000/svg'
 	>
+		<title>{year}</title>
 		<path d='m56,237 74-228 74,228L10,96h240' />
 	</svg>
 )

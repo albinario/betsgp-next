@@ -1,6 +1,7 @@
 import GPCardHeader from '@/components/gp/CardHeader'
 import MoreButton from '@/components/MoreButton'
 import PickRiders from '@/components/gp/PickRiders'
+import Stars from '@/components/Stars'
 import { rounds } from '@/data'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
@@ -64,6 +65,12 @@ export default async function GPsUpcoming({
 												<td>
 													<Link href={'/users/' + act.userId}>
 														{act.user.firstName} {act.user.lastName}
+														{!!act.user.userStars.length && (
+															<Stars
+																isSup={true}
+																userStars={act.user.userStars}
+															/>
+														)}
 													</Link>
 												</td>
 												<td className='pe-2 text-end text-muted'>

@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import MoreButton from '@/components/MoreButton'
+import Stars from '@/components/Stars'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
@@ -37,6 +38,9 @@ export default async function Activity({
 									href={'/users/' + act.userId}
 								>
 									{act.user.firstName} {act.user.lastName}
+									{!!act.user.userStars.length && (
+										<Stars isSup={true} userStars={act.user.userStars} />
+									)}
 								</Link>
 								<Flag height='.7em' nationCode={act.gp.city.nation.code} />
 								{act.gp.city.name}

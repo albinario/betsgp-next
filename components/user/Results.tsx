@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import Flag from '@/components/Flag'
 import Medals from '@/components/Medals'
 import MoreButton from '@/components/MoreButton'
+import Stars from '@/components/Stars'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { FlagCheckered } from '@/icons'
 import Link from 'next/link'
@@ -45,6 +46,9 @@ export default async function UserResults({
 					<td className='pe-0 text-start'>
 						<Link className='highlight' href={'/users/' + userResult.userId}>
 							{userResult.user.firstName} {userResult.user.lastName}
+							{!!userResult.user.userStars.length && (
+								<Stars isSup={true} userStars={userResult.user.userStars} />
+							)}
 						</Link>
 					</td>
 
@@ -153,6 +157,12 @@ export default async function UserResults({
 										href={'/users/' + userResult.userId}
 									>
 										{userResult.user.firstName} {userResult.user.lastName}
+										{!!userResult.user.userStars.length && (
+											<Stars
+												isSup={true}
+												userStars={userResult.user.userStars}
+											/>
+										)}
 									</Link>
 								</td>
 

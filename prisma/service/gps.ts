@@ -160,7 +160,8 @@ export const getGpsUpcoming = async () => {
 						select: {
 							id: true,
 							firstName: true,
-							lastName: true
+							lastName: true,
+							userStars: true
 						}
 					}
 				},

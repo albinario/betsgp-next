@@ -33,7 +33,7 @@ export default async function HallOfFamePage() {
 										.filter((s) => s.year === year)
 										.map((star) => (
 											<div className='d-flex align-items-center' key={star.id}>
-												<Star type={star.type} width={20} />
+												<Star type={star.type} width={20} year={star.year} />
 												<Link href={'users/' + star.userId} className='ms-1'>
 													{star.user.firstName} {star.user.lastName}
 												</Link>

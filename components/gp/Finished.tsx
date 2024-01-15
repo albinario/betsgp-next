@@ -1,7 +1,9 @@
 import classNames from 'classnames'
 import GPCardHeader from '@/components/gp/CardHeader'
 import MoreButton from '@/components/MoreButton'
+import Stars from '@/components/Stars'
 import { getCookieYear } from '@/cookies/service'
+import { rounds } from '@/data'
 import { getDateTimeLocal } from '@/helpers/dateTime'
 import { Medal, Pick } from '@/icons'
 import Link from 'next/link'
@@ -9,7 +11,6 @@ import { getGpsFinished } from '@/prisma/service'
 import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import { rounds } from '@/data'
 
 export default async function GPsFinished() {
 	const cookieYear = await getCookieYear()
@@ -53,6 +54,12 @@ export default async function GPsFinished() {
 										<td>
 											<Link href={'/users/' + userResult.userId}>
 												{userResult.user.firstName} {userResult.user.lastName}
+												{!!userResult.user.userStars.length && (
+													<Stars
+														isSup={true}
+														userStars={userResult.user.userStars}
+													/>
+												)}
 											</Link>
 										</td>
 										<td className='text-end'>
@@ -72,6 +79,12 @@ export default async function GPsFinished() {
 											<td>
 												<Link href={'/users/' + act.userId}>
 													{act.user.firstName} {act.user.lastName}
+													{!!act.user.userStars.length && (
+														<Stars
+															isSup={true}
+															userStars={act.user.userStars}
+														/>
+													)}
 												</Link>
 											</td>
 											<td className='text-end'>

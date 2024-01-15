@@ -8,7 +8,11 @@ export const getUserStandings = async (year = getCurrentYear()) => {
 	return await prisma.userStanding.findMany({
 		where: { year },
 		include: {
-			user: true
+			user: {
+				include: {
+					userStars: true
+				}
+			}
 		},
 		orderBy: {
 			pos: 'asc'

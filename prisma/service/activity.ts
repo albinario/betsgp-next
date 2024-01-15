@@ -7,7 +7,8 @@ export const getActivity = async () => {
 			user: {
 				select: {
 					firstName: true,
-					lastName: true
+					lastName: true,
+					userStars: true
 				}
 			},
 			gp: {

@@ -6,12 +6,13 @@ import GPParticipants from '@/components/gp/Participants'
 import GPsUpcoming from '@/components/gp/Upcoming'
 import SignOut from '@/components/layout/sign/Out'
 import Medals from '@/components/Medals'
+import MoreButton from '@/components/MoreButton'
+import Stars from '@/components/Stars'
 import UserPicks from '@/components/user/Picks'
 import { getCookieYear } from '@/cookies/service'
 import { participants, rounds } from '@/data'
 import { getCurrentYear } from '@/helpers/dateTime'
 import getUserSession from '@/helpers/userSession.server'
-import { Star } from '@/icons'
 import { getUser } from '@/prisma/service'
 import Link from 'next/link'
 import Card from 'react-bootstrap/Card'
@@ -43,9 +44,9 @@ export default async function UserPage({ params }: { params: { id: string } }) {
 					<Card>
 						<CardHeader className='d-flex align-items-center justify-content-center gap-1'>
 							{user.firstName} {user.lastName}
-							{user.userStars.map((star) => (
-								<Star key={star.id} type={star.type} width={16} />
-							))}
+							{!!user.userStars.length && (
+								<Stars isSup={false} userStars={user.userStars} />
+							)}
 						</CardHeader>
 						<CardBody className='p-2'>
 							<Link href='/standings'>
@@ -118,7 +119,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
 									rounds={rounds[year]}
 								/>
 
-								<CardBody className='p-2'>
+								<CardBody className='p-2 pb-0'>
 									{/* @ts-expect-error Server Component */}
 									<UserPicks gpId={res.gpId} userId={res.userId} />
 
@@ -134,6 +135,8 @@ export default async function UserPage({ params }: { params: { id: string } }) {
 										</span>
 									</div>
 								</CardBody>
+
+								<MoreButton href='/standings' />
 							</Card>
 						</Col>
 					)

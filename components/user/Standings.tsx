@@ -40,6 +40,9 @@ export default async function UserStandings({
 					<td className='text-start'>
 						<Link className='highlight' href={'/users/' + userStanding.userId}>
 							{userStanding.user.firstName} {userStanding.user.lastName}
+							{!!userStanding.user.userStars.length && (
+								<Stars isSup={true} userStars={userStanding.user.userStars} />
+							)}
 						</Link>
 					</td>
 					<td>{userStanding.points}</td>
