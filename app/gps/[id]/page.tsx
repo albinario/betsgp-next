@@ -25,9 +25,9 @@ export default async function GPPage({ params }: { params: { id: string } }) {
 
 	return (
 		<AnimationWrapper>
-			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2 mb-2'>
-				<Col>
-					<Card>
+			<Row className='g-2 mb-2'>
+				<Col sm={12} xl={3}>
+					<Card style={{ maxWidth: '400px' }}>
 						<GPCardHeader
 							cityId={gp.cityId}
 							cityName={gp.city.name}
@@ -44,15 +44,17 @@ export default async function GPPage({ params }: { params: { id: string } }) {
 						)}
 					</Card>
 				</Col>
-			</Row>
-			<Row xs={1} lg={2} className='g-2'>
 				<Col>
-					{/* @ts-expect-error Server Component */}
-					<UserResults gp={gp} userId={user?.id} userPicks={userPicks} />
-				</Col>
-				<Col>
-					{/* @ts-expect-error Server Component */}
-					<RiderResults gp={gp} userPicks={userPicks} />
+					<Row xs={1} lg={2} className='g-2'>
+						<Col>
+							{/* @ts-expect-error Server Component */}
+							<UserResults gp={gp} userId={user?.id} userPicks={userPicks} />
+						</Col>
+						<Col>
+							{/* @ts-expect-error Server Component */}
+							<RiderResults gp={gp} userPicks={userPicks} />
+						</Col>
+					</Row>
 				</Col>
 			</Row>
 		</AnimationWrapper>
