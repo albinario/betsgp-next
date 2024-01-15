@@ -56,7 +56,7 @@ export default async function GPsUpcoming({
 								<tbody>
 									{gp.activity.map((act) => (
 										<tr key={act.id}>
-											<td className='text-center'>
+											<td className='pe-0 text-center'>
 												<Pick creation={act.creation} />
 											</td>
 											<td>
