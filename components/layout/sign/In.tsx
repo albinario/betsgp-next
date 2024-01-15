@@ -3,13 +3,8 @@ import { Envelope, Lock } from '@/icons'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import InputGroup from 'react-bootstrap/InputGroup'
-import InputGroupText from 'react-bootstrap/esm/InputGroupText'
-import ModalBody from 'react-bootstrap/ModalBody'
-import ModalFooter from 'react-bootstrap/ModalFooter'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalTitle from 'react-bootstrap/ModalTitle'
+import Modal from 'react-bootstrap/Modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { signInWithEmailAndPassword } from '@/supabase/service'
@@ -47,15 +42,15 @@ export default function SignIn({
 
 	return (
 		<>
-			<ModalHeader closeButton>
-				<ModalTitle>Sign in</ModalTitle>
-			</ModalHeader>
-			<ModalBody>
+			<Modal.Header closeButton>
+				<Modal.Title>Sign in</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(handleSignIn)}>
 					<InputGroup>
-						<InputGroupText>
+						<InputGroup.Text>
 							<Envelope />
-						</InputGroupText>
+						</InputGroup.Text>
 						<Form.Control
 							className={classNames({
 								'missing-border': errors.email
@@ -67,10 +62,10 @@ export default function SignIn({
 					</InputGroup>
 
 					<InputGroup>
-						<InputGroupText>
+						<InputGroup.Text>
 							<Lock />
-						</InputGroupText>
-						<FormControl
+						</InputGroup.Text>
+						<Form.Control
 							autoComplete='new-password'
 							className={classNames({
 								'missing-border': errors.password
@@ -96,9 +91,9 @@ export default function SignIn({
 						{isSubmitting ? 'Signing in...' : 'Sign in'}
 					</Button>
 				</Form>
-			</ModalBody>
+			</Modal.Body>
 
-			<ModalFooter className='d-flex justify-content-between'>
+			<Modal.Footer className='d-flex justify-content-between'>
 				<Button
 					onClick={() => setForm('up')}
 					size='sm'
@@ -114,7 +109,7 @@ export default function SignIn({
 				>
 					Reset password
 				</Button>
-			</ModalFooter>
+			</Modal.Footer>
 		</>
 	)
 }

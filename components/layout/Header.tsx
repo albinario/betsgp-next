@@ -10,10 +10,6 @@ import Image from 'react-bootstrap/Image'
 import Modal from 'react-bootstrap/Modal'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import NavbarBrand from 'react-bootstrap/NavbarBrand'
-import NavbarCollapse from 'react-bootstrap/NavbarCollapse'
-import NavbarToggle from 'react-bootstrap/NavbarToggle'
-import NavLink from 'react-bootstrap/NavLink'
 import { logo } from '@/theme'
 
 export default function Header() {
@@ -29,35 +25,35 @@ export default function Header() {
 		<>
 			<Navbar expand='md' collapseOnSelect>
 				<div className='d-flex align-items-center'>
-					<NavbarBrand as={NextLink} href='/'>
+					<Navbar.Brand as={NextLink} href='/'>
 						<Image alt={logo.alt} src={logo.src} width={logo.width} />
-					</NavbarBrand>
+					</Navbar.Brand>
 					<YearSelect />
 				</div>
 
-				<NavbarToggle aria-controls='basic-navbar-nav' />
-				<NavbarCollapse id='basic-navbar-nav'>
+				<Navbar.Toggle aria-controls='basic-navbar-nav' />
+				<Navbar.Collapse id='basic-navbar-nav'>
 					<Nav className='d-flex align-items-center ms-auto small'>
 						{user && (
-							<NavLink as={NextLink} href={'/users/' + user.id}>
+							<Nav.Link as={NextLink} href={'/users/' + user.id}>
 								My page
-							</NavLink>
+							</Nav.Link>
 						)}
-						<NavLink as={NextLink} href='/standings'>
+						<Nav.Link as={NextLink} href='/standings'>
 							Standings
-						</NavLink>
-						<NavLink as={NextLink} href='/gps'>
+						</Nav.Link>
+						<Nav.Link as={NextLink} href='/gps'>
 							GP&apos;s
-						</NavLink>
-						<NavLink as={NextLink} href='/riders'>
+						</Nav.Link>
+						<Nav.Link as={NextLink} href='/riders'>
 							Riders
-						</NavLink>
-						<NavLink as={NextLink} href='/hall-of-fame'>
+						</Nav.Link>
+						<Nav.Link as={NextLink} href='/hall-of-fame'>
 							Hall of fame
-						</NavLink>
-						<NavLink as={NextLink} href='/rules'>
+						</Nav.Link>
+						<Nav.Link as={NextLink} href='/rules'>
 							Rules
-						</NavLink>
+						</Nav.Link>
 						{!user && (
 							<div className='pe-0'>
 								<Button
@@ -73,7 +69,7 @@ export default function Header() {
 						)}
 						{user?.admin && (
 							<>
-								<NavLink as={NextLink} className='pe-0' href='/admin'>
+								<Nav.Link as={NextLink} className='pe-0' href='/admin'>
 									<Button
 										className='d-flex align-items-center'
 										size='sm'
@@ -81,9 +77,9 @@ export default function Header() {
 									>
 										<Admin />
 									</Button>
-								</NavLink>
+								</Nav.Link>
 
-								<NavLink
+								<Nav.Link
 									as={NextLink}
 									className='pe-0'
 									href='/admin/report-result'
@@ -95,11 +91,11 @@ export default function Header() {
 									>
 										<Admin />
 									</Button>
-								</NavLink>
+								</Nav.Link>
 							</>
 						)}
 					</Nav>
-				</NavbarCollapse>
+				</Navbar.Collapse>
 			</Navbar>
 			<Modal centered onHide={() => setShowModal(false)} show={showModal}>
 				<SignModal hideModal={hideModal} />

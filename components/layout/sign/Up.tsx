@@ -3,14 +3,8 @@ import { Envelope, Lock } from '@/icons'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import FormGroup from 'react-bootstrap/FormGroup'
 import InputGroup from 'react-bootstrap/InputGroup'
-import InputGroupText from 'react-bootstrap/esm/InputGroupText'
-import ModalBody from 'react-bootstrap/ModalBody'
-import ModalFooter from 'react-bootstrap/ModalFooter'
-import ModalHeader from 'react-bootstrap/ModalHeader'
-import ModalTitle from 'react-bootstrap/ModalTitle'
+import Modal from 'react-bootstrap/Modal'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { signUpWithEmailAndPassword } from '@/supabase/service'
@@ -48,13 +42,13 @@ export default function SignUp({
 
 	return (
 		<>
-			<ModalHeader closeButton>
-				<ModalTitle>Sign up</ModalTitle>
-			</ModalHeader>
-			<ModalBody>
+			<Modal.Header closeButton>
+				<Modal.Title>Sign up</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(handleSignUp)}>
-					<FormGroup className='d-flex gap-2'>
-						<FormControl
+					<Form.Group className='d-flex gap-2'>
+						<Form.Control
 							className={classNames({
 								'missing-border': errors.firstName
 							})}
@@ -62,7 +56,7 @@ export default function SignUp({
 							type='text'
 							{...register('firstName', { required: true })}
 						/>
-						<FormControl
+						<Form.Control
 							className={classNames({
 								'missing-border': errors.lastName
 							})}
@@ -70,12 +64,12 @@ export default function SignUp({
 							type='text'
 							{...register('lastName', { required: true })}
 						/>
-					</FormGroup>
+					</Form.Group>
 
 					<InputGroup>
-						<InputGroupText>
+						<InputGroup.Text>
 							<Envelope />
-						</InputGroupText>
+						</InputGroup.Text>
 						<Form.Control
 							className={classNames({
 								'missing-border': errors.email
@@ -87,10 +81,10 @@ export default function SignUp({
 					</InputGroup>
 
 					<InputGroup>
-						<InputGroupText>
+						<InputGroup.Text>
 							<Lock />
-						</InputGroupText>
-						<FormControl
+						</InputGroup.Text>
+						<Form.Control
 							autoComplete='new-password'
 							className={classNames({
 								'missing-border': errors.password
@@ -116,9 +110,9 @@ export default function SignUp({
 						{isSubmitting ? 'Signing up...' : 'Sign up'}
 					</Button>
 				</Form>
-			</ModalBody>
+			</Modal.Body>
 
-			<ModalFooter className='d-flex justify-content-between'>
+			<Modal.Footer className='d-flex justify-content-between'>
 				<Button
 					onClick={() => setForm('in')}
 					size='sm'
@@ -134,7 +128,7 @@ export default function SignUp({
 				>
 					Reset password
 				</Button>
-			</ModalFooter>
+			</Modal.Footer>
 		</>
 	)
 }
