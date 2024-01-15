@@ -1,9 +1,10 @@
 import GPCardHeader from '@/components/gp/CardHeader'
+import Countdown from '@/components/Countdown'
 import MoreButton from '@/components/MoreButton'
 import PickRiders from '@/components/gp/PickRiders'
 import Stars from '@/components/Stars'
 import { rounds } from '@/data'
-import { getDateTimeLocal } from '@/helpers/dateTime'
+import { getDateTimeLocalFormatted } from '@/helpers/dateTime'
 import { Pick } from '@/icons'
 import Link from 'next/link'
 import { getGpsUpcoming, getRidersActive } from '@/prisma/service'
@@ -28,7 +29,7 @@ export default async function GPsUpcoming({
 
 	return (
 		<>
-			{gpsUpcoming.map((gp) => (
+			{gpsUpcoming.map((gp, index) => (
 				<Col key={gp.id}>
 					<Card>
 						<GPCardHeader
@@ -75,7 +76,7 @@ export default async function GPsUpcoming({
 												</td>
 												<td className='pe-2 text-end text-muted'>
 													<span className='small'>
-														{getDateTimeLocal(act.dateTime)}
+														{getDateTimeLocalFormatted(act.dateTime, true)}
 													</span>
 												</td>
 											</tr>
@@ -86,6 +87,7 @@ export default async function GPsUpcoming({
 								<MoreButton href={'/gps/' + gp.id} />
 							</>
 						)}
+						{index === 0 && <Countdown dateTime={gp.dateTime} />}
 					</Card>
 				</Col>
 			))}
