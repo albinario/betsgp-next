@@ -2,12 +2,11 @@ import AnimationWrapper from '@/components/AnimationWrapper'
 import RiderStandings from '@/components/rider/Standings'
 import UserStandings from '@/components/user/Standings'
 import { getCookieYear } from '@/cookies/service'
-import { getCurrentYear } from '@/helpers/dateTime'
 import getUserSession from '@/helpers/userSession.server'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function Standings() {
+export default async function StandingsPage() {
 	const user = await getUserSession()
 
 	const cookieYear = await getCookieYear()

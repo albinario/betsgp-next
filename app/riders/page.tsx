@@ -11,7 +11,7 @@ import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function Riders() {
+export default async function RidersPage() {
 	const cookieYear = await getCookieYear()
 	const riderStandings = await getRiderStandings(cookieYear)
 	if (!riderStandings) return <></>

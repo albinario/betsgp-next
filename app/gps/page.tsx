@@ -3,7 +3,7 @@ import GPsUpcoming from '@/components/gp/Upcoming'
 import Row from 'react-bootstrap/Row'
 import GPsFinished from '@/components/gp/Finished'
 
-export default async function GPs() {
+export default async function GPsPage() {
 	return (
 		<AnimationWrapper>
 			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>

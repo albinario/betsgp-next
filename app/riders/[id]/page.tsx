@@ -13,7 +13,11 @@ import CardBody from 'react-bootstrap/CardBody'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function Rider({ params }: { params: { id: string } }) {
+export default async function RiderPage({
+	params
+}: {
+	params: { id: string }
+}) {
 	const rider = await getRider(Number(params.id))
 	if (!rider) return <></>
 

@@ -13,7 +13,7 @@ import {
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function Admin() {
+export default async function AdminPage() {
 	const cities = await getCities()
 	const gps = await getGpsUpcoming()
 	const nations = await getNations()

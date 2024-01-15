@@ -8,7 +8,7 @@ import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function HallOfFame() {
+export default async function HallOfFamePage() {
 	const stars = await getUserStars()
 	if (!stars) return <></>
 

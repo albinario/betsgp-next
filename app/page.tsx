@@ -10,7 +10,7 @@ import { getGpLatest } from '@/prisma/service'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function Home() {
+export default async function HomePage() {
 	const user = await getUserSession()
 	const userId = user?.id
 
@@ -48,7 +48,7 @@ export default async function Home() {
 				<Col>
 					<Row xs={1} className='g-2'>
 						{/* @ts-expect-error Server Component */}
-						<GPsUpcoming take={2} userId={userId} />
+						<GPsUpcoming take={2} />
 					</Row>
 				</Col>
 			</Row>

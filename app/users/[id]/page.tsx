@@ -20,7 +20,7 @@ import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 
-export default async function User({ params }: { params: { id: string } }) {
+export default async function UserPage({ params }: { params: { id: string } }) {
 	const cookieYear = await getCookieYear()
 	const year = cookieYear || getCurrentYear()
 
