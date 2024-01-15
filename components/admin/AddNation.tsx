@@ -4,11 +4,8 @@ import { createNation } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import CardBody from 'react-bootstrap/CardBody'
-import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -39,12 +36,12 @@ export default function AddNation() {
 
 	return (
 		<Card>
-			<CardHeader className='text-center'>Nation</CardHeader>
-			<CardBody className='p-2'>
+			<Card.Header className='text-center'>Nation</Card.Header>
+			<Card.Body className='p-2'>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
 					<Row className='g-2'>
 						<Col xs={8}>
-							<FormControl
+							<Form.Control
 								className={classNames({
 									'missing-border': errors.name
 								})}
@@ -56,7 +53,7 @@ export default function AddNation() {
 						</Col>
 
 						<Col>
-							<FormControl
+							<Form.Control
 								className={classNames({
 									'missing-border': errors.code
 								})}
@@ -77,7 +74,7 @@ export default function AddNation() {
 						+
 					</Button>
 				</Form>
-			</CardBody>
+			</Card.Body>
 		</Card>
 	)
 }

@@ -5,12 +5,8 @@ import { createGP } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import CardBody from 'react-bootstrap/CardBody'
-import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import FormSelect from 'react-bootstrap/FormSelect'
 import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -47,10 +43,10 @@ export default function AddGP({ cities }: { cities: city[] }) {
 
 	return (
 		<Card>
-			<CardHeader className='text-center'>GP</CardHeader>
-			<CardBody className='p-2'>
+			<Card.Header className='text-center'>GP</Card.Header>
+			<Card.Body className='p-2'>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-					<FormSelect
+					<Form.Select
 						className={classNames({
 							'missing-border': errors.cityId
 						})}
@@ -65,11 +61,11 @@ export default function AddGP({ cities }: { cities: city[] }) {
 									{city.name}
 								</option>
 							))}
-					</FormSelect>
+					</Form.Select>
 
 					<Row className='g-2'>
 						<Col>
-							<FormControl
+							<Form.Control
 								className={classNames({
 									'missing-border': errors.gp
 								})}
@@ -81,7 +77,7 @@ export default function AddGP({ cities }: { cities: city[] }) {
 						</Col>
 
 						<Col xs={9}>
-							<FormControl
+							<Form.Control
 								className={classNames({
 									'missing-border': errors.dateTime
 								})}
@@ -101,7 +97,7 @@ export default function AddGP({ cities }: { cities: city[] }) {
 						+
 					</Button>
 				</Form>
-			</CardBody>
+			</Card.Body>
 		</Card>
 	)
 }

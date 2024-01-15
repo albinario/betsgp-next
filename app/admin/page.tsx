@@ -1,29 +1,29 @@
-import AddCity from './AddCity'
-import AddGP from './AddGP'
-import AddNation from './AddNation'
+import AddCity from '@/components/admin/AddCity'
+import AddGP from '@/components/admin/AddGP'
+import AddNation from '@/components/admin/AddNation'
+import AddRider from '@/components/admin/AddRider'
 import AnimationWrapper from '@/components/AnimationWrapper'
+import AssignWildCard from '@/components/admin/AssignWildCard'
 import {
 	getCities,
-	getGpsNoWildCard,
+	getGpsUpcoming,
 	getNations,
 	getRidersNotActive
 } from '@/prisma/service'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
-import AddRider from './AddRider'
-import AssignWildCard from './AssignWildCard'
 
 export default async function Admin() {
 	const cities = await getCities()
-	const gps = await getGpsNoWildCard()
+	const gps = await getGpsUpcoming()
 	const nations = await getNations()
-	const riders = await getRidersNotActive()
+	const ridersNotActive = await getRidersNotActive()
 
 	return (
 		<AnimationWrapper>
-			<Row xs={1} sm={2} lg={3} xl={4} xxl={5} className='g-2'>
+			<Row xs={1} sm={2} lg={3} className='g-2'>
 				<Col>
-					<AssignWildCard gps={gps} riders={riders} />
+					<AssignWildCard gps={gps} riders={ridersNotActive} />
 				</Col>
 				<Col>
 					<AddRider nations={nations} />

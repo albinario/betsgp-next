@@ -5,12 +5,8 @@ import { createRider } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import CardBody from 'react-bootstrap/CardBody'
-import CardHeader from 'react-bootstrap/CardHeader'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import FormSelect from 'react-bootstrap/FormSelect'
 import Row from 'react-bootstrap/Row'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
@@ -49,10 +45,10 @@ export default function AddRider({ nations }: { nations: nation[] }) {
 
 	return (
 		<Card>
-			<CardHeader className='text-center'>Rider</CardHeader>
-			<CardBody className='p-2'>
+			<Card.Header className='text-center'>Rider</Card.Header>
+			<Card.Body className='p-2'>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-					<FormControl
+					<Form.Control
 						className={classNames({
 							'missing-border': errors.name
 						})}
@@ -62,7 +58,7 @@ export default function AddRider({ nations }: { nations: nation[] }) {
 						{...register('name', { required: true })}
 					/>
 
-					<FormSelect
+					<Form.Select
 						className={classNames({
 							'missing-border': errors.nationId
 						})}
@@ -77,11 +73,11 @@ export default function AddRider({ nations }: { nations: nation[] }) {
 									{nation.name}
 								</option>
 							))}
-					</FormSelect>
+					</Form.Select>
 
 					<Row className='g-2'>
 						<Col>
-							<FormControl
+							<Form.Control
 								className={classNames({
 									'missing-border': errors.number
 								})}
@@ -92,7 +88,7 @@ export default function AddRider({ nations }: { nations: nation[] }) {
 							/>
 						</Col>
 						<Col>
-							<FormControl
+							<Form.Control
 								placeholder='Active'
 								type='number'
 								size='sm'
@@ -100,7 +96,7 @@ export default function AddRider({ nations }: { nations: nation[] }) {
 							/>
 						</Col>
 						<Col>
-							<FormControl
+							<Form.Control
 								placeholder='Sub'
 								type='number'
 								size='sm'
@@ -118,7 +114,7 @@ export default function AddRider({ nations }: { nations: nation[] }) {
 						+
 					</Button>
 				</Form>
-			</CardBody>
+			</Card.Body>
 		</Card>
 	)
 }

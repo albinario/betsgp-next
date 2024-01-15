@@ -5,11 +5,7 @@ import { createCity } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import CardBody from 'react-bootstrap/CardBody'
-import CardHeader from 'react-bootstrap/CardHeader'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import FormSelect from 'react-bootstrap/FormSelect'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { CityNew } from '@/types'
@@ -44,10 +40,10 @@ export default function AddCity({ nations }: { nations: nation[] }) {
 
 	return (
 		<Card>
-			<CardHeader className='text-center'>City</CardHeader>
-			<CardBody className='p-2'>
+			<Card.Header className='text-center'>City</Card.Header>
+			<Card.Body className='p-2'>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-					<FormControl
+					<Form.Control
 						className={classNames({
 							'missing-border': errors.name
 						})}
@@ -57,7 +53,7 @@ export default function AddCity({ nations }: { nations: nation[] }) {
 						{...register('name', { required: true })}
 					/>
 
-					<FormSelect
+					<Form.Select
 						className={classNames({
 							'missing-border': errors.nationId
 						})}
@@ -72,7 +68,7 @@ export default function AddCity({ nations }: { nations: nation[] }) {
 									{nation.name}
 								</option>
 							))}
-					</FormSelect>
+					</Form.Select>
 
 					<Button
 						disabled={isSubmitting}
@@ -83,7 +79,7 @@ export default function AddCity({ nations }: { nations: nation[] }) {
 						+
 					</Button>
 				</Form>
-			</CardBody>
+			</Card.Body>
 		</Card>
 	)
 }

@@ -1,14 +1,11 @@
 'use client'
 import classNames from 'classnames'
-import type { city, gp, rider } from '@prisma/client'
+import type { rider } from '@prisma/client'
 import { assignWildCard } from '@/prisma/service'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
-import CardBody from 'react-bootstrap/CardBody'
-import CardHeader from 'react-bootstrap/CardHeader'
 import Form from 'react-bootstrap/Form'
-import FormSelect from 'react-bootstrap/FormSelect'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import type { GP } from '@/types'
@@ -49,10 +46,10 @@ export default function AssignWildCard({
 
 	return (
 		<Card>
-			<CardHeader className='text-center'>Wild Card</CardHeader>
-			<CardBody className='p-2'>
+			<Card.Header className='text-center'>Wild Card</Card.Header>
+			<Card.Body className='p-2'>
 				<Form className='d-grid gap-2' onSubmit={handleSubmit(onSubmit)}>
-					<FormSelect
+					<Form.Select
 						className={classNames({
 							'missing-border': errors.gpId
 						})}
@@ -65,9 +62,9 @@ export default function AssignWildCard({
 								{gp.city.name}
 							</option>
 						))}
-					</FormSelect>
+					</Form.Select>
 
-					<FormSelect
+					<Form.Select
 						className={classNames({
 							'missing-border': errors.riderId
 						})}
@@ -82,7 +79,7 @@ export default function AssignWildCard({
 									{rider.name}
 								</option>
 							))}
-					</FormSelect>
+					</Form.Select>
 
 					<Button
 						disabled={isSubmitting}
@@ -93,7 +90,7 @@ export default function AssignWildCard({
 						+
 					</Button>
 				</Form>
-			</CardBody>
+			</Card.Body>
 		</Card>
 	)
 }
