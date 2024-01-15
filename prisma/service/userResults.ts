@@ -4,6 +4,24 @@ import prisma from '@/prisma/client'
 import { RiderResultIncoming, UserResultNew } from '@/types'
 import { updateUserStanding } from './userStandings'
 
+export const createUserResult = async (gpId: number, userId: number) => {
+	const existing = await prisma.userResult.findFirst({
+		where: {
+			gpId,
+			userId
+		}
+	})
+
+	if (!existing) {
+		await prisma.userResult.create({
+			data: {
+				gpId,
+				userId
+			}
+		})
+	}
+}
+
 export const getUserResults = async (gpId: number) => {
 	return await prisma.userResult.findMany({
 		where: {

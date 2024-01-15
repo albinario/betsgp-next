@@ -27,9 +27,9 @@ export default function PickRiders({
 	riders: Rider[]
 	userId: number
 }) {
-	const [isAllGood, setIsAllGood] = useState(false)
+	const [hasPicked, setHasPicked] = useState(false)
+	const [hasUpdated, setHasUpdated] = useState(false)
 	const [isSubmitting, setIsSubmitting] = useState(false)
-	const [isUpdated, setIsUpdated] = useState(false)
 	const [nationCodes, setNationCodes] = useState<string[]>([])
 
 	const {
@@ -53,7 +53,7 @@ export default function PickRiders({
 					userPick.pick2.nation.code,
 					userPick.pick3.nation.code
 				])
-				setIsAllGood(true)
+				setHasPicked(true)
 			}
 		}
 		checkPicks()
@@ -65,7 +65,7 @@ export default function PickRiders({
 		event: React.ChangeEvent<HTMLSelectElement>,
 		index: number
 	) => {
-		setIsUpdated(true)
+		setHasUpdated(true)
 
 		const selectedRiderId = Number(event.target.value)
 
@@ -107,10 +107,11 @@ export default function PickRiders({
 				pick3Id: Number(data.pick3Id)
 			}
 
-			await addUserPick(picks)
+			await addUserPick(picks, gp.dateTime.getFullYear())
 
-			setIsAllGood(true)
-			setIsUpdated(false)
+			setHasPicked(true)
+			setHasUpdated(false)
+
 			toast.success('Riders picked')
 		} catch (error) {
 			toast.error('Something went wrong when trying to pick riders')
@@ -155,12 +156,12 @@ export default function PickRiders({
 			))}
 
 			<Button
-				disabled={isSubmitting || !isUpdated}
+				disabled={isSubmitting || !hasUpdated}
 				size='sm'
 				type='submit'
 				variant='outline-success'
 			>
-				{isAllGood ? 'Update picks' : 'Pick Riders'}
+				{hasPicked ? 'Update picks' : 'Pick Riders'}
 			</Button>
 		</Form>
 	)

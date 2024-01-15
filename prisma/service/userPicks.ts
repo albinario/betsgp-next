@@ -1,14 +1,17 @@
 'use server'
 import prisma from '@/prisma/client'
+import { createUserResult } from '@/prisma/service//userResults'
+import { createUserStanding } from '@/prisma/service/userStandings'
 import type { UserPickAdd } from '@/types'
 
-export const addUserPick = async (data: UserPickAdd) => {
+export const addUserPick = async (data: UserPickAdd, year: number) => {
 	const existing = await prisma.userPick.findFirst({
 		where: {
 			gpId: data.gpId,
 			userId: data.userId
 		}
 	})
+
 	if (existing) {
 		await prisma.userPick.update({
 			where: {
@@ -37,6 +40,9 @@ export const addUserPick = async (data: UserPickAdd) => {
 				userId: data.userId
 			}
 		})
+
+		await createUserResult(data.gpId, data.userId)
+		await createUserStanding(data.userId, year)
 	}
 }
 

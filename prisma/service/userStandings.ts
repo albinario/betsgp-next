@@ -4,6 +4,24 @@ import { getCurrentYear } from '@/helpers/dateTime'
 import prisma from '@/prisma/client'
 import type { RiderResultIncoming, UserStandingNew } from '@/types'
 
+export const createUserStanding = async (userId: number, year: number) => {
+	const existing = await prisma.userStanding.findFirst({
+		where: {
+			userId,
+			year
+		}
+	})
+
+	if (!existing) {
+		await prisma.userStanding.create({
+			data: {
+				userId,
+				year
+			}
+		})
+	}
+}
+
 export const getUserStandings = async (year = getCurrentYear()) => {
 	return await prisma.userStanding.findMany({
 		where: { year },
