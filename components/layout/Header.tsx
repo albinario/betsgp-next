@@ -72,15 +72,31 @@ export default function Header() {
 							</div>
 						)}
 						{user?.admin && (
-							<NavLink as={NextLink} className='pe-0' href='/admin'>
-								<Button
-									className='d-flex align-items-center'
-									size='sm'
-									variant='outline-primary'
+							<>
+								<NavLink as={NextLink} className='pe-0' href='/admin'>
+									<Button
+										className='d-flex align-items-center'
+										size='sm'
+										variant='outline-primary'
+									>
+										<Admin />
+									</Button>
+								</NavLink>
+
+								<NavLink
+									as={NextLink}
+									className='pe-0'
+									href='/admin/report-result'
 								>
-									<Admin />
-								</Button>
-							</NavLink>
+									<Button
+										className='d-flex align-items-center'
+										size='sm'
+										variant='outline-danger'
+									>
+										<Admin />
+									</Button>
+								</NavLink>
+							</>
 						)}
 					</Nav>
 				</NavbarCollapse>
