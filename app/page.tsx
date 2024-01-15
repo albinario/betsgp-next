@@ -5,7 +5,6 @@ import RiderStandings from '@/components/rider/Standings'
 import UserResults from '@/components/user/Results'
 import UserStandings from '@/components/user/Standings'
 import { getCookieYear } from '@/cookies/service'
-import { getCurrentYear } from '@/helpers/dateTime'
 import getUserSession from '@/helpers/userSession.server'
 import { getGpLatest } from '@/prisma/service'
 import Col from 'react-bootstrap/Col'
@@ -18,7 +17,6 @@ export default async function Home() {
 	const gpLatest = await getGpLatest()
 
 	const cookieYear = await getCookieYear()
-	const year = cookieYear || getCurrentYear()
 
 	return (
 		<AnimationWrapper>
@@ -27,7 +25,7 @@ export default async function Home() {
 					<Row className='g-2' xs={1} lg={2}>
 						<Col>
 							{/* @ts-expect-error Server Component */}
-							<UserStandings take={10} userId={userId} year={year} />
+							<UserStandings take={10} userId={userId} year={cookieYear} />
 						</Col>
 						<Col>
 							{gpLatest && (
@@ -39,7 +37,7 @@ export default async function Home() {
 						</Col>
 						<Col>
 							{/* @ts-expect-error Server Component */}
-							<RiderStandings take={10} year={year} />
+							<RiderStandings take={10} year={cookieYear} />
 						</Col>
 						<Col>
 							{/* @ts-expect-error Server Component */}

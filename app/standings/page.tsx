@@ -11,18 +11,17 @@ export default async function Standings() {
 	const user = await getUserSession()
 
 	const cookieYear = await getCookieYear()
-	const year = cookieYear || getCurrentYear()
 
 	return (
 		<AnimationWrapper>
 			<Row xs={1} md={2} className='g-2'>
 				<Col>
 					{/* @ts-expect-error Server Component */}
-					<UserStandings userId={user?.id} year={year} />
+					<UserStandings userId={user?.id} year={cookieYear} />
 				</Col>
 				<Col id='riders'>
 					{/* @ts-expect-error Server Component */}
-					<RiderStandings year={year} />
+					<RiderStandings year={cookieYear} />
 				</Col>
 			</Row>
 		</AnimationWrapper>
