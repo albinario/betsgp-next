@@ -11,8 +11,11 @@ import Card from 'react-bootstrap/Card'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 
-export default async function GPsFinished() {
-	const cookieYear = await getCookieYear()
+export default async function GPsFinished({
+	cookieYear
+}: {
+	cookieYear?: number
+}) {
 	const gpsFinished = await getGpsFinished(cookieYear)
 	if (!gpsFinished) return <></>
 
