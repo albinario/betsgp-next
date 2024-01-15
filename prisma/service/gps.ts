@@ -1,4 +1,5 @@
 'use server'
+import { getCurrentYear } from '@/helpers/dateTime'
 import prisma from '@/prisma/client'
 import type { GPNew } from '@/types'
 
@@ -82,16 +83,27 @@ export const getGpLatest = async () => {
 	})
 }
 
-export const getGps = async (year: number) => {
+export const getGpParticipants = async (gpId: number) => {
+	return await prisma.userPick.count({
+		where: {
+			gpId
+		}
+	})
+}
+
+export const getGpsFinished = async (year = getCurrentYear()) => {
 	return await prisma.gp.findMany({
-		where: year
-			? {
-					dateTime: {
-						gte: new Date(`${year}-01-01`),
-						lte: new Date(`${year}-12-31`)
-					}
-			  }
-			: undefined,
+		where: {
+			finished: true,
+			...(year
+				? {
+						dateTime: {
+							gte: new Date(`${year}-01-01`),
+							lte: new Date(`${year}-12-31`)
+						}
+				  }
+				: undefined)
+		},
 		include: {
 			activity: {
 				include: {
@@ -130,14 +142,6 @@ export const getGps = async (year: number) => {
 				},
 				take: 3
 			}
-		}
-	})
-}
-
-export const getGpParticipants = async (gpId: number) => {
-	return await prisma.userPick.count({
-		where: {
-			gpId
 		}
 	})
 }

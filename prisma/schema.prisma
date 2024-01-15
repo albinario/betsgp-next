@@ -78,6 +78,7 @@ model riderResult {
   m2      Int   @default(0)
   m3      Int   @default(0)
   races   Int   @default(0)
+  pos     Int?
 	@@map("riderResults")
 }
 

@@ -1,4 +1,6 @@
 'use server'
+import { isIdentical } from '@/helpers/array'
+import { getCurrentYear } from '@/helpers/dateTime'
 import prisma from '@/prisma/client'
 import type { RiderResultIncoming } from '@/types'
 
@@ -39,7 +41,7 @@ export const getRiderResults = async (gpId: number) => {
 	})
 }
 
-export const getRiderStandings = async (year = 0) => {
+export const getRiderStandings = async (year = getCurrentYear()) => {
 	const riderResults = await prisma.riderResult.groupBy({
 		by: 'riderId',
 		where: year
@@ -60,31 +62,11 @@ export const getRiderStandings = async (year = 0) => {
 			races: true
 		},
 		orderBy: [
-			{
-				_sum: {
-					points: 'desc'
-				}
-			},
-			{
-				_sum: {
-					m1: 'desc'
-				}
-			},
-			{
-				_sum: {
-					m2: 'desc'
-				}
-			},
-			{
-				_sum: {
-					m3: 'desc'
-				}
-			},
-			{
-				_sum: {
-					races: 'desc'
-				}
-			}
+			{ _sum: { points: 'desc' } },
+			{ _sum: { m1: 'desc' } },
+			{ _sum: { m2: 'desc' } },
+			{ _sum: { m3: 'desc' } },
+			{ _sum: { races: 'desc' } }
 		]
 	})
 
@@ -166,4 +148,45 @@ export const updateRiderResult = async (data: RiderResultIncoming) => {
 	} else {
 		await prisma.riderResult.create({ data })
 	}
+}
+
+export const updateRiderResultPos = async (id: number, pos: number) => {
+	await prisma.riderResult.update({
+		where: { id },
+		data: { pos }
+	})
+}
+
+export const sortRiderResults = async (gpId: number) => {
+	const riderResults = await prisma.riderResult.findMany({
+		where: { gpId },
+		orderBy: [
+			{
+				points: 'desc'
+			},
+			{ m1: 'desc' },
+			{ m2: 'desc' },
+			{ m3: 'desc' },
+			{ races: 'desc' }
+		]
+	})
+
+	let pos = 1
+	let prev: number[] = []
+
+	riderResults.forEach((riderResult, index) => {
+		const current = [
+			riderResult.points,
+			riderResult.m1,
+			riderResult.m2,
+			riderResult.m3,
+			riderResult.races
+		]
+
+		if (!isIdentical(prev, current)) pos = index + 1
+
+		prev = [...current]
+
+		updateRiderResultPos(riderResult.id, pos)
+	})
 }
