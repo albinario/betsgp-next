@@ -6,8 +6,8 @@ import Row from 'react-bootstrap/Row'
 export default async function ActivityPage() {
 	return (
 		<AnimationWrapper>
-			<Row xs={1}>
-				<Col>
+			<Row>
+				<Col lg={{ span: 6, offset: 3 }}>
 					{/* @ts-expect-error Server Component */}
 					<Activity />
 				</Col>
