@@ -33,7 +33,7 @@ export default function Countdown({ dateTime }: { dateTime: Date }) {
 	}, [dateTimeLocal])
 
 	return timeLeft.length ? (
-		<div className='d-flex justify-content-center gap-2 pb-2 text-warning'>
+		<div className='d-flex justify-content-center gap-2 p-2 text-warning'>
 			{['d', 'h', 'm', 's'].map((item, index) => (
 				<span key={index} className='d-flex gap-1'>
 					<Badge

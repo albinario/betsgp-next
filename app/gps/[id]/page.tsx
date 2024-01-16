@@ -1,4 +1,5 @@
 import AnimationWrapper from '@/components/AnimationWrapper'
+import Countdown from '@/components/Countdown'
 import GPCardHeader from '@/components/gp/CardHeader'
 import PickRiders from '@/components/gp/PickRiders'
 import RiderResults from '@/components/rider/Results'
@@ -46,6 +47,8 @@ export default async function GPPage({ params }: { params: { id: string } }) {
 								<PickRiders gp={gp} riders={ridersActive} userId={user.id} />
 							</CardBody>
 						)}
+
+						<Countdown dateTime={gp.dateTime} />
 					</Card>
 				</Col>
 				<Col>
