@@ -3,6 +3,7 @@ import GPCardHeader from '@/components/gp/CardHeader'
 import PickRiders from '@/components/gp/PickRiders'
 import RiderResults from '@/components/rider/Results'
 import UserResults from '@/components/user/Results'
+import { getDateTimeLocal, getNowLocal } from '@/helpers/dateTime'
 import getUserSession from '@/helpers/userSession.server'
 import { getGp, getRidersActive, getUserPick } from '@/prisma/service'
 import { CardBody } from 'react-bootstrap'
@@ -22,6 +23,9 @@ export default async function GPPage({ params }: { params: { id: string } }) {
 		: null
 
 	const ridersActive = user ? await getRidersActive() : null
+	const hasGpStarted = user
+		? getDateTimeLocal(gp.dateTime) < getNowLocal()
+		: null
 
 	return (
 		<AnimationWrapper>
@@ -37,7 +41,7 @@ export default async function GPPage({ params }: { params: { id: string } }) {
 							rounds={10}
 						/>
 
-						{ridersActive && user && (
+						{user && !hasGpStarted && ridersActive && (
 							<CardBody className='p-2'>
 								<PickRiders gp={gp} riders={ridersActive} userId={user.id} />
 							</CardBody>
