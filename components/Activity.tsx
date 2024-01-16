@@ -32,18 +32,22 @@ export default async function Activity({
 							<td className='pe-0 text-center'>
 								<Pick creation={act.creation} />
 							</td>
-							<td className='d-flex align-items-center gap-1'>
-								<Link
-									className={classNames({ highlight: act.userId === userId })}
-									href={'/users/' + act.userId}
-								>
-									{act.user.firstName} {act.user.lastName}
-									{!!act.user.userStars.length && (
-										<Stars isSup={true} userStars={act.user.userStars} />
-									)}
-								</Link>
-								<Flag height='.7em' nationCode={act.gp.city.nation.code} />
-								{act.gp.city.name}
+							<td>
+								<span className='d-flex align-items-center gap-1'>
+									<Link
+										className={classNames('text-nowrap', {
+											highlight: act.userId === userId
+										})}
+										href={'/users/' + act.userId}
+									>
+										{act.user.firstName} {act.user.lastName}
+										{!!act.user.userStars.length && (
+											<Stars isSup={true} userStars={act.user.userStars} />
+										)}
+									</Link>
+									<Flag height='.7em' nationCode={act.gp.city.nation.code} />
+									{act.gp.city.name}
+								</span>
 							</td>
 							<td className='pe-2 text-end text-muted'>
 								<span className='small'>
