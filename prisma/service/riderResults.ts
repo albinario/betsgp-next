@@ -4,6 +4,24 @@ import { getCurrentYear } from '@/helpers/dateTime'
 import prisma from '@/prisma/client'
 import type { RiderResultIncoming } from '@/types'
 
+export const createRiderResult = async (gpId: number, riderId: number) => {
+	const existing = await prisma.riderResult.findFirst({
+		where: {
+			gpId,
+			riderId
+		}
+	})
+
+	if (!existing) {
+		await prisma.riderResult.create({
+			data: {
+				gpId,
+				riderId
+			}
+		})
+	}
+}
+
 export const getRiderResults = async (gpId: number) => {
 	return await prisma.riderResult.findMany({
 		where: {
