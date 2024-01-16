@@ -31,11 +31,13 @@ export default async function UserStandings({
 		if (userStanding && userStanding.pos && userStanding.pos > take) {
 			userTr = (
 				<tr className='userTrTop'>
-					<td className='d-flex align-items-center justify-content-end'>
-						{userStanding.pos}
-						{userStanding.pos && userStanding.prevPos && (
-							<Arrow diff={userStanding.prevPos - userStanding.pos} />
-						)}
+					<td>
+						<span className='d-flex align-items-center justify-content-end'>
+							{userStanding.pos}
+							{userStanding.pos && userStanding.prevPos && (
+								<Arrow diff={userStanding.prevPos - userStanding.pos} />
+							)}
+						</span>
 					</td>
 					<td className='text-start'>
 						<Link className='highlight' href={'/users/' + userStanding.userId}>
@@ -96,13 +98,15 @@ export default async function UserStandings({
 
 						return (
 							<tr key={userStanding.id}>
-								<td className='d-flex align-items-center justify-content-end'>
-									<span className={classNames({ 'opacity-0': !showPos })}>
-										{userStanding.pos}
+								<td>
+									<span className='d-flex align-items-center justify-content-end'>
+										<span className={classNames({ 'opacity-0': !showPos })}>
+											{userStanding.pos}
+										</span>
+										{userStanding.pos && userStanding.prevPos && (
+											<Arrow diff={userStanding.prevPos - userStanding.pos} />
+										)}
 									</span>
-									{userStanding.pos && userStanding.prevPos && (
-										<Arrow diff={userStanding.prevPos - userStanding.pos} />
-									)}
 								</td>
 								<td className='text-start'>
 									<Link
