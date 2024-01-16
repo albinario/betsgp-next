@@ -136,7 +136,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
 									</div>
 								</CardBody>
 
-								<MoreButton href='/standings' />
+								<MoreButton href={'/gps/' + res.gpId} />
 							</Card>
 						</Col>
 					)
